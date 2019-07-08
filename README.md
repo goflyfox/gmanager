@@ -5,6 +5,9 @@
 
 注：此项目基本功能已具备，暂时仅供学习go或者gf框架的小伙伴参考；但还在孵化中，革命仍需努力！！！
 
+* github地址：https://github.com/goflyfox/gmanager
+* gitee地址：https://gitee.com/goflyfox/gmanager
+
 #### 安装教程
 
 1. 从git下载项目： git clone https://github.com/goflyfox/gmanager
