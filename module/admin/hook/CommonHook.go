@@ -1,15 +1,15 @@
 package hook
 
 import (
-	"cs/module/constants"
-	"cs/utils/base"
-	"cs/utils/resp"
 	"fmt"
 	"github.com/gogf/gf/g/net/ghttp"
 	"github.com/gogf/gf/g/os/glog"
 	"github.com/gogf/gf/g/os/gtime"
 	"github.com/gogf/gf/g/text/gstr"
 	"github.com/gogf/gf/g/util/gconv"
+	"gmanager/module/constants"
+	"gmanager/utils/base"
+	"gmanager/utils/resp"
 )
 
 func CommonBefore(r *ghttp.Request) {

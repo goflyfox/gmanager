@@ -1,10 +1,10 @@
 package common
 
 import (
-	"cs/module/constants"
 	"github.com/gogf/gf/g"
 	"github.com/gogf/gf/g/net/ghttp"
 	"github.com/gogf/gf/g/os/glog"
+	"gmanager/module/constants"
 )
 
 // Login 登录页面

@@ -1,7 +1,6 @@
 package gtoken
 
 import (
-	"cs/utils/resp"
 	"github.com/gogf/gf/g"
 	"github.com/gogf/gf/g/crypto/gaes"
 	"github.com/gogf/gf/g/crypto/gmd5"
@@ -12,6 +11,7 @@ import (
 	"github.com/gogf/gf/g/text/gstr"
 	"github.com/gogf/gf/g/util/gconv"
 	"github.com/gogf/gf/g/util/grand"
+	"gmanager/utils/resp"
 	"strings"
 )
 

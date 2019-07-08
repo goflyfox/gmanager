@@ -1,12 +1,12 @@
 package gtoken
 
 import (
-	"cs/utils/resp"
 	"github.com/gogf/gf/g"
 	"github.com/gogf/gf/g/encoding/gjson"
 	"github.com/gogf/gf/g/os/gcache"
 	"github.com/gogf/gf/g/os/glog"
 	"github.com/gogf/gf/g/util/gconv"
+	"gmanager/utils/resp"
 )
 
 // setCache 设置缓存

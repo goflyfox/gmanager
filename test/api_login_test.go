@@ -1,11 +1,11 @@
 package main
 
 import (
-	"cs/utils/resp"
 	"encoding/json"
 	"github.com/gogf/gf/g"
 	"github.com/gogf/gf/g/crypto/gmd5"
 	"github.com/gogf/gf/g/net/ghttp"
+	"gmanager/utils/resp"
 	"testing"
 )
 

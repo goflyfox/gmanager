@@ -1,11 +1,11 @@
 package system
 
 import (
-	"cs/utils/base"
 	"github.com/gogf/gf/g"
 	"github.com/gogf/gf/g/database/gdb"
 	"github.com/gogf/gf/g/os/glog"
 	"github.com/gogf/gf/g/util/gconv"
+	"gmanager/utils/base"
 )
 
 type SysDepartment struct {

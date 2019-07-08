@@ -1,14 +1,14 @@
 package boot
 
 import (
-	"cs/gtoken"
-	"cs/module/admin/hook"
-	"cs/module/common"
-	"cs/module/constants"
-	"cs/module/system"
-	"cs/utils/base"
 	"github.com/gogf/gf/g"
 	"github.com/gogf/gf/g/net/ghttp"
+	"gmanager/gtoken"
+	"gmanager/module/admin/hook"
+	"gmanager/module/common"
+	"gmanager/module/constants"
+	"gmanager/module/system"
+	"gmanager/utils/base"
 )
 
 /*

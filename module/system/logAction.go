@@ -1,13 +1,13 @@
 package system
 
 import (
-	"cs/utils"
-	"cs/utils/base"
 	"github.com/gogf/gf/g"
 	"github.com/gogf/gf/g/net/ghttp"
 	"github.com/gogf/gf/g/os/glog"
 	"github.com/gogf/gf/g/os/gtime"
 	"github.com/gogf/gf/g/util/gconv"
+	"gmanager/utils"
+	"gmanager/utils/base"
 )
 
 type LogAction struct {

@@ -1,8 +1,8 @@
 package main
 
 import (
-	_ "cs/boot"
 	"github.com/gogf/gf/g"
+	_ "gmanager/boot"
 )
 
 func main() {

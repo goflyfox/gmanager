@@ -1,12 +1,12 @@
 package action
 
 import (
-	"cs/utils/base"
 	"fmt"
 	"github.com/gogf/gf/g"
 	"github.com/gogf/gf/g/net/ghttp"
 	"github.com/gogf/gf/g/os/gcache"
 	"github.com/gogf/gf/g/os/glog"
+	"gmanager/utils/base"
 )
 
 type TmpAction struct {

@@ -1,12 +1,12 @@
 package base
 
 import (
-	"cs/gtoken"
-	"cs/utils/bean"
-	"cs/utils/resp"
 	"github.com/gogf/gf/g/encoding/gjson"
 	"github.com/gogf/gf/g/net/ghttp"
 	"github.com/gogf/gf/g/os/glog"
+	"gmanager/gtoken"
+	"gmanager/utils/bean"
+	"gmanager/utils/resp"
 )
 
 var Token *gtoken.GfToken

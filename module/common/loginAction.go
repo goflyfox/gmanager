@@ -1,15 +1,15 @@
 package common
 
 import (
-	"cs/module/constants"
-	"cs/module/system"
-	"cs/utils"
-	"cs/utils/base"
-	"cs/utils/bean"
 	"github.com/gogf/gf/g"
 	"github.com/gogf/gf/g/crypto/gmd5"
 	"github.com/gogf/gf/g/net/ghttp"
 	"github.com/gogf/gf/g/os/glog"
+	"gmanager/module/constants"
+	"gmanager/module/system"
+	"gmanager/utils"
+	"gmanager/utils/base"
+	"gmanager/utils/bean"
 )
 
 // Login 登录页面

@@ -1,8 +1,6 @@
 package system
 
 import (
-	"cs/utils"
-	"cs/utils/base"
 	"github.com/gogf/gf/g"
 	"github.com/gogf/gf/g/crypto/gmd5"
 	"github.com/gogf/gf/g/net/ghttp"
@@ -11,6 +9,8 @@ import (
 	"github.com/gogf/gf/g/text/gstr"
 	"github.com/gogf/gf/g/util/gconv"
 	"github.com/gogf/gf/g/util/grand"
+	"gmanager/utils"
+	"gmanager/utils/base"
 )
 
 type UserAction struct {
