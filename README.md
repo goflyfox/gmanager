@@ -31,6 +31,14 @@
 
 #### 平台截图
 
+登录：
+![image](https://raw.githubusercontent.com/goflyfox/gmanager/master/deploy/image/1.png)
+
+组织机构：
+![image](https://raw.githubusercontent.com/goflyfox/gmanager/master/deploy/image/2.png)
+
+用户管理：
+![image](https://raw.githubusercontent.com/goflyfox/gmanager/master/deploy/image/3.png)
 
 #### 感谢
 
