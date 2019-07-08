@@ -1,0 +1,59 @@
+<div v-show="showView" id="showEdit" style="display: none;" class="panel panel-default">
+    <div class="panel-heading" style="margin-bottom: 5px;"><i class="fa fa-reply" @click="reload" aria-hidden="true"
+                                                              style="cursor: pointer;"></i> {{title}}
+    </div>
+    <form name="formView" action="" method="post" class="form-horizontal">
+
+        <div class="rows">
+            <div class="col-sm-5">
+                <div class="form-group">
+                    <div class="col-sm-4 control-label">类型</div>
+                    <div class="col-sm-8">
+                        <p class="form-control-static">{{model.logType==1?'系统类型':'操作类型'}}</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-4 control-label">操作对象</div>
+                    <div class="col-sm-8">
+                        <p class="form-control-static">{{model.operObject}}</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-4 control-label">操作表</div>
+                    <div class="col-sm-8">
+                        <p class="form-control-static">{{model.operTable}}</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-4 control-label">操作主键</div>
+                    <div class="col-sm-8">
+                        <p class="form-control-static">{{model.operId}}</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-4 control-label">创建时间</div>
+                    <div class="col-sm-8">
+                        <p class="form-control-static">{{model.createTime}}</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-4 control-label">创建人ID</div>
+                    <div class="col-sm-8">
+                        <p class="form-control-static">{{model.createId}}</p>
+                    </div>
+                </div>
+                <div style="height: 10px;clear: both;">&nbsp;</div>
+                <div class="form-group">
+                    <div class="col-sm-4 control-label"></div>
+                    <div class="col-sm-8">
+                        <a href="javascript:void(0);" class="btn btn-sm btn-primary" @click="reload">返 回</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <textarea rows="18" class="form-control">{{model.operRemark}}</textarea>
+            </div>
+        </div>
+
+    </form>
+</div>

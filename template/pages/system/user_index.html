@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    ${include "/pages/template/head.html" .}
+
+    <style>
+        .auth_hide {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div id="data_wrapper">
+    <div v-show="showList" id="showList" style="display: none;">
+        <form name="formList" action="" method="post" class="form-inline" role="form">
+            <div class="tableSearch">
+                <div class="form-group">
+                    <input class="form-control" type="text" name="username" value="" placeholder="请输入用户名"/>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" name="realName" value="" placeholder="请输入真实姓名"/>
+                </div>
+                <div class="form-group">
+                    <select name="userType" class="form-control">
+                        <option value="-1">--请选择用户类型--</option>
+                        <option value="1">管理员</option>
+                        <option value="2">普通用户</option>
+                        <option value="3">前台用户</option>
+                        <option value="4">第三方用户</option>
+                        <option value="5">API用户</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select name="departId" class="form-control">
+                    </select>
+                </div>
+
+                <button type="button" class="btn btn-sm btn-primary" @click="reload" name="search">
+                    <span class="glyphicon glyphicon-search"></span> 查 询
+                </button>
+                <button type="button" class="btn btn-sm btn-primary" onclick="dudu.resetForm();">
+                    <span class="glyphicon glyphicon-refresh"></span> 重 置
+                </button>
+                <button type="button" class="btn btn-sm btn-primary" @click="add">
+                    <span class="glyphicon glyphicon-plus"></span> 新 增
+                </button>
+            </div>
+        </form>
+
+        <!-- 这里格式不能变 -->
+        <div id="jqGridEdit" style="display: none;">
+            <a href="javascript:void(0);" class="btn btn-xs btn-primary" onclick="vm.update([id]);">修改</a>
+            <a href="javascript:void(0);" class="btn btn-xs btn-danger" onclick="vm.del([id]);">删除</a>
+            <a href="javascript:void(0);" class="btn btn-xs btn-primary [show]" onclick="vm.auth([id]);">授权</a>
+        </div>
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+    </div>
+
+    <div v-show="showAuth" id="showAuth" style="display: none;" class="panel panel-default">
+        <div class="panel-heading"><i class="fa fa-reply" @click="reload" aria-hidden="true" style="cursor: pointer;"></i>
+            {{title}}
+        </div>
+        <div style="height: 10px;clear: both;">&nbsp;</div>
+        <form name="formAuth" action="" method="post" class="form-horizontal" role="form">
+            <input name="userid" type="hidden" value="">
+            <input id="roleids" name="roleids" type="hidden" value="">
+            <div style="margin-left: 20px;width: 90%;">
+                <ul class="list-group">
+                </ul>
+            </div>
+
+            <div style="height: 10px;clear: both;">&nbsp;</div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label"></div>
+                <div class="col-sm-10">
+                    <a href="javascript:void(0);" class="btn btn-primary" @click="saveAuth">保 存</a>
+                    <a href="javascript:void(0);" class="btn btn-default" @click="reload">返 回</a>
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+
+    ${include "pages/system/user_edit.html" .}
+</div>
+<script type="text/javascript" src="${.ctx}/resources/js/system/user.js?t=${.now}"></script>
+</body>
+</html>

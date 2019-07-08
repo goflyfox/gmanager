@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    ${include "/pages/template/head.html" .}
+</head>
+<body>
+<div id="data_wrapper">
+
+    <div v-show="showList" id="showList" style="display: none;">
+        <form name="formList" action="" method="post" class="form-inline" role="form">
+            <div class="tableSearch">
+                <div class="form-group">
+                    <input class="form-control" type="text" name="operObject" value=""
+                           placeholder="请输入操作对象"/>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" name="operTable" value=""
+                           placeholder="请输入操作表"/>
+                </div>
+                <div class="form-group">
+                    <select class="form-control" name="logType">
+                        <option value="-1">--请选择类型</option>
+                        <option value="1">系统类型</option>
+                        <option value="2">操作类型</option>
+                    </select>
+                </div>
+
+                <button type="button" class="btn btn-sm btn-primary" @click="reload" name="search">
+                    <span class="glyphicon glyphicon-search"></span> 查 询
+                </button>
+                <button type="button" class="btn btn-sm btn-primary" onclick="dudu.resetForm();">
+                    <span class="glyphicon glyphicon-refresh"></span> 重 置
+                </button>
+            </div>
+        </form>
+
+        <div id="jqGridEdit" style="display: none;">
+            <a href="javascript:void(0);" class="btn btn-xs btn-success" onclick="vm.view([id]);">查看</a>
+            <!--
+            <a href="javascript:void(0);" class="btn btn-sm btn-primary" onclick="vm.update([id]);">修改</a>
+            <a href="javascript:void(0);" class="btn btn-sm btn-danger" onclick="vm.del([id]);">删除</a>
+            -->
+        </div>
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+    </div>
+
+    ${include "pages/system/log_view.html" .}
+</div>
+<script type="text/javascript" src="${.ctx}/resources/js/system/log.js?t=${.now}"></script>
+</body>
+</html>

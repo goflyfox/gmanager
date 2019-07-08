@@ -1,0 +1,32 @@
+<div v-show="showEdit" id="showEdit" style="display: none;" class="panel panel-default">
+    <div class="panel-heading"><i class="fa fa-reply" @click="reload" aria-hidden="true" style="cursor: pointer;"></i>
+        {{title}}
+    </div>
+    <form name="formEdit" action="" method="post" class="form-horizontal">
+        <input type="hidden" name="projectId" v-model="model.projectId"/>
+        <div class="form-group">
+            <div class="col-sm-2 control-label">项目名称</div>
+            <div class="col-sm-10">
+                <p class="form-control-static">{{model.projectName}}</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label">内容</div>
+            <div class="col-sm-10">
+                    <textarea class="form-control" id="type_config" rows="10" v-model="model.config"></textarea>
+            </div>
+        </div>
+
+
+        <div style="height: 10px;clear: both;">&nbsp;</div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label"></div>
+            <div class="col-sm-10">
+                <a href="javascript:void(0);" class="btn btn-sm btn-warning" @click="showPublicDiff">对 比</a>
+                <a href="javascript:void(0);" class="btn btn-sm btn-success" @click="save">发 布</a>
+                <a href="javascript:void(0);" class="btn btn-sm btn-primary" @click="reload">返 回</a>
+            </div>
+        </div>
+
+    </form>
+</div>

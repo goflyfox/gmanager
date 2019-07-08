@@ -1,0 +1,64 @@
+<div v-show="showEdit" id="showEdit" style="display: none;" class="panel panel-default">
+    <div class="panel-heading" style="margin-bottom: 5px;"><i class="fa fa-reply" @click="reload" aria-hidden="true" style="cursor: pointer;"></i> {{title}}</div>
+    <form name="formEdit" action="" method="post" class="form-horizontal">
+        <input type="hidden" name="id" v-model="model.id"/>
+        <div class="form-group">
+            <div class="col-sm-2 control-label">上级机构</div>
+            <div class="col-sm-4">
+                <select name="parentId" id="parentId" v-model="model.parentId" class="form-control" valid="vselect" validname="父节点">
+                </select>
+            </div>
+            <div class="col-sm-2 control-label">机构编码</div>
+            <div class="col-sm-4">
+                <input class="form-control" type="text" name="code" v-model="model.code"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label">部门</div>
+            <div class="col-sm-4">
+                <input class="form-control" type="text" name="name" v-model="model.name" valid='vtext' validname='部门'/>
+            </div>
+            <div class="col-sm-2 control-label">序号</div>
+            <div class="col-sm-4">
+                <input class="form-control" type="text" name="sort" v-model="model.sort" valid='vnum' validname='序号'/>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label">联系人</div>
+            <div class="col-sm-4">
+                <input class="form-control" type="text" name="linkman" v-model="model.linkman"/>
+            </div>
+            <div class="col-sm-2 control-label">联系人电话</div>
+            <div class="col-sm-4">
+                <input class="form-control" type="text" name="linkmanNo" v-model="model.linkmanNo"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label">机构描述</div>
+            <div class="col-sm-10">
+                <textarea class="form-control" rows="3" cols="40" name="remark" v-model="model.remark"></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label">是否启用</div>
+            <div class="col-sm-10">
+                <label class="radio-inline">
+                    <input type="radio" name="model.enable" v-model="model.enable" value="1"> 启用
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="model.enable" v-model="model.enable" value="2"> 禁用
+                </label>
+            </div>
+        </div>
+
+        <div style="height: 10px;clear: both;">&nbsp;</div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label"></div>
+            <div class="col-sm-10">
+                <a href="javascript:void(0);" class="btn btn-sm btn-primary" @click="save">保 存</a>
+                <a href="javascript:void(0);" class="btn btn-sm btn-primary" @click="reload">返 回</a>
+            </div>
+        </div>
+
+    </form>
+</div>

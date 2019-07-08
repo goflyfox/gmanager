@@ -1,0 +1,78 @@
+<div v-show="showEdit" id="showEdit" style="display: none;" class="panel panel-default">
+    <div class="panel-heading"><i class="fa fa-reply" @click="reload" aria-hidden="true" style="cursor: pointer;"></i>
+        {{title}}
+    </div>
+    <form name="formEdit" action="" method="post" class="form-horizontal">
+        <input type="hidden" name="id" v-model="model.id"/>
+        <div class="form-group">
+            <div class="col-sm-2 control-label">类型</div>
+            <div class="col-sm-4">
+                <label class="radio-inline">
+                    <input type="radio" name="model.type" v-model="model.type" value="1"> 目录
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="model.type" v-model="model.type" value="2"> 菜单
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="model.type" v-model="model.type" value="3"> 按钮
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label">父节点</div>
+            <div class="col-sm-4">
+                <select name="parentid" id="parentid" v-model="model.parentid" class="form-control" valid="vselect" validname="父节点">
+                </select>
+            </div>
+            <div class="col-sm-2 control-label">名称</div>
+            <div class="col-sm-4">
+                <input class="form-control" type="text" name="name" v-model="model.name" valid='vtext' validname='名称'/>
+            </div>
+        </div>
+        <div v-if="model.type == 1 || model.type == 2" class="form-group">
+            <div class="col-sm-2 control-label">菜单key</div>
+            <div class="col-sm-4">
+                <input class="form-control" type="text" name="urlkey" v-model="model.urlkey"/>
+            </div>
+            <div class="col-sm-2 control-label">图标</div>
+            <div class="col-sm-4">
+                <input class="form-control" type="text" name="icon" v-model="model.icon" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div v-if="model.type == 2" class="col-sm-2 control-label">链接地址</div>
+            <div v-if="model.type == 2" class="col-sm-4">
+                <input class="form-control" type="text" name="url" v-model="model.url"/>
+            </div>
+            <div v-if="model.type == 3" class="col-sm-2 control-label">授权标识</div>
+            <div v-if="model.type == 3" class="col-sm-4">
+                <input class="form-control" type="text" name="perms" v-model="model.perms" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label">排序</div>
+            <div class="col-sm-4">
+                <input class="form-control" type="text" name="sort" v-model="model.sort" valid='vnum' validname='排序'/>
+            </div>
+            <div class="col-sm-2 control-label">状态</div>
+            <div class="col-sm-4">
+                <label class="radio-inline">
+                    <input type="radio" name="model.status" v-model="model.status" value="1"> 显示
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="model.status" v-model="model.status" value="2"> 隐藏
+                </label>
+            </div>
+        </div>
+
+        <div style="height: 10px;clear: both;">&nbsp;</div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label"></div>
+            <div class="col-sm-10">
+                <a href="javascript:void(0);" class="btn btn-sm btn-primary" @click="save">保 存</a>
+                <a href="javascript:void(0);" class="btn btn-sm btn-primary" @click="reload">返 回</a>
+            </div>
+        </div>
+
+    </form>
+</div>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    ${include "/pages/template/head.html" .}
+
+    <link rel="stylesheet" type="text/css" href="static/component/diff/diffview.css"/>
+    <script type="text/javascript" src="static/component/diff/difflib.js"></script>
+    <script type="text/javascript" src="static/component/diff/diffview.js"></script>
+    <style>
+        select{width:210px;}
+        /* body {
+            font-size: 12px;
+            font-family: Sans-Serif;
+        } */
+        h2 {
+            margin: 0.5em 0 0.1em;
+            text-align: center;
+        }
+        .top {
+            text-align: center;
+        }
+        .textInput {
+            display: block;
+            width: 49%;
+            float: left;
+        }
+        textarea {
+            width:100%;
+            height:300px;
+        }
+        label:hover {
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        .spacer {
+            margin-left: 10px;
+        }
+        .viewType {
+            font-size: 16px;
+            clear: both;
+            text-align: center;
+            padding: 1em;
+        }
+        .wrapword {
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            white-space: pre-wrap;       /* css-3 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            word-break: break-all;
+            white-space: normal;
+        }
+
+        #diffoutput table tbody th{
+            white-space:nowrap;
+        }
+
+        #diffoutput table.diff {
+            border-collapse: collapse;
+            border: 1px solid darkgray;
+            white-space: pre-wrap;
+            margin: 0 auto;
+        }
+
+        .compare-dialog .modal-dialog {
+            width: 1000px;
+        }
+        .modal-dialog {
+            margin: 20px auto;
+        }
+
+        #aAppTbl td{
+            line-height: 24px;
+            height: 24px;
+        }
+        #bAppTbl td{
+            line-height: 24px;
+            height: 24px;
+        }
+    </style>
+</head>
+<body>
+<div id="data_wrapper">
+    <div v-show="showList" id="showList" style="display: none;">
+        <form name="formList" action="" method="post"  class="form-inline" role="form">
+            <div class="tableSearch">
+
+                <div class="form-group">
+                    <input class="form-control" type="text" name="version" value=""
+                           placeholder="版本"/>
+                </div>
+
+                <button type="button" class="btn btn-sm btn-primary" @click="reload" name="search">
+                    <span class="glyphicon glyphicon-search"></span> 查 询
+                </button>
+                <button type="button" class="btn btn-sm btn-primary" onclick="dudu.resetForm();">
+                    <span class="glyphicon glyphicon-refresh"></span> 重 置
+                </button>
+                <button type="button" class="btn btn-sm btn-warning" @click="add">
+                    <span class="glyphicon glyphicon-plus"></span> 发 布
+                </button>
+            </div>
+        </form>
+
+        <!-- 这里格式不能变 -->
+        <div id="jqGridEdit" style="display: none;">
+            <a href="javascript:void(0);" class="btn btn-sm btn-success" onclick="vm.view([id]);">查看</a>
+        </div>
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+    </div>
+
+
+    ${include "configpublic_edit.html" .}
+
+    ${include "configpublic_view.html" .}
+
+    <div style="clear:both;"></div>
+    <!-- 对比信息 -->
+    <div id="compare-dialog" class="container" >
+        <div id="diffoutput" class="wrapword"> </div>
+    </div>
+</div>
+<script type="text/javascript" src="${.ctx}/resources/js/admin/configpublic.js?t=${.now}"></script>
+</body>
+</html>

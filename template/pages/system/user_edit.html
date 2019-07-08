@@ -1,0 +1,72 @@
+<div v-show="showEdit" id="showEdit" style="display: none;" class="panel panel-default">
+    <div class="panel-heading" style="margin-bottom: 5px;"><i class="fa fa-reply" @click="reload" aria-hidden="true" style="cursor: pointer;"></i> {{title}}</div>
+    <form name="formEdit" action="" method="post" class="form-horizontal">
+        <input type="hidden" name="id" v-model="model.id"/>
+        <div class="form-group">
+            <div class="col-sm-2 control-label">部门</div>
+            <div class="col-sm-4">
+                <select name="departId"  id="departId" v-model="model.departId" class="form-control">
+                </select>
+            </div>
+            <div class="col-sm-2 control-label">类型</div>
+            <div class="col-sm-4">
+                <select name="userType" v-model="model.userType" class="form-control">
+                    <option value="1" v-model="model.userType">管理员</option>
+                    <option value="2" v-model="model.userType">普通用户</option>
+                    <option value="3" v-model="model.userType">前台用户</option>
+                    <option value="4" v-model="model.userType">第三方用户</option>
+                    <option value="5" v-model="model.userType">API用户</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label">登录名</div>
+            <div class="col-sm-4">
+                <input class="form-control" type="text" name="username" v-model="model.username" valid='vtext'
+                       validname='登录名'/>
+            </div>
+            <div class="col-sm-2 control-label">真实姓名</div>
+            <div class="col-sm-4">
+                <input class="form-control" type="text" name="realName" v-model="model.realName"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label">email</div>
+            <div class="col-sm-4">
+                <input class="form-control" type="text" name="email" v-model="model.email"/>
+            </div>
+            <div class="col-sm-2 control-label">手机号</div>
+            <div class="col-sm-4">
+                <input class="form-control" type="text" name="tel" v-model="model.tel"/>
+            </div>
+        </div>
+<!--        <div class="form-group">
+            <div class="col-sm-2 control-label">地址</div>
+            <div class="col-sm-10">
+                <input class="form-control" type="text" name="address" v-model="model.address"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label">头像地址</div>
+            <div class="col-sm-10">
+                <input class="form-control" type="text" name="titleUrl" v-model="model.titleUrl"/>
+            </div>
+        </div>-->
+        <div class="form-group">
+            <div class="col-sm-2 control-label">说明</div>
+            <div class="col-sm-10">
+                <textarea class="form-control" rows="3" cols="30" name="remark" v-model="model.remark"></textarea>
+            </div>
+        </div>
+
+        <div style="height: 10px;clear: both;">&nbsp;</div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label"></div>
+            <div class="col-sm-10">
+                <a href="javascript:void(0);" class="btn btn-sm btn-primary" @click="save">保 存</a>
+                <a href="javascript:void(0);" class="btn btn-sm btn-primary" @click="reload">返 回</a>
+            </div>
+        </div>
+
+    </form>
+</div>

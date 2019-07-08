@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>${.title}</title>
+    <link rel="icon" href="/resource/image/favicon.ico" type="image/x-icon">
+    <link href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap-theme.min.css" rel="stylesheet">
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="http://cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+
+    <script src="/static/js/encrypt/md5.js"></script>
+</head>
+
+<body>
+
+<div class="container" style="margin-top: 30px;">
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-5">
+            </div>
+            <div class="col-md-4">
+                <h2>管理系统</h2>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3">
+            </div>
+
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">用户登陆</h3>
+                    </div>
+                    <div class="panel-body">
+
+                        <form class="form-horizontal" name="form1" action="" method="post">
+                            <input type="hidden" name="pre_page" value=""/>
+
+                            <div class="form-group">
+                                <label for="username" class="col-sm-3 control-label">账户名：</label>
+                                <div class="col-sm-9">
+                                    <input name="username" class="form-control" id="username" placeholder="登录账号"
+                                           autofocus="autofocus" autocomplete="off" tabindex="1" value="admin"
+                                           maxlength="100">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="password" class="col-sm-3 control-label">登录密码：</label>
+                                <div class="col-sm-9">
+                                    <input name="password" type="password" class="form-control" id="password"
+                                           placeholder="登录密码"
+                                           autocomplete="off" tabindex="2" value="123456" maxlength="100">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-3 col-sm-9">
+                                    <input type="button" value="登 录" class="btn btn-success btn-block"
+                                           tabindex="4" onclick="login();"/>
+                                </div>
+                            </div>
+                            <div class="form-group" id="msg" style="display: none">
+                                <label for="imageCode" class="col-sm-3 control-label">
+                                    提示：
+                                </label>
+                                <div class="col-sm-9">
+                                    <p class="form-control-static" style="color: red;font-weight:bold ;"
+                                       id="msgNotice"></p>
+                                </div>
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+
+<script>
+    function login() {
+        window.localStorage.removeItem("token")
+        $("#msg").hide();
+        var username = $('[name="username"]').val();
+        if (username == '') {
+            $("#msg").show("slow");
+            $("#msgNotice").html('用户名不能为空！');
+            return;
+        }
+
+        var pwd = $('[name="password"]').val();
+        if (pwd == '') {
+            $("#msg").show("slow");
+            $("#msgNotice").html('密码不能为空！');
+            return;
+        }
+
+        jQuery.ajax({
+            type: 'POST',
+            url: 'login/submit',
+            data: {"username": username, passwd: hex_md5(pwd)},
+            success: function (data) {
+                if (data.code == 0) {
+                    window.localStorage.setItem("token", data.data.token)
+                    window.top.location.href = "main.html";
+                } else {
+                    $('[name="password"]').val('');
+                    $("#msg").show("slow");
+                    $("#msgNotice").html(data.msg);
+                }
+            },
+            error: function (html) {
+                var flag = (typeof console != 'undefined');
+                if (flag) console.log("服务器忙，提交数据失败，代码:" + html.status + "，请联系管理员！");
+                alert("服务器忙，提交数据失败，请联系管理员！");
+            }
+        })
+    }
+
+    <!-- jQuery 当键盘敲击【ENTER】键时，系统登录 -->
+    $(document).ready(function () {
+        $("body").keydown(function (event) {
+            if (event.which == 13) {
+                login();
+            }
+        });
+    });
+</script>
+</html>
+

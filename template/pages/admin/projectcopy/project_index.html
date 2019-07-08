@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    ${include "/pages/template/head.html" .}
+
+    <link rel="stylesheet" type="text/css" href="static/component/diff/diffview.css"/>
+    <script type="text/javascript" src="static/component/diff/difflib.js"></script>
+    <script type="text/javascript" src="static/component/diff/diffview.js"></script>
+    <style>
+        select{width:210px;}
+        /* body {
+            font-size: 12px;
+            font-family: Sans-Serif;
+        } */
+        h2 {
+            margin: 0.5em 0 0.1em;
+            text-align: center;
+        }
+        .top {
+            text-align: center;
+        }
+        .textInput {
+            display: block;
+            width: 49%;
+            float: left;
+        }
+        textarea {
+            width:100%;
+            height:300px;
+        }
+        label:hover {
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        .spacer {
+            margin-left: 10px;
+        }
+        .viewType {
+            font-size: 16px;
+            clear: both;
+            text-align: center;
+            padding: 1em;
+        }
+        .wrapword {
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            white-space: pre-wrap;       /* css-3 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            word-break: break-all;
+            white-space: normal;
+        }
+
+        #diffoutput table tbody th{
+            white-space:nowrap;
+        }
+
+        #diffoutput table.diff {
+            border-collapse: collapse;
+            border: 1px solid darkgray;
+            white-space: pre-wrap;
+            margin: 0 auto;
+        }
+
+        .compare-dialog .modal-dialog {
+            width: 1000px;
+        }
+        .modal-dialog {
+            margin: 20px auto;
+        }
+
+        #aAppTbl td{
+            line-height: 24px;
+            height: 24px;
+        }
+        #bAppTbl td{
+            line-height: 24px;
+            height: 24px;
+        }
+    </style>
+</head>
+<body>
+<div id="data_wrapper">
+
+
+    ${include "project_copy.html" .}
+
+    <div style="clear:both;"></div>
+    <!-- 对比信息 -->
+    <div id="compare-dialog" class="container" >
+        <div id="diffoutput" class="wrapword"> </div>
+    </div>
+</div>
+<script type="text/javascript" src="${.ctx}/resources/js/admin/copyproject.js?t=${.now}"></script>
+</body>
+</html>

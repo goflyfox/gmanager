@@ -1,0 +1,18 @@
+log-path = "./logs"
+http-port = 80
+url-path = ""
+
+# title设置
+[setting]
+    title = "配置管理中心"
+
+# WebServer管理
+[admin]
+    user = "admin"
+    pass = "123"
+
+# 数据库配置
+[database]
+    [[database.default]]
+        type     = "mysql"
+        linkinfo = "root:123456@tcp(127.0.0.1:33306)/gmanager"

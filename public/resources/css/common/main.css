@@ -1,0 +1,57 @@
+@charset "UTF-8";
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	background-color: #FFFFFF;
+}
+
+/***********************  table search ********************************/
+.tableSearch {
+	padding: 5px 10px 5px 15px;
+	background-color: #E9E9E9;
+	/**
+	margin: 10px 15px 5px 15px;
+	-moz-border-radius: 15px;
+	-khtml-border-radius: 15px;
+	-webkit-border-radius: 15px;
+	border-radius: 15px;
+	**/
+}
+
+/************** 重写bootstrap3 样式 ********************************/
+/** 去掉table和分页间隔 **/
+.table {
+	width: 100%;
+	margin-bottom: 0px;
+	/** bootstrap3 样式 **/
+	/** margin-bottom: 20px; **/
+}
+
+/************************ 排序样式 *****************************************/
+.sorting_desc {
+	cursor: pointer;
+	white-space:nowrap;
+	background-repeat: no-repeat;
+    background-position: center right;
+	background-image: url("../images/sort/sort_desc.png");
+}
+
+.sorting_asc {
+	cursor: pointer;
+	white-space:nowrap;
+	background-repeat: no-repeat;
+    background-position: center right;
+	background-image: url("../images/sort/sort_asc.png");
+}
+
+.sorting {
+	cursor: pointer;
+	white-space:nowrap;
+	background-repeat: no-repeat;
+    background-position: center right;
+	background-image: url("../images/sort/sort_both.png");
+}
