@@ -1,0 +1,5 @@
+
+*.go linguist-language=go
+*.js linguist-language=go
+*.css linguist-language=go
+*.html linguist-language=go
