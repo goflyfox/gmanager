@@ -79,7 +79,8 @@ func getToken(t *testing.T) string {
 		return Token[Username]
 	}
 
-	if r, e := ghttp.Post(TestURL+"/login/submit", "username="+Username+"&passwd="+gmd5.Encrypt("123456")); e != nil {
+	passwd, _ := gmd5.Encrypt("123456")
+	if r, e := ghttp.Post(TestURL+"/login/submit", "username="+Username+"&passwd="+passwd); e != nil {
 		t.Error(e)
 	} else {
 		defer r.Close()
