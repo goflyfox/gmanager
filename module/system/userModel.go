@@ -115,7 +115,7 @@ func (model SysUser) Page(form *base.BaseForm) []SysUser {
 		}
 	}
 
-	num, err := model.dbModel("t").Where(where, params).Count()
+	num, err := model.dbModel("t").Where(where, params...).Count()
 	form.TotalSize = num
 	form.TotalPage = num / form.Rows
 
@@ -133,7 +133,7 @@ func (model SysUser) Page(form *base.BaseForm) []SysUser {
 	dbModel = dbModel.LeftJoin("sys_department depart", "t.depart_id = depart.id ")
 	dbModel = dbModel.LeftJoin("sys_user su1", " t.update_id = su1.id ")
 	dbModel = dbModel.LeftJoin("sys_user su2", " t.update_id = su2.id ")
-	dbModel = dbModel.Where(where, params)
+	dbModel = dbModel.Where(where, params...)
 	err = dbModel.Limit(pageNum, pageSize).OrderBy(form.OrderBy).Structs(&resData)
 	if err != nil {
 		glog.Error(model.TableName()+" page list error", err)
