@@ -225,7 +225,7 @@ jQuery(function ($) {
     // 宽高自适应
     $(window).resize(function () {
         $(window).unbind("onresize");
-        $("#jqGrid").setGridHeight($(window).height() - 160).jqGrid('setGridWidth', $('#data_wrapper').width() - 5);
+        $("#jqGrid").setGridHeight($(window).height() - 165).jqGrid('setGridWidth', $('#data_wrapper').width() - 5);
         $(window).bind("onresize", this);
     }).resize();
 

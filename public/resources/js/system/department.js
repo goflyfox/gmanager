@@ -318,8 +318,8 @@ jQuery(function ($) {
     // 宽高自适应
     $(window).resize(function () {
         $(window).unbind("onresize");
-        $("#jqGrid").setGridHeight($(window).height() - 160).jqGrid('setGridWidth', $('#data_content').width() - 5);
-        $("#tree").height($(window).height() - 160);
+        $("#jqGrid").setGridHeight($(window).height() - 165).jqGrid('setGridWidth', $('#data_content').width() - 5);
+        $("#tree").height($(window).height() - 165);
         $(window).bind("onresize", this);
     }).resize();
 

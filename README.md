@@ -16,9 +16,7 @@
 ```toml
 # 数据库配置
 [database]
-    [[database.default]]
-        type     = "mysql"
-        linkinfo = "root:123456@tcp(127.0.0.1:33306)/gmanager"
+    link = "root:123456@tcp(127.0.0.1:3306)/gmanager"
 ```
 4. go run main.go
 5. 访问http://localhost即可看到登录页面，账号/密码：admin/123456

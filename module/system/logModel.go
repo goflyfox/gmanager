@@ -1,10 +1,12 @@
 package system
 
 import (
+	"fmt"
 	"github.com/gogf/gf/g"
 	"github.com/gogf/gf/g/database/gdb"
 	"github.com/gogf/gf/g/os/glog"
 	"github.com/gogf/gf/g/util/gconv"
+	"gmanager/module/component/started"
 	"gmanager/utils/base"
 	"reflect"
 )
@@ -92,9 +94,21 @@ func (model SysLog) Page(form *base.BaseForm) []SysLog {
 
 	where := " 1 = 1 "
 	var params []interface{}
-	if form.Params != nil && form.Params["name"] != "" {
-		where += " and name like ? "
-		params = append(params, "%"+form.Params["name"]+"%")
+	if form.Params != nil && form.Params["operObject"] != "" {
+		where += " and oper_object like ? "
+		params = append(params, "%"+form.Params["operObject"]+"%")
+	}
+	if form.Params != nil && form.Params["operTable"] != "" {
+		where += " and oper_table like ? "
+		params = append(params, "%"+form.Params["operTable"]+"%")
+	}
+	if form.Params != nil && form.Params["logType"] != "" {
+		where += " and log_type = ? "
+		params = append(params, gconv.Int(form.Params["logType"]))
+	}
+	if form.Params != nil && form.Params["operType"] != "" {
+		where += " and oper_type = ? "
+		params = append(params, gconv.Int(form.Params["operType"]))
 	}
 
 	num, err := model.dbModel("t").Where(where, params...).Count()
@@ -205,6 +219,12 @@ func (model SysLog) columns() string {
 	return sqlColumns
 }
 
+func main() {
+	model := SysConfig{}
+	updateId := gconv.Int(reflect.ValueOf(model).FieldByName("UpdateId").Interface())
+	fmt.Println(updateId)
+}
+
 func LogSave(model interface{}, operType string) int64 {
 	iModel, ok := model.(base.IModel)
 	if !ok {
@@ -218,7 +238,7 @@ func LogSave(model interface{}, operType string) int64 {
 	logType := 2
 	// SELECT table_name,table_comment FROM information_schema.TABLES where table_SCHEMA='gmanager'
 	operRemark := ""
-	operObject := ""
+	operObject := started.TableInfo[iModel.TableName()]
 	if operType == LOGIN || operType == LOGOUT {
 		logType = 1
 	} else {

@@ -4,12 +4,14 @@ import (
 	"github.com/gogf/gf/g"
 	"github.com/gogf/gf/g/net/ghttp"
 	"github.com/gogf/gf/g/os/glog"
+	"gmanager/module/component/started"
 )
 
 // 管理初始化顺序.
 func init() {
 	initConfig()
 	initRouter()
+	started.Start()
 }
 
 // 用于配置初始化.

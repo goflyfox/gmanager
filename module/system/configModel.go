@@ -98,7 +98,7 @@ func (model SysConfig) Page(form *base.BaseForm) []SysConfig {
 			params = append(params, "%"+form.Params["name"]+"%")
 		}
 		if form.Params["key"] != "" {
-			where += " and t.key = ? "
+			where += " and t.key like ? "
 			params = append(params, "%"+form.Params["key"]+"%")
 		}
 		if gconv.Int(form.Params["parentId"]) > 0 {
@@ -150,6 +150,7 @@ func (model SysConfig) Delete() int64 {
 		return 0
 	}
 
+	LogSave(model, DELETE)
 	return res
 }
 
@@ -165,6 +166,7 @@ func (model SysConfig) Update() int64 {
 		glog.Error(model.TableName()+" update res error", err2)
 		return 0
 	}
+	LogSave(model, UPDATE)
 
 	return res
 }
@@ -190,6 +192,7 @@ func (model *SysConfig) Insert() int64 {
 		}
 	}
 
+	LogSave(model, INSERT)
 	return res
 }
 
