@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"github.com/gogf/gf/g/util/gconv"
+	"gmanager/module/system"
+	"reflect"
 	"testing"
 )
 
@@ -19,6 +21,13 @@ func TestRun(t *testing.T) {
 	foreach(params)
 	foreach(params...)
 
+}
+
+func TestReflect(t *testing.T) {
+	model := system.SysConfig{}
+	re := reflect.ValueOf(model)
+	updateId := gconv.Int(re.FieldByName("UpdateId").Interface())
+	fmt.Println(updateId)
 }
 
 func foreach(args ...interface{}) {

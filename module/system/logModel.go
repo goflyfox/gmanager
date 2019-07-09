@@ -1,7 +1,6 @@
 package system
 
 import (
-	"fmt"
 	"github.com/gogf/gf/g"
 	"github.com/gogf/gf/g/database/gdb"
 	"github.com/gogf/gf/g/os/glog"
@@ -217,12 +216,6 @@ func (model SysLog) TableName() string {
 func (model SysLog) columns() string {
 	sqlColumns := "t.id,t.log_type as logType,t.oper_object as operObject,t.oper_table as operTable,t.oper_id as operId,t.oper_type as operType,t.oper_remark as operRemark,t.enable,t.update_time as updateTime,t.update_id as updateId,t.create_time as createTime,t.create_id as createId"
 	return sqlColumns
-}
-
-func main() {
-	model := SysConfig{}
-	updateId := gconv.Int(reflect.ValueOf(model).FieldByName("UpdateId").Interface())
-	fmt.Println(updateId)
 }
 
 func LogSave(model interface{}, operType string) int64 {
