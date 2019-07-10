@@ -158,6 +158,7 @@ func (model SysMenu) Delete() int64 {
 		return 0
 	}
 
+	LogSave(model, DELETE)
 	return res
 }
 
@@ -174,6 +175,7 @@ func (model SysMenu) Update() int64 {
 		return 0
 	}
 
+	LogSave(model, UPDATE)
 	return res
 }
 
@@ -198,6 +200,7 @@ func (model *SysMenu) Insert() int64 {
 		}
 	}
 
+	LogSave(model, INSERT)
 	return res
 }
 

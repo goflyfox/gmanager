@@ -161,6 +161,7 @@ func (model SysUser) Delete() int64 {
 		return 0
 	}
 
+	LogSave(model, DELETE)
 	return res
 }
 
@@ -177,6 +178,7 @@ func (model SysUser) Update() int64 {
 		return 0
 	}
 
+	LogSave(model, UPDATE)
 	return res
 }
 
@@ -201,6 +203,7 @@ func (model *SysUser) Insert() int64 {
 		}
 	}
 
+	LogSave(model, INSERT)
 	return res
 }
 

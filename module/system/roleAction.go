@@ -46,7 +46,11 @@ func (action *RoleAction) Get(r *ghttp.Request) {
 func (action *RoleAction) Delete(r *ghttp.Request) {
 	id := r.GetInt("id")
 
-	num := SysRole{Id: id}.Delete()
+	model := SysRole{Id: id}
+	model.UpdateId = base.GetUser(r).Id
+	model.UpdateTime = utils.GetNow()
+
+	num := model.Delete()
 	if num <= 0 {
 		base.Fail(r, actionNameRole+" delete fail")
 	}

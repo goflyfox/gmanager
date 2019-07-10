@@ -129,6 +129,7 @@ func (model SysRole) Delete() int64 {
 		return 0
 	}
 
+	LogSave(model, DELETE)
 	return res
 }
 
@@ -145,6 +146,7 @@ func (model SysRole) Update() int64 {
 		return 0
 	}
 
+	LogSave(model, UPDATE)
 	return res
 }
 
@@ -169,6 +171,7 @@ func (model *SysRole) Insert() int64 {
 		}
 	}
 
+	LogSave(model, INSERT)
 	return res
 }
 

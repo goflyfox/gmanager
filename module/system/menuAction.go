@@ -45,7 +45,11 @@ func (action *MenuAction) Get(r *ghttp.Request) {
 func (action *MenuAction) Delete(r *ghttp.Request) {
 	id := r.GetInt("id")
 
-	num := SysMenu{Id: id}.Delete()
+	model := SysMenu{Id: id}
+	model.UpdateId = base.GetUser(r).Id
+	model.UpdateTime = utils.GetNow()
+
+	num := model.Delete()
 	if num <= 0 {
 		base.Fail(r, actionNameMenu+" delete fail")
 	}

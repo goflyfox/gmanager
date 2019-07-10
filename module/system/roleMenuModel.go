@@ -111,6 +111,7 @@ func (model SysRoleMenu) DeleteByRoleId() int64 {
 		return 0
 	}
 
+	LogSave(model, DELETE)
 	return res
 }
 
@@ -132,6 +133,7 @@ func (model SysRoleMenu) Delete() int64 {
 		return 0
 	}
 
+	LogSave(model, DELETE)
 	return res
 }
 
@@ -148,6 +150,7 @@ func (model SysRoleMenu) Update() int64 {
 		return 0
 	}
 
+	LogSave(model, UPDATE)
 	return res
 }
 
@@ -172,6 +175,7 @@ func (model *SysRoleMenu) Insert() int64 {
 		}
 	}
 
+	LogSave(model, INSERT)
 	return res
 }
 

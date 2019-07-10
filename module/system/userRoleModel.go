@@ -110,6 +110,7 @@ func (model SysUserRole) DeleteByUserId() int64 {
 		return 0
 	}
 
+	LogSave(model, DELETE)
 	return res
 }
 
@@ -131,6 +132,7 @@ func (model SysUserRole) Delete() int64 {
 		return 0
 	}
 
+	LogSave(model, DELETE)
 	return res
 }
 
@@ -147,6 +149,7 @@ func (model SysUserRole) Update() int64 {
 		return 0
 	}
 
+	LogSave(model, UPDATE)
 	return res
 }
 
@@ -163,6 +166,7 @@ func (model SysUserRole) Insert() int64 {
 		return 0
 	}
 
+	LogSave(model, INSERT)
 	return res
 }
 

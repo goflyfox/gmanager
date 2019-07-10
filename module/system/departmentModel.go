@@ -132,6 +132,7 @@ func (model SysDepartment) Delete() int64 {
 		return 0
 	}
 
+	LogSave(model, DELETE)
 	return res
 }
 
@@ -148,6 +149,7 @@ func (model *SysDepartment) Update() int64 {
 		return 0
 	}
 
+	LogSave(model, UPDATE)
 	return res
 }
 
@@ -172,6 +174,7 @@ func (model *SysDepartment) Insert() int64 {
 		}
 	}
 
+	LogSave(model, INSERT)
 	return res
 }
 

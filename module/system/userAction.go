@@ -48,7 +48,11 @@ func (action *UserAction) Get(r *ghttp.Request) {
 func (action *UserAction) Delete(r *ghttp.Request) {
 	id := r.GetInt("id")
 
-	num := SysUser{Id: id}.Delete()
+	model := SysUser{Id: id}
+	model.UpdateId = base.GetUser(r).Id
+	model.UpdateTime = utils.GetNow()
+
+	num := model.Delete()
 	if num <= 0 {
 		base.Fail(r, actionNameUser+" delete fail")
 	}

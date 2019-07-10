@@ -45,7 +45,11 @@ func (action *LogAction) Get(r *ghttp.Request) {
 func (action *LogAction) Delete(r *ghttp.Request) {
 	id := r.GetInt("id")
 
-	num := SysLog{Id: id}.Delete()
+	model := SysLog{Id: id}
+	model.UpdateId = base.GetUser(r).Id
+	model.UpdateTime = utils.GetNow()
+
+	num := model.Delete()
 	if num <= 0 {
 		base.Fail(r, actionNameLog+" delete fail")
 	}

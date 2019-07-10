@@ -45,7 +45,11 @@ func (action *DepartmentAction) Get(r *ghttp.Request) {
 func (action *DepartmentAction) Delete(r *ghttp.Request) {
 	id := r.GetInt("id")
 
-	num := SysDepartment{Id: id}.Delete()
+	model := SysDepartment{Id: id}
+	model.UpdateId = base.GetUser(r).Id
+	model.UpdateTime = utils.GetNow()
+
+	num := model.Delete()
 	if num <= 0 {
 		base.Fail(r, actionNameDepartment+" delete fail")
 	}

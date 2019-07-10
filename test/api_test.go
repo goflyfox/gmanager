@@ -25,7 +25,8 @@ func TestRun(t *testing.T) {
 
 func TestReflect(t *testing.T) {
 	model := system.SysConfig{}
-	re := reflect.ValueOf(model)
+	model.UpdateId = 1
+	re := reflect.ValueOf(model).FieldByName("BaseModel")
 	updateId := gconv.Int(re.FieldByName("UpdateId").Interface())
 	fmt.Println(updateId)
 }

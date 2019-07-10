@@ -101,11 +101,11 @@ func (model SysLog) Page(form *base.BaseForm) []SysLog {
 		where += " and oper_table like ? "
 		params = append(params, "%"+form.Params["operTable"]+"%")
 	}
-	if form.Params != nil && form.Params["logType"] != "" {
+	if form.Params != nil && gconv.Int(form.Params["logType"]) > 0 {
 		where += " and log_type = ? "
 		params = append(params, gconv.Int(form.Params["logType"]))
 	}
-	if form.Params != nil && form.Params["operType"] != "" {
+	if form.Params != nil && gconv.Int(form.Params["operType"]) > 0 {
 		where += " and oper_type = ? "
 		params = append(params, gconv.Int(form.Params["operType"]))
 	}
@@ -225,8 +225,16 @@ func LogSave(model interface{}, operType string) int64 {
 		return 0
 	}
 
-	updateId := gconv.Int(reflect.ValueOf(model).FieldByName("UpdateId").Interface())
-	updateTime := reflect.ValueOf(model).FieldByName("UpdateTime").String()
+	var updateId int
+	var updateTime string
+	baseModel := reflect.ValueOf(model)
+	if kind := baseModel.Kind(); kind == reflect.Ptr {
+		updateId = gconv.Int(baseModel.Elem().FieldByName("UpdateId").Interface())
+		updateTime = baseModel.Elem().FieldByName("UpdateTime").String()
+	} else {
+		updateId = gconv.Int(baseModel.FieldByName("UpdateId").Interface())
+		updateTime = baseModel.FieldByName("UpdateTime").String()
+	}
 
 	logType := 2
 	// SELECT table_name,table_comment FROM information_schema.TABLES where table_SCHEMA='gmanager'
