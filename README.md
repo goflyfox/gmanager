@@ -29,6 +29,7 @@
 4. 角色管理
 5. 菜单管理
 6. 日志管理
+7. 支持登录、登出、业务增删改操作记录
 
 #### 平台截图
 
@@ -40,6 +41,9 @@
 
 用户管理：
 ![image](https://raw.githubusercontent.com/goflyfox/gmanager/master/deploy/image/3.png)
+
+日志管理：
+![image](https://raw.githubusercontent.com/goflyfox/gmanager/master/deploy/image/4.png)
 
 #### 感谢
 

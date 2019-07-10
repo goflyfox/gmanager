@@ -19,6 +19,7 @@ type SysDepartment struct {
 	LinkmanNo string `json:"linkmanNo" gconv:"linkman_no,omitempty"` // 联系人电话
 	Remark    string `json:"remark" gconv:"remark,omitempty"`        // 机构描述
 	// columns END
+	ParentName string `json:"parentName" gconv:"parentName,omitempty"` // 父节点名称
 
 	base.BaseModel
 }
@@ -102,9 +103,10 @@ func (model SysDepartment) Page(form *base.BaseForm) []SysDepartment {
 
 	var resData []SysDepartment
 	pageNum, pageSize := (form.Page-1)*form.Rows, form.Rows
-	dbModel := model.dbModel("t").Fields(model.columns() + ",su1.real_name as updateName,su2.real_name as createName")
+	dbModel := model.dbModel("t").Fields(model.columns() + ",sdp.name parentName,su1.real_name as updateName,su2.real_name as createName")
 	dbModel = dbModel.LeftJoin("sys_user su1", " t.update_id = su1.id ")
 	dbModel = dbModel.LeftJoin("sys_user su2", " t.update_id = su2.id ")
+	dbModel = dbModel.LeftJoin("sys_department sdp", " sdp.id = t.parent_id ")
 	err = dbModel.Where(where, params...).Limit(pageNum, pageSize).OrderBy(form.OrderBy).Structs(&resData)
 	if err != nil {
 		glog.Error(model.TableName()+" page list error", err)
