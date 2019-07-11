@@ -173,13 +173,8 @@ func (action *UserAction) RoleSave(r *ghttp.Request) {
 		base.Fail(r, "参数错误")
 	}
 
-	SysUserRole{UserId: userId}.DeleteByUserId()
-	if roleIds != "" {
-		roleIdArray := gstr.Split(roleIds, ",")
-		for _, roleId := range roleIdArray {
-			SysUserRole{UserId: userId, RoleId: gconv.Int(roleId)}.Insert()
-		}
-	}
+	// 保存角色信息
+	SysUserRole{}.saveUserRole(userId, roleIds)
 
 	base.Succ(r, "")
 }

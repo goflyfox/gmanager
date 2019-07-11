@@ -4,6 +4,7 @@ import (
 	"github.com/gogf/gf/g"
 	"github.com/gogf/gf/g/database/gdb"
 	"github.com/gogf/gf/g/os/glog"
+	"github.com/gogf/gf/g/text/gstr"
 	"github.com/gogf/gf/g/util/gconv"
 	"gmanager/utils/base"
 )
@@ -173,6 +174,22 @@ func (model *SysRoleMenu) Insert() int64 {
 	}
 
 	return res
+}
+
+// 批量绑定菜单关系
+func (model SysRoleMenu) saveRoleMenus(roleId int, menus string) {
+	SysRoleMenu{RoleId: roleId}.DeleteByRoleId()
+	menuIdArray := gstr.Split(menus, ",")
+	list := g.List{}
+	for _, menuId := range menuIdArray {
+		data := g.Map{"role_id": roleId, "menu_id": gconv.Int(menuId)}
+		list = append(list, data)
+	}
+	_, err := model.dbModel().Data(list).Save()
+
+	if err != nil {
+		glog.Error(model.TableName()+" saveRoleMenus error", err)
+	}
 }
 
 func (model SysRoleMenu) dbModel(alias ...string) *gdb.Model {

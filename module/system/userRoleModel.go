@@ -4,6 +4,7 @@ import (
 	"github.com/gogf/gf/g"
 	"github.com/gogf/gf/g/database/gdb"
 	"github.com/gogf/gf/g/os/glog"
+	"github.com/gogf/gf/g/text/gstr"
 	"github.com/gogf/gf/g/util/gconv"
 	"gmanager/utils/base"
 )
@@ -164,6 +165,24 @@ func (model SysUserRole) Insert() int64 {
 	}
 
 	return res
+}
+
+// 保存用户角色关系
+func (model SysUserRole) saveUserRole(userId int, roleIds string) {
+	SysUserRole{UserId: userId}.DeleteByUserId()
+	if roleIds != "" {
+		roleIdArray := gstr.Split(roleIds, ",")
+		list := g.List{}
+		for _, roleId := range roleIdArray {
+			data := g.Map{"user_id": userId, "role_id": gconv.Int(roleId)}
+			list = append(list, data)
+		}
+		_, err := model.dbModel().Data(list).Save()
+
+		if err != nil {
+			glog.Error(model.TableName()+" saveUserRole error", err)
+		}
+	}
 }
 
 func (model SysUserRole) dbModel(alias ...string) *gdb.Model {

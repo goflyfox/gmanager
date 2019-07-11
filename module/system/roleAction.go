@@ -91,12 +91,7 @@ func (action *RoleAction) Save(r *ghttp.Request) {
 	}
 
 	// 保存菜单信息
-	SysRoleMenu{RoleId: model.Id}.DeleteByRoleId()
-	menuIdArray := gstr.Split(menus, ",")
-	for _, menuId := range menuIdArray {
-		model := SysRoleMenu{RoleId: model.Id, MenuId: gconv.Int(menuId)}
-		model.Insert()
-	}
+	SysRoleMenu{}.saveRoleMenus(model.Id, menus)
 
 	base.Succ(r, "")
 }
