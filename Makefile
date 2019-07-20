@@ -1,4 +1,4 @@
-# note: call scripts from /scripts
+# note: call scripts from /deploy
 
 # project name
 PROJECTNAME=$(shell basename "$(PWD)")
@@ -18,4 +18,4 @@ help: Makefile
 ## mod: update or clear mod pkg, do=tidy  or do=vendor
 mod:
 	@echo "use mod"
-	@./scripts/pkg.sh $(ROOT) $(do)
+	@./deploy/pkg.sh $(ROOT) $(do)
