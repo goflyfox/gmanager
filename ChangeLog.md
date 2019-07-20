@@ -1,6 +1,6 @@
 Change Log 更新说明
 ------------------------------
-## 2019-07-11 v0.0.3
+## 2019-07-20 v0.0.3
 1. 将gf升级为1.8.0
 2. 加入Makefile，支撑make vendor、make tidy、make run命令
 
