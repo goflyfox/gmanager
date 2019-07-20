@@ -17,6 +17,7 @@ help: Makefile
 
 ## vendor: go mod vendor
 ## tidy: go mod tidy
+## build: go build -mod=vendor
 ## run: go run main.go
 ## mod: update or clear mod pkg, do=tidy  or do=vendor
 mod:
@@ -34,6 +35,9 @@ tidy:
 	@export GO111MODULE=on
 	@export GOPROXY=https://goproxy.io
 	@go mod tidy
+
+build:
+	@go build -mod=vendor
 
 run:
 	@echo "go run main.go"
