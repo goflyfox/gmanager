@@ -1,3 +1,3 @@
 module gmanager
 
-require github.com/gogf/gf v1.7.3
+require github.com/gogf/gf v1.8.0

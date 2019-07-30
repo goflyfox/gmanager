@@ -41,7 +41,7 @@ var vm = new Vue({
             vm.showEdit = true;
             vm.showView = false;
 
-            var url = dudu.ctx + "system/menu/treeRoot";
+            var url = dudu.ctx + "system/menu/tree?level=1,2";
             $("#parentid").empty().append('<option value="0">根节点</option>');
             dudu.select(url, {
                 select: $("#parentid"),
@@ -77,7 +77,7 @@ var vm = new Vue({
                 vm.showEdit = true;
                 vm.showView = false;
 
-                var url = dudu.ctx + "/system/menu/treeRoot";
+                var url = dudu.ctx + "/system/menu/tree?level=1,2";
                 $("#parentid").empty().append('<option value="0">根节点</option>');
                 dudu.select(url, {
                     select: $("#parentid"),
