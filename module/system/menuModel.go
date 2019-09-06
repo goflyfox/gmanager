@@ -1,13 +1,13 @@
 package system
 
 import (
-	"gcs/module/constants"
-	"gcs/utils/base"
 	"github.com/gogf/gf/g"
 	"github.com/gogf/gf/g/database/gdb"
 	"github.com/gogf/gf/g/os/glog"
 	"github.com/gogf/gf/g/text/gstr"
 	"github.com/gogf/gf/g/util/gconv"
+	"gmanager/module/constants"
+	"gmanager/utils/base"
 )
 
 type SysMenu struct {
