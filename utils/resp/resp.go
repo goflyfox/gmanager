@@ -2,7 +2,7 @@ package resp
 
 import (
 	"encoding/json"
-	"github.com/gogf/gf/g/util/gconv"
+	"github.com/gogf/gf/util/gconv"
 )
 
 const (

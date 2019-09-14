@@ -2,9 +2,9 @@ package main
 
 import (
 	"encoding/json"
-	"github.com/gogf/gf/g"
-	"github.com/gogf/gf/g/crypto/gmd5"
-	"github.com/gogf/gf/g/net/ghttp"
+	"github.com/gogf/gf/crypto/gmd5"
+	"github.com/gogf/gf/frame/g"
+	"github.com/gogf/gf/net/ghttp"
 	"gmanager/utils/resp"
 	"testing"
 )

@@ -1,10 +1,10 @@
 package common
 
 import (
-	"github.com/gogf/gf/g"
-	"github.com/gogf/gf/g/crypto/gmd5"
-	"github.com/gogf/gf/g/net/ghttp"
-	"github.com/gogf/gf/g/os/glog"
+	"github.com/gogf/gf/crypto/gmd5"
+	"github.com/gogf/gf/frame/g"
+	"github.com/gogf/gf/net/ghttp"
+	"github.com/gogf/gf/os/glog"
 	"gmanager/module/constants"
 	"gmanager/module/system"
 	"gmanager/utils"
@@ -14,23 +14,15 @@ import (
 
 // Login 登录页面
 func Login(r *ghttp.Request) {
-	err := r.Response.WriteTpl("pages/login.html", g.Map{})
-
-	if err != nil {
-		glog.Error(err)
-	}
+	r.Response.WriteTpl("pages/login.html", g.Map{})
 }
 
 func Index(r *ghttp.Request) {
-	err := r.Response.WriteTpl("pages/home.html", g.Map{
+	r.Response.WriteTpl("pages/home.html", g.Map{
 		"id":    1,
 		"name":  "flyfox",
 		"title": g.Config().GetString("setting.title"),
 	})
-
-	if err != nil {
-		glog.Error(err)
-	}
 
 }
 

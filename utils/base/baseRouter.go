@@ -1,9 +1,9 @@
 package base
 
 import (
-	"github.com/gogf/gf/g/encoding/gjson"
-	"github.com/gogf/gf/g/net/ghttp"
-	"github.com/gogf/gf/g/os/glog"
+	"github.com/gogf/gf/encoding/gjson"
+	"github.com/gogf/gf/net/ghttp"
+	"github.com/gogf/gf/os/glog"
 	"gmanager/gtoken"
 	"gmanager/utils/bean"
 	"gmanager/utils/resp"

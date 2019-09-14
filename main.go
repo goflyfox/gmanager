@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/gogf/gf/g"
+	"github.com/gogf/gf/frame/g"
 	_ "gmanager/boot"
 )
 

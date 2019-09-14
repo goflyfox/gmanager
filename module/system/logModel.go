@@ -1,10 +1,10 @@
 package system
 
 import (
-	"github.com/gogf/gf/g"
-	"github.com/gogf/gf/g/database/gdb"
-	"github.com/gogf/gf/g/os/glog"
-	"github.com/gogf/gf/g/util/gconv"
+	"github.com/gogf/gf/database/gdb"
+	"github.com/gogf/gf/frame/g"
+	"github.com/gogf/gf/os/glog"
+	"github.com/gogf/gf/util/gconv"
 	"gmanager/module/component/started"
 	"gmanager/utils/base"
 	"reflect"
@@ -76,7 +76,7 @@ func (model SysLog) List(form *base.BaseForm) []SysLog {
 
 	var resData []SysLog
 	err := model.dbModel("t").Fields(
-		model.columns()).Where(where, params...).OrderBy(form.OrderBy).Structs(&resData)
+		model.columns()).Where(where, params).OrderBy(form.OrderBy).Structs(&resData)
 	if err != nil {
 		glog.Error(model.TableName()+" list error", err)
 		return []SysLog{}
@@ -110,7 +110,7 @@ func (model SysLog) Page(form *base.BaseForm) []SysLog {
 		params = append(params, gconv.Int(form.Params["operType"]))
 	}
 
-	num, err := model.dbModel("t").Where(where, params...).Count()
+	num, err := model.dbModel("t").Where(where, params).Count()
 	form.TotalSize = num
 	form.TotalPage = num / form.Rows
 
@@ -126,7 +126,7 @@ func (model SysLog) Page(form *base.BaseForm) []SysLog {
 	dbModel := model.dbModel("t").Fields(model.columns() + ",su1.real_name as updateName,su2.real_name as createName")
 	dbModel = dbModel.LeftJoin("sys_user su1", " t.update_id = su1.id ")
 	dbModel = dbModel.LeftJoin("sys_user su2", " t.update_id = su2.id ")
-	err = dbModel.Where(where, params...).Limit(pageNum, pageSize).OrderBy(form.OrderBy).Structs(&resData)
+	err = dbModel.Where(where, params).Limit(pageNum, pageSize).OrderBy(form.OrderBy).Structs(&resData)
 	if err != nil {
 		glog.Error(model.TableName()+" page list error", err)
 		return []SysLog{}

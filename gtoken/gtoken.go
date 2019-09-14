@@ -1,16 +1,16 @@
 package gtoken
 
 import (
-	"github.com/gogf/gf/g"
-	"github.com/gogf/gf/g/crypto/gaes"
-	"github.com/gogf/gf/g/crypto/gmd5"
-	"github.com/gogf/gf/g/encoding/gbase64"
-	"github.com/gogf/gf/g/net/ghttp"
-	"github.com/gogf/gf/g/os/glog"
-	"github.com/gogf/gf/g/os/gtime"
-	"github.com/gogf/gf/g/text/gstr"
-	"github.com/gogf/gf/g/util/gconv"
-	"github.com/gogf/gf/g/util/grand"
+	"github.com/gogf/gf/crypto/gaes"
+	"github.com/gogf/gf/crypto/gmd5"
+	"github.com/gogf/gf/encoding/gbase64"
+	"github.com/gogf/gf/frame/g"
+	"github.com/gogf/gf/net/ghttp"
+	"github.com/gogf/gf/os/glog"
+	"github.com/gogf/gf/os/gtime"
+	"github.com/gogf/gf/text/gstr"
+	"github.com/gogf/gf/util/gconv"
+	"github.com/gogf/gf/util/grand"
 	"gmanager/utils/resp"
 	"strings"
 )

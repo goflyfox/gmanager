@@ -1,19 +1,14 @@
 package common
 
 import (
-	"github.com/gogf/gf/g"
-	"github.com/gogf/gf/g/net/ghttp"
-	"github.com/gogf/gf/g/os/glog"
+	"github.com/gogf/gf/frame/g"
+	"github.com/gogf/gf/net/ghttp"
 	"gmanager/module/constants"
 )
 
 // Login 登录页面
 func Welcome(r *ghttp.Request) {
-	err := r.Response.WriteTpl("pages/welcome.html", g.Map{})
-
-	if err != nil {
-		glog.Error(err)
-	}
+	r.Response.WriteTpl("pages/welcome.html", g.Map{})
 }
 
 // Login 登录页面

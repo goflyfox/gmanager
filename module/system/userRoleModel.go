@@ -1,10 +1,10 @@
 package system
 
 import (
-	"github.com/gogf/gf/g"
-	"github.com/gogf/gf/g/database/gdb"
-	"github.com/gogf/gf/g/os/glog"
-	"github.com/gogf/gf/g/util/gconv"
+	"github.com/gogf/gf/database/gdb"
+	"github.com/gogf/gf/frame/g"
+	"github.com/gogf/gf/os/glog"
+	"github.com/gogf/gf/util/gconv"
 	"gmanager/utils/base"
 )
 

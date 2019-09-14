@@ -1,6 +1,6 @@
 package base
 
-import "github.com/gogf/gf/g/util/gconv"
+import "github.com/gogf/gf/util/gconv"
 
 type BaseForm struct {
 	Page      int    `form:"page",json:"page"`           // 当前页码
