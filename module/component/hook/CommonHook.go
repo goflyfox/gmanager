@@ -2,6 +2,7 @@ package hook
 
 import (
 	"fmt"
+	"github.com/goflyfox/gtoken/gtoken"
 	"github.com/gogf/gf/net/ghttp"
 	"github.com/gogf/gf/os/glog"
 	"github.com/gogf/gf/os/gtime"
@@ -9,7 +10,6 @@ import (
 	"github.com/gogf/gf/util/gconv"
 	"gmanager/module/constants"
 	"gmanager/utils/base"
-	"gmanager/utils/resp"
 )
 
 func CommonBefore(r *ghttp.Request) {
@@ -94,7 +94,7 @@ func LogBeforeOutput(r *ghttp.Request) {
 
 }
 
-func AuthAfterFunc(r *ghttp.Request, respData resp.Resp) {
+func AuthAfterFunc(r *ghttp.Request, respData gtoken.Resp) {
 	if !respData.Success() {
 		var params map[string]string
 		if r.Method == "GET" {

@@ -1,10 +1,10 @@
 package base
 
 import (
+	"github.com/goflyfox/gtoken/gtoken"
 	"github.com/gogf/gf/encoding/gjson"
 	"github.com/gogf/gf/net/ghttp"
 	"github.com/gogf/gf/os/glog"
-	"gmanager/gtoken"
 	"gmanager/utils/bean"
 	"gmanager/utils/resp"
 )
