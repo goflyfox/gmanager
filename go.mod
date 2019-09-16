@@ -1,7 +1,7 @@
 module gmanager
 
 require (
-	github.com/goflyfox/gtoken v1.2.7
+	github.com/goflyfox/gtoken v1.3.0
 	github.com/gogf/gf v1.9.0
 )
 

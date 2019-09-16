@@ -8,15 +8,9 @@ github.com/fsnotify/fsnotify v1.4.7 h1:IXs+QLmnXW2CcXuY+8Mzv/fWEsPGWxqefPtCP5CnV
 github.com/fsnotify/fsnotify v1.4.7/go.mod h1:jwhsz4b93w/PPRr/qN1Yymfu8t87LnFCMoQvtojpjFo=
 github.com/gf-third/mysql v1.4.2 h1:f1M5CNFUG3WkE07UOomtu4o0n/KJKeuUUf5Nc9ZFXs4=
 github.com/gf-third/mysql v1.4.2/go.mod h1:+dd90V663ppI2fV5uQ6+rHk0u8KCyU6FkG8Um8Cx3ms=
-github.com/goflyfox/gtoken v1.2.6 h1:aJ9i+hu2eaThePhLxJQQ3PaWSn91u/+jLHcAK1ded18=
-github.com/goflyfox/gtoken v1.2.6/go.mod h1:L0zb1sIO1hAJRdlN9YFu3lCfWiuZhlSswZG9ZR3fqIM=
-github.com/goflyfox/gtoken v1.2.7 h1:qIiuHRMEzRVP9v8TtvLJUlxWVruVvxtLj5aGAUMGVsw=
-github.com/goflyfox/gtoken v1.2.7/go.mod h1:0FcNaK1F2kPmTJSyrzdjnXioGcs1AtOddHynYOmKsc0=
+github.com/goflyfox/gtoken v1.3.0 h1:F2QK/1tEX7oqIcnhSVCXJwCndaSNW/0MwNzbz6uBEp4=
+github.com/goflyfox/gtoken v1.3.0/go.mod h1:JRbn0cGfIvZ16z3NwQos+W+bh27rlQNW+kdzSfdaFdg=
 github.com/gofrs/flock v0.7.1/go.mod h1:F1TvTiK9OcQqauNUHlbJvyl9Qa1QvF/gOUDKA14jxHU=
-github.com/gogf/gf v1.8.3 h1:+jZ8+2KkocsalkbLnxubglaJXvDvUIkrdYWRm9vkwiY=
-github.com/gogf/gf v1.8.3/go.mod h1:qJRcq0s3RskjJIZKsSHjZkpxw91rd0EAh+4CUbawbXQ=
-github.com/gogf/gf v1.8.4-0.20190913164306-41a0b5293949 h1:9l5g+wuulxs7RWVEGzb/kF/vTgUxQAHSkgTzNtdflq8=
-github.com/gogf/gf v1.8.4-0.20190913164306-41a0b5293949/go.mod h1:sydYJsBWF/hK1c70XfvWnJBZ5wWt8d3QS7oiXnspyKw=
 github.com/gogf/gf v1.9.0 h1:dWlKzA4KXo7uqSwICZz/RWq11ii75M/kp+d6XAvoc74=
 github.com/gogf/gf v1.9.0/go.mod h1:sydYJsBWF/hK1c70XfvWnJBZ5wWt8d3QS7oiXnspyKw=
 github.com/golang/protobuf v1.3.1/go.mod h1:6lQm79b+lXiMfvg/cZm0SGofjICqVBUtrP5yJMmIC1U=
