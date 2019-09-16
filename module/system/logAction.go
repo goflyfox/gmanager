@@ -21,9 +21,13 @@ var (
 // path: /index
 func (action *LogAction) Index(r *ghttp.Request) {
 	tplFile := "pages/system/log_index.html"
-	r.Response.WriteTpl(tplFile, g.Map{
+	err := r.Response.WriteTpl(tplFile, g.Map{
 		"now": gtime.Datetime(),
 	})
+
+	if err != nil {
+		glog.Error(err)
+	}
 }
 
 // path: /get/{id}

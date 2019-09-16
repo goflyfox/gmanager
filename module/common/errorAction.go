@@ -24,9 +24,13 @@ func Error500(r *ghttp.Request) {
 func respError(r *ghttp.Request, errorCode int) {
 	glog.Println(r.URL.Path, errorCode, "error page")
 	if gstr.Contains(r.URL.Path, "html") {
-		r.Response.WriteTpl("error/"+gconv.String(errorCode)+".html", g.Map{
+		err := r.Response.WriteTpl("error/"+gconv.String(errorCode)+".html", g.Map{
 			"error": "",
 		})
+
+		if err != nil {
+			glog.Error(err)
+		}
 	} else {
 		base.Resp(r, errorCode, "error page", r.URL.Path)
 	}
