@@ -1,3 +1,8 @@
 module gmanager
 
-require github.com/gogf/gf v1.8.0
+require (
+	github.com/goflyfox/gtoken v1.3.0
+	github.com/gogf/gf v1.9.0
+)
+
+go 1.13

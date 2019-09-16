@@ -1,9 +1,9 @@
 package boot
 
 import (
-	"github.com/gogf/gf/g"
-	"github.com/gogf/gf/g/net/ghttp"
-	"gmanager/gtoken"
+	"github.com/goflyfox/gtoken/gtoken"
+	"github.com/gogf/gf/frame/g"
+	"github.com/gogf/gf/net/ghttp"
 	"gmanager/module/common"
 	"gmanager/module/component/hook"
 	"gmanager/module/constants"

@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/gogf/gf/g/util/gconv"
+	"github.com/gogf/gf/util/gconv"
 	"gmanager/module/system"
 	"reflect"
 	"testing"
@@ -19,7 +19,7 @@ func TestRun(t *testing.T) {
 	params = append(params, "5")
 	params = append(params, "6")
 	foreach(params)
-	foreach(params...)
+	foreach(params)
 
 }
 

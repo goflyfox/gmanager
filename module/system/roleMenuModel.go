@@ -1,11 +1,10 @@
 package system
 
 import (
-	"github.com/gogf/gf/g"
-	"github.com/gogf/gf/g/database/gdb"
-	"github.com/gogf/gf/g/os/glog"
-	"github.com/gogf/gf/g/text/gstr"
-	"github.com/gogf/gf/g/util/gconv"
+	"github.com/gogf/gf/database/gdb"
+	"github.com/gogf/gf/frame/g"
+	"github.com/gogf/gf/os/glog"
+	"github.com/gogf/gf/util/gconv"
 	"gmanager/utils/base"
 )
 
@@ -49,7 +48,7 @@ func (model SysRoleMenu) List(form *base.BaseForm) []SysRoleMenu {
 
 	var resData []SysRoleMenu
 	err := model.dbModel("t").Fields(
-		model.columns()).Where(where, params...).OrderBy(form.OrderBy).Structs(&resData)
+		model.columns()).Where(where, params).OrderBy(form.OrderBy).Structs(&resData)
 	if err != nil {
 		glog.Error(model.TableName()+" list error", err)
 		return []SysRoleMenu{}
@@ -71,7 +70,7 @@ func (model SysRoleMenu) Page(form *base.BaseForm) []SysRoleMenu {
 		params = append(params, "%"+form.Params["name"]+"%")
 	}
 
-	num, err := model.dbModel("t").Where(where, params...).Count()
+	num, err := model.dbModel("t").Where(where, params).Count()
 	form.TotalSize = num
 	form.TotalPage = num / form.Rows
 
@@ -85,7 +84,7 @@ func (model SysRoleMenu) Page(form *base.BaseForm) []SysRoleMenu {
 	var resData []SysRoleMenu
 	pageNum, pageSize := (form.Page-1)*form.Rows, form.Rows
 	err = model.dbModel("t").Fields(
-		model.columns()).Where(where, params...).Limit(pageNum, pageSize).OrderBy(form.OrderBy).Structs(&resData)
+		model.columns()).Where(where, params).Limit(pageNum, pageSize).OrderBy(form.OrderBy).Structs(&resData)
 	if err != nil {
 		glog.Error(model.TableName()+" page list error", err)
 		return []SysRoleMenu{}
@@ -174,22 +173,6 @@ func (model *SysRoleMenu) Insert() int64 {
 	}
 
 	return res
-}
-
-// 批量绑定菜单关系
-func (model SysRoleMenu) saveRoleMenus(roleId int, menus string) {
-	SysRoleMenu{RoleId: roleId}.DeleteByRoleId()
-	menuIdArray := gstr.Split(menus, ",")
-	list := g.List{}
-	for _, menuId := range menuIdArray {
-		data := g.Map{"role_id": roleId, "menu_id": gconv.Int(menuId)}
-		list = append(list, data)
-	}
-	_, err := model.dbModel().Data(list).Save()
-
-	if err != nil {
-		glog.Error(model.TableName()+" saveRoleMenus error", err)
-	}
 }
 
 func (model SysRoleMenu) dbModel(alias ...string) *gdb.Model {

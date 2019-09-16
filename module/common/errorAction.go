@@ -1,11 +1,11 @@
 package common
 
 import (
-	"github.com/gogf/gf/g"
-	"github.com/gogf/gf/g/net/ghttp"
-	"github.com/gogf/gf/g/os/glog"
-	"github.com/gogf/gf/g/text/gstr"
-	"github.com/gogf/gf/g/util/gconv"
+	"github.com/gogf/gf/frame/g"
+	"github.com/gogf/gf/net/ghttp"
+	"github.com/gogf/gf/os/glog"
+	"github.com/gogf/gf/text/gstr"
+	"github.com/gogf/gf/util/gconv"
 	"gmanager/utils/base"
 )
 
@@ -24,13 +24,9 @@ func Error500(r *ghttp.Request) {
 func respError(r *ghttp.Request, errorCode int) {
 	glog.Println(r.URL.Path, errorCode, "error page")
 	if gstr.Contains(r.URL.Path, "html") {
-		err := r.Response.WriteTpl("error/"+gconv.String(errorCode)+".html", g.Map{
+		r.Response.WriteTpl("error/"+gconv.String(errorCode)+".html", g.Map{
 			"error": "",
 		})
-
-		if err != nil {
-			glog.Error(err)
-		}
 	} else {
 		base.Resp(r, errorCode, "error page", r.URL.Path)
 	}

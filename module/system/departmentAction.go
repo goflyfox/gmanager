@@ -1,11 +1,11 @@
 package system
 
 import (
-	"github.com/gogf/gf/g"
-	"github.com/gogf/gf/g/net/ghttp"
-	"github.com/gogf/gf/g/os/glog"
-	"github.com/gogf/gf/g/os/gtime"
-	"github.com/gogf/gf/g/util/gconv"
+	"github.com/gogf/gf/frame/g"
+	"github.com/gogf/gf/net/ghttp"
+	"github.com/gogf/gf/os/glog"
+	"github.com/gogf/gf/os/gtime"
+	"github.com/gogf/gf/util/gconv"
 	"gmanager/utils"
 	"gmanager/utils/base"
 )
@@ -21,13 +21,9 @@ var (
 // path: /index
 func (action *DepartmentAction) Index(r *ghttp.Request) {
 	tplFile := "pages/system/department_index.html"
-	err := r.Response.WriteTpl(tplFile, g.Map{
+	r.Response.WriteTpl(tplFile, g.Map{
 		"now": gtime.Datetime(),
 	})
-
-	if err != nil {
-		glog.Error(err)
-	}
 }
 
 // path: /get/{id}
