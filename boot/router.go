@@ -16,47 +16,50 @@ import (
 */
 func bindRouter() {
 	urlPath := g.Config().GetString("url-path")
-
+	s := g.Server()
 	// 首页
-	g.Server().BindHandler(urlPath+"/", common.Login)
-	g.Server().BindHandler(urlPath+"/main.html", common.Index)
-	g.Server().BindHandler(urlPath+"/login", common.Login)
+	s.BindHandler(urlPath+"/", common.Login)
+	s.BindHandler(urlPath+"/main.html", common.Index)
+	s.BindHandler(urlPath+"/login", common.Login)
 
-	g.Server().BindHandler(urlPath+"/admin/welcome.html", common.Welcome)
+	s.BindHandler(urlPath+"/admin/welcome.html", common.Welcome)
 	// 调试日志
-	//g.Server().BindObject(urlPath+"/tmp", new(adminAction.TmpAction))
+	//g.ALL(urlPath+"/tmp", new(adminAction.TmpAction))
 	//
 
-	// 系统路由
-	userAction := new(system.UserAction)
-	g.Server().BindObject(urlPath+"/system/user", userAction)
-	g.Server().BindObjectMethod(urlPath+"/system/user/get/{id}", userAction, "Get")
-	g.Server().BindObjectMethod(urlPath+"/system/user/delete/{id}", userAction, "Delete")
+	s.Group(urlPath+"/system", func(g *ghttp.RouterGroup) {
+		// 系统路由
+		userAction := new(system.UserAction)
+		g.ALL("user", userAction)
+		g.GET("/user/get/{id}", userAction)
+		g.DELETE("user/delete/{id}", userAction)
 
-	departAction := new(system.DepartmentAction)
-	g.Server().BindObject(urlPath+"/system/department", departAction)
-	g.Server().BindObjectMethod(urlPath+"/system/department/get/{id}", departAction, "Get")
-	g.Server().BindObjectMethod(urlPath+"/system/department/delete/{id}", departAction, "Delete")
+		departAction := new(system.DepartmentAction)
+		g.ALL("department", departAction)
+		g.GET("/department/get/{id}", departAction)
+		g.DELETE("/department/delete/{id}", departAction)
 
-	logAction := new(system.LogAction)
-	g.Server().BindObject(urlPath+"/system/log", logAction)
-	g.Server().BindObjectMethod(urlPath+"/system/log/get/{id}", logAction, "Get")
-	g.Server().BindObjectMethod(urlPath+"/system/log/delete/{id}", logAction, "Delete")
+		logAction := new(system.LogAction)
+		g.ALL("log", logAction)
+		g.GET("/log/get/{id}", logAction)
+		g.DELETE("/log/delete/{id}", logAction)
 
-	menuAction := new(system.MenuAction)
-	g.Server().BindObject(urlPath+"/system/menu", menuAction)
-	g.Server().BindObjectMethod(urlPath+"/system/menu/get/{id}", menuAction, "Get")
-	g.Server().BindObjectMethod(urlPath+"/system/menu/delete/{id}", menuAction, "Delete")
+		menuAction := new(system.MenuAction)
+		g.ALL("menu", menuAction)
+		g.GET("/menu/get/{id}", menuAction)
+		g.DELETE("/menu/delete/{id}", menuAction)
 
-	roleAction := new(system.RoleAction)
-	g.Server().BindObject(urlPath+"/system/role", roleAction)
-	g.Server().BindObjectMethod(urlPath+"/system/role/get/{id}", roleAction, "Get")
-	g.Server().BindObjectMethod(urlPath+"/system/role/delete/{id}", roleAction, "Delete")
+		roleAction := new(system.RoleAction)
+		g.ALL("role", roleAction)
+		g.GET("/role/get/{id}", roleAction)
+		g.DELETE("/role/delete/{id}", roleAction)
 
-	configAction := new(system.ConfigAction)
-	g.Server().BindObject(urlPath+"/system/config", configAction)
-	g.Server().BindObjectMethod(urlPath+"/system/config/get/{id}", configAction, "Get")
-	g.Server().BindObjectMethod(urlPath+"/system/config/delete/{id}", configAction, "Delete")
+		configAction := new(system.ConfigAction)
+		g.ALL("config", configAction)
+		g.GET("/config/get/{id}", configAction)
+		g.DELETE("/config/delete/{id}", configAction)
+
+	})
 
 	authPaths := g.SliceStr{"/user/*", "/system/*"}
 
