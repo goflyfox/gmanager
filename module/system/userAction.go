@@ -24,9 +24,13 @@ var (
 // path: /index
 func (action *UserAction) Index(r *ghttp.Request) {
 	tplFile := "pages/system/user_index.html"
-	r.Response.WriteTpl(tplFile, g.Map{
+	err := r.Response.WriteTpl(tplFile, g.Map{
 		"now": gtime.Datetime(),
 	})
+
+	if err != nil {
+		glog.Error(err)
+	}
 }
 
 // path: /get/{id}
@@ -169,13 +173,8 @@ func (action *UserAction) RoleSave(r *ghttp.Request) {
 		base.Fail(r, "参数错误")
 	}
 
-	SysUserRole{UserId: userId}.DeleteByUserId()
-	if roleIds != "" {
-		roleIdArray := gstr.Split(roleIds, ",")
-		for _, roleId := range roleIdArray {
-			SysUserRole{UserId: userId, RoleId: gconv.Int(roleId)}.Insert()
-		}
-	}
+	// 保存角色信息
+	SysUserRole{}.saveUserRole(userId, roleIds)
 
 	base.Succ(r, "")
 }

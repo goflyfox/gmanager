@@ -15,9 +15,12 @@ func Start() {
 	if link != "" {
 		dbName = gstr.Split(link, "/")[1]
 	}
-	r, err := g.DB().Table("INFORMATION_SCHEMA.TABLES").Fields(
-		"table_name as name,table_comment as comment").Where(
-		"table_schema = ?", dbName).Select()
+	//r, err := g.DB().Table("INFORMATION_SCHEMA.TABLES").Fields(
+	//	"table_name as name,table_comment as comment").Where(
+	//	"table_schema = ?", dbName).Select()
+
+	r, err := g.DB().GetAll("SELECT table_name as name,table_comment as comment "+
+		"FROM INFORMATION_SCHEMA.TABLES WHERE table_schema = ?", dbName)
 	if err != nil {
 		glog.Error("gstart tables error", err)
 	} else {

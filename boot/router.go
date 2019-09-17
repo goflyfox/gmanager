@@ -112,7 +112,7 @@ func initRouter() {
 	s.BindStatusHandler(500, common.Error500)
 
 	// 某些浏览器直接请求favicon.ico文件，特别是产生404时
-	s.SetRewrite("/favicon.ico", "/resource/image/favicon.ico")
+	s.SetRewrite("/favicon.ico", "/resources/images/favicon.ico")
 
 	// 管理接口
 	s.EnableAdmin("/admin")

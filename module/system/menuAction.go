@@ -21,9 +21,13 @@ var (
 // path: /index
 func (action *MenuAction) Index(r *ghttp.Request) {
 	tplFile := "pages/system/menu_index.html"
-	r.Response.WriteTpl(tplFile, g.Map{
+	err := r.Response.WriteTpl(tplFile, g.Map{
 		"now": gtime.Datetime(),
 	})
+
+	if err != nil {
+		glog.Error(err)
+	}
 }
 
 // path: /get/{id}

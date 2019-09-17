@@ -22,9 +22,13 @@ var (
 // path: /index
 func (action *RoleAction) Index(r *ghttp.Request) {
 	tplFile := "pages/system/role_index.html"
-	r.Response.WriteTpl(tplFile, g.Map{
+	err := r.Response.WriteTpl(tplFile, g.Map{
 		"now": gtime.Datetime(),
 	})
+
+	if err != nil {
+		glog.Error(err)
+	}
 }
 
 // path: /get/{id}
@@ -87,12 +91,7 @@ func (action *RoleAction) Save(r *ghttp.Request) {
 	}
 
 	// 保存菜单信息
-	SysRoleMenu{RoleId: model.Id}.DeleteByRoleId()
-	menuIdArray := gstr.Split(menus, ",")
-	for _, menuId := range menuIdArray {
-		model := SysRoleMenu{RoleId: model.Id, MenuId: gconv.Int(menuId)}
-		model.Insert()
-	}
+	SysRoleMenu{}.saveRoleMenus(model.Id, menus)
 
 	base.Succ(r, "")
 }

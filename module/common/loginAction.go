@@ -14,15 +14,23 @@ import (
 
 // Login 登录页面
 func Login(r *ghttp.Request) {
-	r.Response.WriteTpl("pages/login.html", g.Map{})
+	err := r.Response.WriteTpl("pages/login.html", g.Map{})
+
+	if err != nil {
+		glog.Error(err)
+	}
 }
 
 func Index(r *ghttp.Request) {
-	r.Response.WriteTpl("pages/home.html", g.Map{
+	err := r.Response.WriteTpl("pages/home.html", g.Map{
 		"id":    1,
 		"name":  "flyfox",
 		"title": g.Config().GetString("setting.title"),
 	})
+
+	if err != nil {
+		glog.Error(err)
+	}
 
 }
 
