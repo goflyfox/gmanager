@@ -31,33 +31,33 @@ func bindRouter() {
 		// 系统路由
 		userAction := new(system.UserAction)
 		g.ALL("user", userAction)
-		g.GET("/user/get/{id}", userAction)
-		g.DELETE("user/delete/{id}", userAction)
+		g.GET("/user/get/{id}", userAction.Get)
+		g.DELETE("user/delete/{id}", userAction.Delete)
 
 		departAction := new(system.DepartmentAction)
 		g.ALL("department", departAction)
-		g.GET("/department/get/{id}", departAction)
-		g.DELETE("/department/delete/{id}", departAction)
+		g.GET("/department/get/{id}", departAction.Get)
+		g.DELETE("/department/delete/{id}", departAction.Delete)
 
 		logAction := new(system.LogAction)
 		g.ALL("log", logAction)
-		g.GET("/log/get/{id}", logAction)
-		g.DELETE("/log/delete/{id}", logAction)
+		g.GET("/log/get/{id}", logAction.Get)
+		g.DELETE("/log/delete/{id}", logAction.Delete)
 
 		menuAction := new(system.MenuAction)
 		g.ALL("menu", menuAction)
-		g.GET("/menu/get/{id}", menuAction)
-		g.DELETE("/menu/delete/{id}", menuAction)
+		g.GET("/menu/get/{id}", menuAction.Get)
+		g.DELETE("/menu/delete/{id}", menuAction.Delete)
 
 		roleAction := new(system.RoleAction)
 		g.ALL("role", roleAction)
-		g.GET("/role/get/{id}", roleAction)
-		g.DELETE("/role/delete/{id}", roleAction)
+		g.GET("/role/get/{id}", roleAction.Get)
+		g.DELETE("/role/delete/{id}", roleAction.Delete)
 
 		configAction := new(system.ConfigAction)
 		g.ALL("config", configAction)
-		g.GET("/config/get/{id}", configAction)
-		g.DELETE("/config/delete/{id}", configAction)
+		g.GET("/config/get/{id}", configAction.Get)
+		g.DELETE("/config/delete/{id}", configAction.Delete)
 
 	})
 
