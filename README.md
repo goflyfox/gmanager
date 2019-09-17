@@ -3,8 +3,6 @@
 #### 介绍
 基于gf框架的管理平台，支持登录、认证、组织机构、用户、角色、菜单、日志
 
-注：此项目基本功能已具备，暂时仅供学习go或者gf框架的小伙伴参考；但还在孵化中，革命仍需努力！！！
-
 * github地址：https://github.com/goflyfox/gmanager
 * gitee地址：https://gitee.com/goflyfox/gmanager
 
