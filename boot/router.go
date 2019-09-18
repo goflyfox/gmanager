@@ -4,6 +4,7 @@ import (
 	"github.com/goflyfox/gtoken/gtoken"
 	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
+	"github.com/gogf/gf/os/glog"
 	"gmanager/module/common"
 	"gmanager/module/component/hook"
 	"gmanager/module/constants"
@@ -28,6 +29,7 @@ func bindRouter() {
 	//
 
 	s.Group(urlPath+"/system", func(g *ghttp.RouterGroup) {
+		g.Middleware(MiddlewareLog)
 		// 系统路由
 		userAction := new(system.UserAction)
 		g.ALL("user", userAction)
@@ -133,4 +135,10 @@ func initRouter() {
 	//        r.ExitAll()
 	//    }
 	//})
+}
+
+func MiddlewareLog(r *ghttp.Request) {
+	glog.Info("123123")
+	r.Middleware.Next()
+	glog.Info("1231234")
 }
