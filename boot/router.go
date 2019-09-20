@@ -5,6 +5,7 @@ import (
 	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
 	"github.com/gogf/gf/os/glog"
+	"github.com/gogf/gf/os/gtime"
 	"gmanager/module/common"
 	"gmanager/module/component/hook"
 	"gmanager/module/constants"
@@ -91,10 +92,10 @@ func initRouter() {
 	s.BindHookHandler("/*any", ghttp.HOOK_BEFORE_SERVE, hook.CommonBefore)
 
 	// 日志拦截
-	s.BindHookHandlerByMap("/*any", map[string]ghttp.HandlerFunc{
-		ghttp.HOOK_BEFORE_SERVE: hook.LogBeforeServe,
-		ghttp.HOOK_AFTER_SERVE:  hook.LogBeforeOutput,
-	})
+	//s.BindHookHandlerByMap("/*any", map[string]ghttp.HandlerFunc{
+	//	ghttp.HOOK_BEFORE_SERVE: hook.LogBeforeServe,
+	//	ghttp.HOOK_AFTER_SERVE:  hook.LogBeforeOutput,
+	//})
 
 	// 绑定路由
 	bindRouter()
@@ -138,7 +139,10 @@ func initRouter() {
 }
 
 func MiddlewareLog(r *ghttp.Request) {
-	glog.Info("123123")
+	hook.LogBeforeServe(r)
+	now := gtime.Now()
+	glog.Info("123123", now)
 	r.Middleware.Next()
-	glog.Info("1231234")
+	glog.Info("1231234", now)
+	hook.LogBeforeOutput(r)
 }
