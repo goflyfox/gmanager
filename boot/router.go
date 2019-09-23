@@ -4,10 +4,9 @@ import (
 	"github.com/goflyfox/gtoken/gtoken"
 	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
-	"github.com/gogf/gf/os/glog"
-	"github.com/gogf/gf/os/gtime"
 	"gmanager/module/common"
 	"gmanager/module/component/hook"
+	"gmanager/module/component/middle"
 	"gmanager/module/constants"
 	"gmanager/module/system"
 	"gmanager/utils/base"
@@ -28,9 +27,12 @@ func bindRouter() {
 	// 调试日志
 	//g.ALL(urlPath+"/tmp", new(adminAction.TmpAction))
 	//
+	// 中间件
+	s.Group(urlPath+"/", func(g *ghttp.RouterGroup) {
+		g.Middleware(middle.MiddlewareLog, middle.MiddlewareCommon)
+	})
 
 	s.Group(urlPath+"/system", func(g *ghttp.RouterGroup) {
-		g.Middleware(MiddlewareLog)
 		// 系统路由
 		userAction := new(system.UserAction)
 		g.ALL("user", userAction)
@@ -89,7 +91,7 @@ func initRouter() {
 	s := g.Server()
 
 	//// 通用设置
-	s.BindHookHandler("/*any", ghttp.HOOK_BEFORE_SERVE, hook.CommonBefore)
+	//s.BindHookHandler("/*any", ghttp.HOOK_BEFORE_SERVE, hook.CommonBefore)
 
 	// 日志拦截
 	//s.BindHookHandlerByMap("/*any", map[string]ghttp.HandlerFunc{
@@ -136,13 +138,4 @@ func initRouter() {
 	//        r.ExitAll()
 	//    }
 	//})
-}
-
-func MiddlewareLog(r *ghttp.Request) {
-	hook.LogBeforeServe(r)
-	now := gtime.Now()
-	glog.Info("123123", now)
-	r.Middleware.Next()
-	glog.Info("1231234", now)
-	hook.LogBeforeOutput(r)
 }

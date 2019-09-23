@@ -67,3 +67,9 @@ func MiddlewareLog(r *ghttp.Request) {
 		}
 	}
 }
+
+func MiddlewareCommon(r *ghttp.Request) {
+	r.SetParam("BASE_PATH", "")
+
+	r.Middleware.Next()
+}
