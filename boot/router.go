@@ -24,9 +24,6 @@ func bindRouter() {
 	s.BindHandler(urlPath+"/login", common.Login)
 
 	s.BindHandler(urlPath+"/admin/welcome.html", common.Welcome)
-	// 调试日志
-	//g.ALL(urlPath+"/tmp", new(adminAction.TmpAction))
-	//
 	// 中间件
 	s.Group(urlPath+"/", func(g *ghttp.RouterGroup) {
 		g.Middleware(middle.MiddlewareLog, middle.MiddlewareCommon)
@@ -89,15 +86,6 @@ func bindRouter() {
 func initRouter() {
 
 	s := g.Server()
-
-	//// 通用设置
-	//s.BindHookHandler("/*any", ghttp.HOOK_BEFORE_SERVE, hook.CommonBefore)
-
-	// 日志拦截
-	//s.BindHookHandlerByMap("/*any", map[string]ghttp.HandlerFunc{
-	//	ghttp.HOOK_BEFORE_SERVE: hook.LogBeforeServe,
-	//	ghttp.HOOK_AFTER_SERVE:  hook.LogBeforeOutput,
-	//})
 
 	// 绑定路由
 	bindRouter()
