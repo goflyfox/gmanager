@@ -6,6 +6,7 @@ import (
 	"github.com/gogf/gf/net/ghttp"
 	"gmanager/module/common"
 	"gmanager/module/component/hook"
+	"gmanager/module/component/middle"
 	"gmanager/module/constants"
 	"gmanager/module/system"
 	"gmanager/utils/base"
@@ -23,9 +24,10 @@ func bindRouter() {
 	s.BindHandler(urlPath+"/login", common.Login)
 
 	s.BindHandler(urlPath+"/admin/welcome.html", common.Welcome)
-	// 调试日志
-	//g.ALL(urlPath+"/tmp", new(adminAction.TmpAction))
-	//
+	// 中间件
+	s.Group(urlPath+"/", func(g *ghttp.RouterGroup) {
+		g.Middleware(middle.MiddlewareLog, middle.MiddlewareCommon)
+	})
 
 	s.Group(urlPath+"/system", func(g *ghttp.RouterGroup) {
 		// 系统路由
@@ -84,15 +86,6 @@ func bindRouter() {
 func initRouter() {
 
 	s := g.Server()
-
-	//// 通用设置
-	s.BindHookHandler("/*any", ghttp.HOOK_BEFORE_SERVE, hook.CommonBefore)
-
-	// 日志拦截
-	s.BindHookHandlerByMap("/*any", map[string]ghttp.HandlerFunc{
-		ghttp.HOOK_BEFORE_SERVE: hook.LogBeforeServe,
-		ghttp.HOOK_AFTER_SERVE:  hook.LogBeforeOutput,
-	})
 
 	// 绑定路由
 	bindRouter()
