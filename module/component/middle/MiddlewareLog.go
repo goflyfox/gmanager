@@ -13,7 +13,7 @@ import (
 
 func MiddlewareLog(r *ghttp.Request) {
 	var beforeTime int64
-	var params map[string]string
+	var params map[string]interface{}
 	var no string
 
 	if constants.DEBUG {

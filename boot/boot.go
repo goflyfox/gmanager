@@ -34,7 +34,7 @@ func initConfig() {
 	glog.SetStdoutPrint(true)
 
 	s.SetServerRoot("public")
-	s.SetNameToUriType(ghttp.NAME_TO_URI_TYPE_ALLLOWER)
+	s.SetNameToUriType(ghttp.URI_TYPE_ALLLOWER)
 	s.SetLogPath(logPath)
 	s.SetErrorLogEnabled(true)
 	//s.SetAccessLogEnabled(true)

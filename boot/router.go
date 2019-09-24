@@ -5,7 +5,6 @@ import (
 	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
 	"gmanager/module/common"
-	"gmanager/module/component/hook"
 	"gmanager/module/component/middle"
 	"gmanager/module/constants"
 	"gmanager/module/system"
@@ -63,8 +62,6 @@ func bindRouter() {
 
 	})
 
-	authPaths := g.SliceStr{"/user/*", "/system/*"}
-
 	// 启动gtoken
 	base.Token = &gtoken.GfToken{
 		//Timeout:         10 * 1000,
@@ -73,9 +70,7 @@ func bindRouter() {
 		LoginBeforeFunc:  common.LoginSubmit,
 		LogoutPath:       "/user/logout",
 		LogoutBeforeFunc: common.LogoutBefore,
-		AuthPaths:        authPaths,
-		AuthBeforeFunc:   hook.AuthBeforeFunc,
-		AuthAfterFunc:    hook.AuthAfterFunc,
+		AuthPaths:        g.SliceStr{"/user", "/system"},
 	}
 	base.Token.Start()
 }

@@ -12,9 +12,12 @@ type BaseForm struct {
 	Object    interface{}
 }
 
-func NewForm(params map[string]string) BaseForm {
+func NewForm(params map[string]interface{}) BaseForm {
 	form := BaseForm{}
-	form.Params = params
+	// 转换为map[string]string
+	for key, value := range params {
+		form.Params[key] = gconv.String(value)
+	}
 	//  第几页
 	if value, ok := params["page"]; ok {
 		form.Page = gconv.Int(value)
@@ -43,7 +46,7 @@ func (form *BaseForm) SetParam(key string, value string) {
 func (form *BaseForm) SetParams(params map[string]string) {
 	form.Page = gconv.Int(params["page"])
 	form.Rows = gconv.Int(params["rows"])
-	form.OrderBy = params["orderBy"]
+	form.OrderBy = gconv.String(params["orderBy"])
 	form.Params = params
 }
 
