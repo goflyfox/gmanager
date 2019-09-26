@@ -14,6 +14,7 @@ type BaseForm struct {
 
 func NewForm(params map[string]interface{}) BaseForm {
 	form := BaseForm{}
+	form.Params = make(map[string]string, 10)
 	// 转换为map[string]string
 	for key, value := range params {
 		form.Params[key] = gconv.String(value)

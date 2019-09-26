@@ -9,6 +9,7 @@ import (
 	"gmanager/module/constants"
 	"gmanager/module/system"
 	"gmanager/utils/base"
+	"strings"
 )
 
 /*
@@ -33,32 +34,32 @@ func bindRouter() {
 		userAction := new(system.UserAction)
 		g.ALL("user", userAction)
 		g.GET("/user/get/{id}", userAction.Get)
-		g.DELETE("user/delete/{id}", userAction.Delete)
+		g.ALL("user/delete/{id}", userAction.Delete)
 
 		departAction := new(system.DepartmentAction)
 		g.ALL("department", departAction)
 		g.GET("/department/get/{id}", departAction.Get)
-		g.DELETE("/department/delete/{id}", departAction.Delete)
+		g.ALL("/department/delete/{id}", departAction.Delete)
 
 		logAction := new(system.LogAction)
 		g.ALL("log", logAction)
 		g.GET("/log/get/{id}", logAction.Get)
-		g.DELETE("/log/delete/{id}", logAction.Delete)
+		g.ALL("/log/delete/{id}", logAction.Delete)
 
 		menuAction := new(system.MenuAction)
 		g.ALL("menu", menuAction)
 		g.GET("/menu/get/{id}", menuAction.Get)
-		g.DELETE("/menu/delete/{id}", menuAction.Delete)
+		g.ALL("/menu/delete/{id}", menuAction.Delete)
 
 		roleAction := new(system.RoleAction)
 		g.ALL("role", roleAction)
 		g.GET("/role/get/{id}", roleAction.Get)
-		g.DELETE("/role/delete/{id}", roleAction.Delete)
+		g.ALL("/role/delete/{id}", roleAction.Delete)
 
 		configAction := new(system.ConfigAction)
 		g.ALL("config", configAction)
 		g.GET("/config/get/{id}", configAction.Get)
-		g.DELETE("/config/delete/{id}", configAction.Delete)
+		g.ALL("/config/delete/{id}", configAction.Delete)
 
 	})
 
@@ -71,6 +72,18 @@ func bindRouter() {
 		LogoutPath:       "/user/logout",
 		LogoutBeforeFunc: common.LogoutBefore,
 		AuthPaths:        g.SliceStr{"/user", "/system"},
+		AuthBeforeFunc: func(r *ghttp.Request) bool {
+			// 静态页面不拦截
+			if r.IsFileRequest() {
+				return false
+			}
+
+			if strings.HasSuffix(r.URL.Path, "index") {
+				return false
+			}
+
+			return true
+		},
 	}
 	base.Token.Start()
 }
