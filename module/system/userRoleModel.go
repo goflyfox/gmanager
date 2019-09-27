@@ -1,6 +1,7 @@
 package system
 
 import (
+	"database/sql"
 	"github.com/gogf/gf/database/gdb"
 	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/os/glog"
@@ -49,7 +50,9 @@ func (model SysUserRole) List(form *base.BaseForm) []SysUserRole {
 
 	var resData []SysUserRole
 	err := model.dbModel("t").Fields(model.columns()).Where(where, params).OrderBy(form.OrderBy).Structs(&resData)
-	if err != nil {
+	if err == sql.ErrNoRows {
+		return []SysUserRole{}
+	} else if err != nil {
 		glog.Error(model.TableName()+" list error", err)
 		return []SysUserRole{}
 	}

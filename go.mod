@@ -1,8 +1,8 @@
 module gmanager
 
 require (
-	github.com/goflyfox/gtoken v1.3.4
-	github.com/gogf/gf v1.9.3
+	github.com/goflyfox/gtoken v1.3.5
+	github.com/gogf/gf v1.9.6
 )
 
 go 1.13
