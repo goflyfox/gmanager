@@ -81,7 +81,7 @@ func (model SysMenu) ListUser(userId int, userType int) []SysMenu {
 }
 
 func (model SysMenu) List(form *base.BaseForm) []SysMenu {
-	where := " 1 = 1 "
+	where := " 1 = 1  and t.enable = 1 and t.status = 1"
 	var params []interface{}
 	if form.Params != nil && form.Params["name"] != "" {
 		where += " and name like ? "
