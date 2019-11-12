@@ -207,6 +207,9 @@ CREATE TABLE `sys_user`  (
 -- Records of sys_user
 -- ----------------------------
 INSERT INTO `sys_user` VALUES (1, '94091b1fa6ac4a27a06c0b92155aea6a', 'admin', '9fb3dc842c899aa63d6944a55080b795', '1111', '系统管理员', 10001, 1, 10, '', '', 'zcool321@sina.com', '123', '', '', '时间是最好的老师，但遗憾的是&mdash;&mdash;最后他把所有的学生都弄死了', 'flat', 5, 1, 1, 'test', 1, '2019-07-08 18:12:28', 1, '2017-03-19 20:41:25', 1);
+INSERT INTO `sys_user` VALUES (9, 'xa5450ztN08S37tKj93ujhJ66069q92R', 'test', 'ea8207ee50ccf367e99c8444fda7da32', 'GM26Mq', 'test', 10002, 2, 10, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'default', 0, 1, 0, NULL, 1, '2019-11-12 15:31:31', 1, '2019-07-11 15:49:24', 1);
+INSERT INTO `sys_user` VALUES (12, '8609WdcTI1337Y7e5kQ94v872Z02mh24', 'testLogin', '7f4d0d8db5546f395e87dfd294608b9b', '3n7Ci8', 'testLogin', 10002, 2, 10, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'default', 0, 1, 0, NULL, 1, '2019-11-12 15:31:08', 1, '2019-11-12 15:31:08', 1);
+INSERT INTO `sys_user` VALUES (13, 'PTMB2mcqk87n1x15K84E56T75SY11Q5w', 'testLogout', '961c0645f7ae271d6e1fc1ff01e786d7', '0X6509', 'testLogout', 10002, 2, 10, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'default', 0, 1, 0, NULL, 1, '2019-11-12 15:31:19', 1, '2019-11-12 15:31:19', 1);
 
 -- ----------------------------
 -- Table structure for sys_user_role

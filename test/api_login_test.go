@@ -65,7 +65,7 @@ func TestLogout(t *testing.T) {
 func Post(t *testing.T, urlPath string, data ...interface{}) resp.Resp {
 	client := ghttp.NewClient()
 	client.SetHeader("Authorization", "Bearer "+getToken(t))
-	content := client.DoRequestContent("POST", TestURL+urlPath, data...)
+	content := client.PostContent(TestURL+urlPath, data...)
 	var respData resp.Resp
 	err := json.Unmarshal([]byte(content), &respData)
 	if err != nil {
