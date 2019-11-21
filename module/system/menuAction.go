@@ -87,6 +87,15 @@ func (action *MenuAction) Save(r *ghttp.Request) {
 	base.Succ(r, "")
 }
 
+// path: /tree
+func (action *MenuAction) Tree(r *ghttp.Request) {
+	form := base.NewForm(r.GetPostMap())
+	model := SysMenu{}
+
+	list := model.List(&form)
+	base.Succ(r, list)
+}
+
 // path: /list
 func (action *MenuAction) List(r *ghttp.Request) {
 	form := base.NewForm(r.GetPostMap())
