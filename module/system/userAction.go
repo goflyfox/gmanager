@@ -202,7 +202,7 @@ func (action *UserAction) Password(r *ghttp.Request) {
 	reqPassword, err := gmd5.Encrypt(password + model.Salt)
 	if err != nil {
 		glog.Error(actionNameUser+" Password error", err)
-		base.Error(r, "Password error")
+		base.Error(r, "密码错误.")
 	}
 
 	if reqPassword != model.Password {
@@ -214,7 +214,7 @@ func (action *UserAction) Password(r *ghttp.Request) {
 	model.Password, err = gmd5.Encrypt(newPassword + model.Salt)
 	if err != nil {
 		glog.Error(actionNameUser+" Password error", err)
-		base.Error(r, "Password error")
+		base.Error(r, "密码错误!")
 	}
 
 	num := model.Update()

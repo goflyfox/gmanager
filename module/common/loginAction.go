@@ -45,7 +45,7 @@ func LoginSubmit(r *ghttp.Request) (string, interface{}) {
 	model := system.SysUser{Username: username}.GetByUsername()
 
 	if model.Id <= 0 {
-		base.Fail(r, "用户名或密码错误："+username)
+		base.Fail(r, "用户名或密码错误.")
 	}
 
 	if model.Enable != constants.EnableYes {
@@ -55,11 +55,11 @@ func LoginSubmit(r *ghttp.Request) (string, interface{}) {
 	reqPassword, err := gmd5.Encrypt(passwd + model.Salt)
 	if err != nil {
 		glog.Error("login password encrypt error", err)
-		base.Error(r, "login password encrypt error")
+		base.Error(r, "用户名或者密码错误："+username)
 	}
 
 	if reqPassword != model.Password {
-		base.Fail(r, "用户名或者密码错误："+username)
+		base.Fail(r, "用户名或者密码错误!")
 	}
 
 	sessionUser := bean.SessionUser{
