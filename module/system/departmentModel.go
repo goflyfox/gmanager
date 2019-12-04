@@ -47,7 +47,7 @@ func (model SysDepartment) GetOne(form *base.BaseForm) SysDepartment {
 		where += " and id = ? "
 		params = append(params, gconv.Int(form.Params["id"]))
 	}
-	if form.Params != nil && form.Params["id"] != "" {
+	if form.Params != nil && form.Params["parentId"] != "" {
 		where += " and parent_id = ? "
 		params = append(params, gconv.Int(form.Params["parentId"]))
 	}

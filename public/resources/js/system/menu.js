@@ -6,7 +6,7 @@ var vm = new Vue({
         showView: false,
         title: null,
         model: {
-            parentid: null, // 父id
+            parentId: null, // 父id
             name: null, // 名称
             icon: null, // 菜单图标
             urlkey: null, // 菜单key
@@ -42,9 +42,9 @@ var vm = new Vue({
             vm.showView = false;
 
             var url = dudu.ctx + "system/menu/tree?level=1,2";
-            $("#parentid").empty().append('<option value="0">根节点</option>');
+            $("#parentId").empty().append('<option value="0">根节点</option>');
             dudu.select(url, {
-                select: $("#parentid"),
+                select: $("#parentId"),
                 name: "name",
                 value: "id",
                 selected: 0
@@ -52,7 +52,7 @@ var vm = new Vue({
 
             vm.title = "新增菜单";
             vm.model = {
-                parentid: null, // 父id
+                parentId: null, // 父id
                 name: null, // 名称
                 icon: null, // 菜单图标
                 urlkey: null, // 菜单key
@@ -78,12 +78,12 @@ var vm = new Vue({
                 vm.showView = false;
 
                 var url = dudu.ctx + "/system/menu/tree?level=1,2";
-                $("#parentid").empty().append('<option value="0">根节点</option>');
+                $("#parentId").empty().append('<option value="0">根节点</option>');
                 dudu.select(url, {
-                    select: $("#parentid"),
+                    select: $("#parentId"),
                     name: "name",
                     value: "id",
-                    selected: vm.model.parentid,
+                    selected: vm.model.parentId,
                     exclude: vm.model.id
                 },false);
 
@@ -232,7 +232,7 @@ var ztree = {
                 var tmp = treeData.data[i];
                 var obj = {
                     id: tmp.id,
-                    pId: tmp.parentid,
+                    pId: tmp.parentId,
                     name: tmp.name,
                     open: (tmp.type == 1 || tmp.type == 2) ? true : false // (tmp.parentId == 0)
                 };

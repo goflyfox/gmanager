@@ -58,7 +58,7 @@ var vm = new Vue({
 
                 for (var j = 0; j < tmpMenus.length; j++) {
                     for (var i = 0; i < r.data.length; i++) {
-                        if (r.data[i].level == 2 && r.data[i].parentid == tmpMenus[j].id) {
+                        if (r.data[i].level == 2 && r.data[i].parentId == tmpMenus[j].id) {
                             tmpMenus[j].childs.push(r.data[i]);
                         }
                     }
