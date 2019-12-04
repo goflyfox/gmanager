@@ -47,6 +47,10 @@ func (model SysDepartment) GetOne(form *base.BaseForm) SysDepartment {
 		where += " and id = ? "
 		params = append(params, gconv.Int(form.Params["id"]))
 	}
+	if form.Params != nil && form.Params["id"] != "" {
+		where += " and parent_id = ? "
+		params = append(params, gconv.Int(form.Params["parentId"]))
+	}
 
 	var resData SysDepartment
 	err := model.dbModel("t").Where(where, params).Fields(model.columns()).Struct(&resData)

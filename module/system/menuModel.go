@@ -12,17 +12,17 @@ import (
 
 type SysMenu struct {
 	// columns START
-	Id       int    `json:"id" gconv:"id,omitempty"`             // 主键
-	Parentid int    `json:"parentid" gconv:"parentid,omitempty"` // 父id
-	Name     string `json:"name" gconv:"name,omitempty"`         // 名称/11111
-	Icon     string `json:"icon" gconv:"icon,omitempty"`         // 菜单图标
-	Urlkey   string `json:"urlkey" gconv:"urlkey,omitempty"`     // 菜单key
-	Url      string `json:"url" gconv:"url,omitempty"`           // 链接地址
-	Perms    string `json:"perms" gconv:"perms,omitempty"`       // 授权(多个用逗号分隔，如：user:list,user:create)
-	Status   int    `json:"status" gconv:"status,omitempty"`     // 状态//radio/2,隐藏,1,显示
-	Type     int    `json:"type" gconv:"type,omitempty"`         // 类型//select/1,目录,2,菜单,3,按钮
-	Sort     int    `json:"sort" gconv:"sort,omitempty"`         // 排序
-	Level    int    `json:"level" gconv:"level,omitempty"`       // 级别
+	Id       int    `json:"id" gconv:"id,omitempty"`              // 主键
+	ParentId int    `json:"parentId" gconv:"parent_id,omitempty"` // 父id
+	Name     string `json:"name" gconv:"name,omitempty"`          // 名称/11111
+	Icon     string `json:"icon" gconv:"icon,omitempty"`          // 菜单图标
+	Urlkey   string `json:"urlkey" gconv:"urlkey,omitempty"`      // 菜单key
+	Url      string `json:"url" gconv:"url,omitempty"`            // 链接地址
+	Perms    string `json:"perms" gconv:"perms,omitempty"`        // 授权(多个用逗号分隔，如：user:list,user:create)
+	Status   int    `json:"status" gconv:"status,omitempty"`      // 状态//radio/2,隐藏,1,显示
+	Type     int    `json:"type" gconv:"type,omitempty"`          // 类型//select/1,目录,2,菜单,3,按钮
+	Sort     int    `json:"sort" gconv:"sort,omitempty"`          // 排序
+	Level    int    `json:"level" gconv:"level,omitempty"`        // 级别
 	// columns END
 
 	base.BaseModel
@@ -50,6 +50,10 @@ func (model SysMenu) GetOne(form *base.BaseForm) SysMenu {
 	if form.Params != nil && form.Params["id"] != "" {
 		where += " and id = ? "
 		params = append(params, gconv.Int(form.Params["id"]))
+	}
+	if form.Params != nil && form.Params["id"] != "" {
+		where += " and parent_id = ? "
+		params = append(params, gconv.Int(form.Params["parentId"]))
 	}
 
 	var resData SysMenu
@@ -226,6 +230,6 @@ func (model SysMenu) TableName() string {
 }
 
 func (model SysMenu) columns() string {
-	sqlColumns := "t.id,t.parentid,t.name,t.icon,t.urlkey,t.url,t.perms,t.status,t.type,t.sort,t.level,t.enable,t.update_time as updateTime,t.update_id as updateId,t.create_time as createTime,t.create_id as createId"
+	sqlColumns := "t.id,t.parent_id as parentId,t.name,t.icon,t.urlkey,t.url,t.perms,t.status,t.type,t.sort,t.level,t.enable,t.update_time as updateTime,t.update_id as updateId,t.create_time as createTime,t.create_id as createId"
 	return sqlColumns
 }

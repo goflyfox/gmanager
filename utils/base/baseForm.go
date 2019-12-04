@@ -40,17 +40,22 @@ func NewForm(params map[string]interface{}) BaseForm {
 	return form
 }
 
-func (form *BaseForm) SetParam(key string, value string) {
+func (form *BaseForm) SetParam(key string, value string) *BaseForm {
 	form.Params[key] = value
+	return form
 }
 
-func (form *BaseForm) SetParams(params map[string]string) {
+func (form *BaseForm) SetParams(params map[string]string) *BaseForm {
 	form.Page = gconv.Int(params["page"])
 	form.Rows = gconv.Int(params["rows"])
 	form.OrderBy = gconv.String(params["orderBy"])
 	form.Params = params
+
+	return form
 }
 
-func (form *BaseForm) SetObject(object interface{}) {
+func (form *BaseForm) SetObject(object interface{}) *BaseForm {
 	form.Object = object
+
+	return form
 }

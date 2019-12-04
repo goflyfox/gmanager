@@ -45,6 +45,12 @@ func (action *MenuAction) Get(r *ghttp.Request) {
 func (action *MenuAction) Delete(r *ghttp.Request) {
 	id := r.GetInt("id")
 
+	form := base.NewForm(g.Map{"parentId": id})
+	childModel := SysMenu{}.GetOne(&form)
+	if childModel.Id > 0 {
+		base.Fail(r, "请先删除子菜单")
+	}
+
 	model := SysMenu{Id: id}
 	model.UpdateId = base.GetUser(r).Id
 	model.UpdateTime = utils.GetNow()

@@ -2,6 +2,11 @@ Change Log 更新说明
 ------------------------------
 ## 2019-12-04
 1. 优化前后端分离返回值
+2. 规范sys_menu表父id
+```sql
+ALTER TABLE `gmanager`.`sys_menu` 
+CHANGE COLUMN `parentid` `parent_id` int(11) NOT NULL DEFAULT 0 COMMENT '父id' AFTER `id`;
+```
 
 ## 2019-11-21
 1. 修复菜单展示异常问题

@@ -45,6 +45,12 @@ func (action *DepartmentAction) Get(r *ghttp.Request) {
 func (action *DepartmentAction) Delete(r *ghttp.Request) {
 	id := r.GetInt("id")
 
+	form := base.NewForm(g.Map{"parentId": id})
+	childModel := SysDepartment{}.GetOne(&form)
+	if childModel.Id > 0 {
+		base.Fail(r, "请先删除子机构")
+	}
+
 	model := SysDepartment{Id: id}
 	model.UpdateId = base.GetUser(r).Id
 	model.UpdateTime = utils.GetNow()
