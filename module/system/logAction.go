@@ -102,7 +102,13 @@ func (action *LogAction) Page(r *ghttp.Request) {
 	model := SysLog{}
 
 	page := model.Page(&form)
-	base.Succ(r, g.Map{"list": page, "form": form})
+	base.Succ(r,
+		g.Map{
+			"page":    form.Page,
+			"rows":    page,
+			"total":   form.TotalPage,
+			"records": form.TotalSize,
+		})
 }
 
 // path: /jqgrid
