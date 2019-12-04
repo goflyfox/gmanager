@@ -121,7 +121,13 @@ func (action *UserAction) Page(r *ghttp.Request) {
 	model := SysUser{}
 
 	page := model.Page(&form)
-	base.Succ(r, g.Map{"list": page, "form": form})
+	base.Succ(r,
+		g.Map{
+			"page":    form.Page,
+			"rows":    page,
+			"total":   form.TotalPage,
+			"records": form.TotalSize,
+		})
 }
 
 // path: /jqgrid
