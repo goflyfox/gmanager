@@ -42,7 +42,10 @@ func LoginSubmit(r *ghttp.Request) (string, interface{}) {
 		base.Fail(r, "用户名或密码为空")
 	}
 
-	model := system.SysUser{Username: username}.GetByUsername()
+	model, err := system.SysUser{Username: username}.GetByUsername()
+	if err != nil {
+		base.Error(r, "服务异常，请联系管理员")
+	}
 
 	if model.Id <= 0 {
 		base.Fail(r, "用户名或密码错误.")
@@ -52,8 +55,8 @@ func LoginSubmit(r *ghttp.Request) (string, interface{}) {
 		base.Fail(r, "账号状态异常，请联系管理员")
 	}
 
-	reqPassword, err := gmd5.Encrypt(passwd + model.Salt)
-	if err != nil {
+	reqPassword, err2 := gmd5.Encrypt(passwd + model.Salt)
+	if err2 != nil {
 		glog.Error("login password encrypt error", err)
 		base.Error(r, "用户名或者密码错误："+username)
 	}

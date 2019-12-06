@@ -53,20 +53,20 @@ func (model SysUser) Get() SysUser {
 	return resData
 }
 
-func (model SysUser) GetByUsername() SysUser {
+func (model SysUser) GetByUsername() (SysUser, error) {
 	if model.Username == "" {
 		glog.Error(model.TableName() + " get username error")
-		return SysUser{}
+		return SysUser{}, nil
 	}
 
 	var resData SysUser
 	err := model.dbModel("t").Where("username = ?", model.Username).Fields(model.columns()).Struct(&resData)
 	if err != nil {
 		glog.Error(model.TableName()+" get username one error", err)
-		return SysUser{}
+		return SysUser{}, err
 	}
 
-	return resData
+	return resData, nil
 }
 
 func (model SysUser) List(form *base.BaseForm) []SysUser {
