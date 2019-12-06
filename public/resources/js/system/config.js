@@ -176,12 +176,12 @@ jQuery(function ($) {
         colModel: [
             {label: "id", name: 'id', width: 75, hidden: true, key: true},
             {
-                label: "类型", name: 'typeName', width: 120, sortable: true,
+                label: "类型", name: 'parentId', width: 120, sortable: true,
                 formatter: function (cellvalue, options, rowObject) {
-                    if (cellvalue == '' || cellvalue == null) {
+                    if (cellvalue == '0' || cellvalue == null) {
                         return '类型'
                     }
-                    return cellvalue;
+                    return "数据";
                 }
             },
             {label: "名称", name: 'name', width: 200, sortable: true},

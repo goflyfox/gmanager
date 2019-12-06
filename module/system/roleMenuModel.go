@@ -179,6 +179,11 @@ func (model *SysRoleMenu) Insert() int64 {
 // 批量绑定菜单关系
 func (model SysRoleMenu) saveRoleMenus(roleId int, menus string) {
 	SysRoleMenu{RoleId: roleId}.DeleteByRoleId()
+
+	// 空删除所有绑定菜单
+	if menus == "" {
+		return
+	}
 	menuIdArray := gstr.Split(menus, ",")
 	list := g.List{}
 	for _, menuId := range menuIdArray {

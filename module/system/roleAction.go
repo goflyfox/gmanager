@@ -68,9 +68,9 @@ func (action *RoleAction) Save(r *ghttp.Request) {
 	}
 
 	menus := r.GetPostString("menus")
-	if menus == "" {
-		base.Fail(r, "参数错误")
-	}
+	//if menus == "" {
+	//	base.Fail(r, "参数错误")
+	//}
 
 	userId := base.GetUser(r).Id
 

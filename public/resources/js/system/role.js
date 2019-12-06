@@ -33,7 +33,7 @@ var menuZtree = {
                 var tmp = treeData.data[i];
                 var obj = {
                     id: tmp.id,
-                    pId: tmp.parentid,
+                    pId: tmp.parentId,
                     name: tmp.name,
                     open: (tmp.type == 1) ? true : false // (tmp.parentId == 0)
                 };
