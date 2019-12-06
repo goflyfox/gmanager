@@ -25,7 +25,7 @@ func Start() {
 		glog.Error("gstart tables error", err)
 	} else {
 		TableInfo = g.MapStrStr{}
-		list := r.ToList()
+		list := r.List()
 		for _, value := range list {
 			TableInfo[gconv.String(value["name"])] = gconv.String(value["comment"])
 		}

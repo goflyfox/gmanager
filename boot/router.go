@@ -25,9 +25,8 @@ func bindRouter() {
 
 	s.BindHandler(urlPath+"/admin/welcome.html", common.Welcome)
 	// 中间件
-	s.Group(urlPath+"/", func(g *ghttp.RouterGroup) {
-		g.Middleware(middle.MiddlewareLog, middle.MiddlewareCommon)
-	})
+	s.BindMiddleware(urlPath+"/*", middle.MiddlewareLog)
+	s.BindMiddleware(urlPath+"/*", middle.MiddlewareCommon)
 
 	s.Group(urlPath+"/system", func(g *ghttp.RouterGroup) {
 		// 系统路由

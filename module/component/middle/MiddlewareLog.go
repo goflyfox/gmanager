@@ -37,8 +37,8 @@ func MiddlewareLog(r *ghttp.Request) {
 			no = gconv.String(beforeTime)
 		}
 
-		glog.Info(fmt.Sprintf("[REQUEST_%s_%d][url:%s][params:%s]",
-			no, r.Id, r.URL.Path, params))
+		glog.Info(fmt.Sprintf("[REQUEST_%s][url:%s][params:%s]",
+			no, r.URL.Path, params))
 	}
 
 	r.Middleware.Next()
@@ -56,14 +56,14 @@ func MiddlewareLog(r *ghttp.Request) {
 		afterTime := gtime.Millisecond()
 
 		if r.IsFileRequest() {
-			glog.Info(fmt.Sprintf("[FILE_%s_%d][diff:%d][url:%s][params:%s]",
-				no, r.Id, afterTime-beforeTime, r.URL.Path, params))
+			glog.Info(fmt.Sprintf("[FILE_%s][diff:%d][url:%s][params:%s]",
+				no, afterTime-beforeTime, r.URL.Path, params))
 		} else if afterTime-beforeTime > 1000 {
-			glog.Warning(fmt.Sprintf("[RESPONSE_%s_%d][diff:%d][url:%s][params:%s][data:%s]",
-				no, r.Id, afterTime-beforeTime, r.URL.Path, params, data))
+			glog.Warning(fmt.Sprintf("[RESPONSE_%s][diff:%d][url:%s][params:%s][data:%s]",
+				no, afterTime-beforeTime, r.URL.Path, params, data))
 		} else {
-			glog.Info(fmt.Sprintf("[RESPONSE_%s_%d][diff:%d][url:%s][params:%s][data:%s]",
-				no, r.Id, afterTime-beforeTime, r.URL.Path, params, data))
+			glog.Info(fmt.Sprintf("[RESPONSE_%s][diff:%d][url:%s][params:%s][data:%s]",
+				no, afterTime-beforeTime, r.URL.Path, params, data))
 		}
 	}
 }

@@ -29,16 +29,16 @@ func initConfig() {
 	v.AddPath("template")
 
 	// glog配置
-	logPath := c.GetString("log-path")
-	glog.SetPath(logPath)
+	//logPath := c.GetString("log-path")
+	//glog.SetPath(logPath)
 	glog.SetStdoutPrint(true)
 
-	s.SetServerRoot("public")
 	s.SetNameToUriType(ghttp.URI_TYPE_ALLLOWER)
-	s.SetLogPath(logPath)
-	s.SetErrorLogEnabled(true)
+	//s.SetLogPath(logPath)
+	//s.SetServerRoot("public")
+	//s.SetErrorLogEnabled(true)
 	//s.SetAccessLogEnabled(true)
-	s.SetPort(c.GetInt("http-port"))
+	//s.SetPort(c.GetInt("http-port"))
 
 	glog.Info("########service finish.")
 

@@ -1,6 +1,19 @@
-log-path = "./logs"
-http-port = 80
+#log-path = "./logs"
+# http-port = 80
 url-path = ""
+
+[server]
+    Address          = ":80"
+    ServerRoot       = "public"
+    LogPath          = "./logs"
+#    IndexFiles       = ["index.php", "main.php"]
+    AccessLogEnabled = false
+    ErrorLogEnabled  = true
+    PProfEnabled     = true
+#    SessionIdName    = "MySessionId"
+#    SessionPath      = "/tmp/MySessionStoragePath"
+#    SessionMaxAge    = "24h"
+#    DumpRouterMap    = false
 
 # title设置
 [setting]
