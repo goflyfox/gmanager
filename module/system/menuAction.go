@@ -72,6 +72,15 @@ func (action *MenuAction) Save(r *ghttp.Request) {
 		base.Error(r, "save error")
 	}
 
+	// 根目录级别为1，其他为父节点 + 1
+	parentId := model.ParentId
+	if parentId == 0 {
+		model.Level = 1
+	} else {
+		parentModel := SysMenu{Id: parentId}.Get()
+		model.Level = parentModel.Level + 1
+	}
+
 	userId := base.GetUser(r).Id
 
 	model.UpdateId = userId
