@@ -28,12 +28,12 @@ func NewForm(params map[string]interface{}) BaseForm {
 		form.Rows = gconv.Int(value)
 	}
 	// 排序
-	if value, ok := params["orderBy"]; ok {
+	if value, ok := params["orderBy"]; ok && value != "" {
 		form.OrderBy = gconv.String(value)
-	} else if value, ok := params["sidx"]; ok {
-		form.OrderBy = gconv.String(value)
-		if value2, ok := params["sord"]; ok {
-			form.OrderBy += " " + gconv.String(value2)
+	} else if value2, ok := params["sidx"]; ok && value2 != "" {
+		form.OrderBy = gconv.String(value2)
+		if value3, ok := params["sord"]; ok && value3 != "" {
+			form.OrderBy += " " + gconv.String(value3)
 		}
 	}
 
