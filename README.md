@@ -19,6 +19,25 @@
 4. go run main.go
 5. 访问http://localhost即可看到登录页面，账号/密码：admin/123456
 
+#### 打包
+1. 打包可以使用gf提供的gf-cli进行打包
+2. 也可通过原始交叉编译命令
+
+打linux环境包
+```
+SET CGO_ENABLED=0
+SET GOOS=linux
+SET GOARCH=amd64
+go build main.go
+```
+
+打本地环境包
+```
+go build main.go
+```
+
+
+
 #### 功能模块
 
 1. 登录、认证、登出
