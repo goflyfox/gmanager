@@ -36,6 +36,7 @@ tidy:
 	@export GOPROXY=https://goproxy.io
 	@go mod tidy
 
+#go build -ldflags "-s -w"
 build:
 	@go build -mod=vendor
 
