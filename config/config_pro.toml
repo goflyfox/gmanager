@@ -15,8 +15,13 @@ url-path = ""
 [database]
     link = "mysql:root:123456@tcp(127.0.0.1:33306)/gmanager"
 
-# 缓存模式 1 gcache 2 gredis
-cache-mode = 2
+# gtoken配置文件
+[gtoken]
+    # 缓存模式 1 gcache 2 gredis
+    cache-mode = 1
+    # 是否支持多端登录
+    multi-login = true
+
 
 # Redis数据库配置
 [redis]

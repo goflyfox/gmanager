@@ -2,6 +2,13 @@
 # http-port = 80
 url-path = ""
 
+# gtoken配置文件
+[gtoken]
+    # 缓存模式 1 gcache 2 gredis
+    cache-mode = 1
+    # 是否支持多端登录
+    multi-login = true
+
 [server]
     Address          = ":80"
     ServerRoot       = "public"
