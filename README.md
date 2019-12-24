@@ -41,6 +41,8 @@ go build main.go
 1. gmanager完全支持前后端分离，前端使用vue-admin-template
 2. 前端运行下载github代码，运行`npm install&npm run dev`
 3. 具体前端代码及详细部署说明见： [https://github.com/goflyfox/gmanager-web](https://github.com/goflyfox/gmanager-web)
+4. 由于前后端分离和服务端模板菜单有所区别，数据库需要运行：gmanager-web.sql
+5. 如果有强迫症，使用前后端分离可以把public和template目录里面内容删除，但目录一定要保留；
 
 ## 功能模块
 1. 登录、认证、登出
