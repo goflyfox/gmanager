@@ -17,7 +17,7 @@ func MiddlewareLog(r *ghttp.Request) {
 	var no string
 
 	if constants.DEBUG {
-		beforeTime = gtime.Millisecond()
+		beforeTime = gtime.TimestampMilli()
 
 		if r.IsFileRequest() {
 			return
@@ -53,7 +53,7 @@ func MiddlewareLog(r *ghttp.Request) {
 			data = ""
 		}
 
-		afterTime := gtime.Millisecond()
+		afterTime := gtime.TimestampMilli()
 
 		if r.IsFileRequest() {
 			glog.Info(fmt.Sprintf("[FILE_%s][diff:%d][url:%s][params:%s]",

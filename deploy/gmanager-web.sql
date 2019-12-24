@@ -1,6 +1,6 @@
 /** 前后端分离菜单 **/
 DELETE FROM `sys_menu`;
-INSERT INTO `sys_menu` VALUES (1, 20, '系统首页', 'welcome', 'home', '/', '', 1, 2, 10, 2, 1, '2019-12-06 10:37:44', 1, '2015-04-27 17:28:06', 1);
+INSERT INTO `sys_menu` VALUES (1, 20, '系统首页', 'welcome', 'home', '/welcome', '', 1, 2, 10, 2, 1, '2019-12-06 10:37:44', 1, '2015-04-27 17:28:06', 1);
 INSERT INTO `sys_menu` VALUES (2, 0, '系统管理', 'settings', 'system_root', NULL, NULL, 1, 1, 190, 1, 1, '2019-12-04 14:18:23', 1, '2015-04-27 17:28:06', 1);
 INSERT INTO `sys_menu` VALUES (3, 2, '组织机构', 'depart', 'department', '/system/department/index', NULL, 1, 2, 191, 2, 1, '2019-12-04 14:17:51', 1, '2015-04-27 17:28:25', 1);
 INSERT INTO `sys_menu` VALUES (4, 2, '用户管理', 'user_1', 'user', '/system/user/index', NULL, 1, 2, 192, 2, 1, '2019-12-04 14:14:06', 1, '2015-04-27 17:28:46', 1);
