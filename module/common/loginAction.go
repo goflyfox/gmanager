@@ -57,7 +57,7 @@ func LoginSubmit(r *ghttp.Request) (string, interface{}) {
 
 	reqPassword, err2 := gmd5.Encrypt(passwd + model.Salt)
 	if err2 != nil {
-		glog.Error("login password encrypt error", err)
+		glog.Error("login password encrypt error", err2)
 		base.Error(r, "用户名或者密码错误："+username)
 	}
 
