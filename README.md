@@ -100,3 +100,5 @@ go build main.go
 - 也可以请作者喝一杯咖啡:)
 
 ![jflyfox](https://raw.githubusercontent.com/jflyfox/jfinal_cms/master/doc/pay01.jpg "Open source support")
+
+[捐赠列表](deploy/Donate.md)
