@@ -4,7 +4,8 @@ import (
 	"github.com/goflyfox/gtoken/gtoken"
 	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
-	"gmanager/module/common"
+	"gmanager/app/api/common"
+	"gmanager/app/api/log"
 	"gmanager/module/component/middle"
 	"gmanager/module/constants"
 	"gmanager/module/system"
@@ -23,6 +24,7 @@ func bindRouter() {
 	s.BindHandler(urlPath+"/main.html", common.Index)
 	s.BindHandler(urlPath+"/login", common.Login)
 
+	s.BindHandler(urlPath+"/welcome", common.Welcome)
 	s.BindHandler(urlPath+"/admin/welcome.html", common.Welcome)
 	// 中间件
 	s.BindMiddleware(urlPath+"/*", middle.MiddlewareLog)
@@ -40,7 +42,7 @@ func bindRouter() {
 		g.GET("/department/get/{id}", departAction.Get)
 		g.ALL("/department/delete/{id}", departAction.Delete)
 
-		logAction := new(system.LogAction)
+		logAction := new(log.Action)
 		g.ALL("log", logAction)
 		g.GET("/log/get/{id}", logAction.Get)
 		g.ALL("/log/delete/{id}", logAction.Delete)

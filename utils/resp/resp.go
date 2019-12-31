@@ -10,10 +10,6 @@ const (
 	FAIL         = -1
 	ERROR        = -99
 	UNAUTHORIZED = -401
-	//配置
-	TypeConfig = 1
-	//  字典
-	TypeDict = 2
 )
 
 type Resp struct {
