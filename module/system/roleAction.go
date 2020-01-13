@@ -61,7 +61,7 @@ func (action *RoleAction) Delete(r *ghttp.Request) {
 // path: /save
 func (action *RoleAction) Save(r *ghttp.Request) {
 	model := SysRole{}
-	err := gconv.Struct(r.GetQueryMap(), &model)
+	err := gconv.Struct(r.GetMap(), &model)
 	if err != nil {
 		glog.Error(actionNameRole+" save struct error", err)
 		base.Error(r, "save error")
@@ -98,7 +98,7 @@ func (action *RoleAction) Save(r *ghttp.Request) {
 
 // path: /list
 func (action *RoleAction) List(r *ghttp.Request) {
-	form := base.NewForm(r.GetQueryMap())
+	form := base.NewForm(r.GetMap())
 	model := SysRole{}
 
 	list := model.List(&form)
@@ -107,7 +107,7 @@ func (action *RoleAction) List(r *ghttp.Request) {
 
 // path: /page
 func (action *RoleAction) Page(r *ghttp.Request) {
-	form := base.NewForm(r.GetQueryMap())
+	form := base.NewForm(r.GetMap())
 	model := SysRole{}
 
 	page := model.Page(&form)
@@ -122,7 +122,7 @@ func (action *RoleAction) Page(r *ghttp.Request) {
 
 // path: /jqgrid
 func (action *RoleAction) Jqgrid(r *ghttp.Request) {
-	form := base.NewForm(r.GetQueryMap())
+	form := base.NewForm(r.GetMap())
 	model := SysRole{}
 
 	page := model.Page(&form)
@@ -140,7 +140,7 @@ func (action *RoleAction) Info(r *ghttp.Request) {
 	if roleId == 0 {
 		base.Fail(r, "参数错误")
 	}
-	form := base.NewForm(r.GetQueryMap())
+	form := base.NewForm(r.GetMap())
 	form.SetParam("roleId", gconv.String(roleId))
 
 	// 选择的列表

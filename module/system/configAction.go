@@ -60,7 +60,7 @@ func (action *ConfigAction) Delete(r *ghttp.Request) {
 // path: /save
 func (action *ConfigAction) Save(r *ghttp.Request) {
 	model := SysConfig{}
-	err := gconv.Struct(r.GetQueryMap(), &model)
+	err := gconv.Struct(r.GetMap(), &model)
 	if err != nil {
 		glog.Error(actionNameConfig+" save struct error", err)
 		base.Error(r, "save error")
@@ -89,7 +89,7 @@ func (action *ConfigAction) Save(r *ghttp.Request) {
 
 // path: /list
 func (action *ConfigAction) List(r *ghttp.Request) {
-	form := base.NewForm(r.GetQueryMap())
+	form := base.NewForm(r.GetMap())
 	model := SysConfig{}
 
 	list := model.List(&form)
@@ -98,7 +98,7 @@ func (action *ConfigAction) List(r *ghttp.Request) {
 
 // path: /page
 func (action *ConfigAction) Page(r *ghttp.Request) {
-	form := base.NewForm(r.GetQueryMap())
+	form := base.NewForm(r.GetMap())
 	model := SysConfig{}
 
 	page := model.Page(&form)
@@ -113,7 +113,7 @@ func (action *ConfigAction) Page(r *ghttp.Request) {
 
 // path: /jqgrid
 func (action *ConfigAction) Jqgrid(r *ghttp.Request) {
-	form := base.NewForm(r.GetQueryMap())
+	form := base.NewForm(r.GetMap())
 	model := SysConfig{}
 
 	page := model.Page(&form)
@@ -127,7 +127,7 @@ func (action *ConfigAction) Jqgrid(r *ghttp.Request) {
 
 // path: /type
 func (action *ConfigAction) Type(r *ghttp.Request) {
-	form := base.NewForm(r.GetQueryMap())
+	form := base.NewForm(r.GetMap())
 	model := SysConfig{}
 
 	//userId := base.GetUser(r).Id
