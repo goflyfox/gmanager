@@ -63,7 +63,7 @@ func (action *UserAction) Delete(r *ghttp.Request) {
 // path: /save
 func (action *UserAction) Save(r *ghttp.Request) {
 	model := SysUser{}
-	err := gconv.Struct(r.GetPostMap(), &model)
+	err := gconv.Struct(r.GetQueryMap(), &model)
 	if err != nil {
 		glog.Error(actionNameUser+" save struct error", err)
 		base.Error(r, "save error")
@@ -108,7 +108,7 @@ func (action *UserAction) Save(r *ghttp.Request) {
 
 // path: /list
 func (action *UserAction) List(r *ghttp.Request) {
-	form := base.NewForm(r.GetPostMap())
+	form := base.NewForm(r.GetQueryMap())
 	model := SysUser{}
 
 	list := model.List(&form)
@@ -117,7 +117,7 @@ func (action *UserAction) List(r *ghttp.Request) {
 
 // path: /page
 func (action *UserAction) Page(r *ghttp.Request) {
-	form := base.NewForm(r.GetPostMap())
+	form := base.NewForm(r.GetQueryMap())
 	model := SysUser{}
 
 	page := model.Page(&form)
@@ -132,7 +132,7 @@ func (action *UserAction) Page(r *ghttp.Request) {
 
 // path: /jqgrid
 func (action *UserAction) Jqgrid(r *ghttp.Request) {
-	form := base.NewForm(r.GetPostMap())
+	form := base.NewForm(r.GetQueryMap())
 	model := SysUser{}
 
 	page := model.Page(&form)
@@ -150,7 +150,7 @@ func (action *UserAction) RoleInfo(r *ghttp.Request) {
 	if userId == 0 {
 		base.Fail(r, "参数错误")
 	}
-	form := base.NewForm(r.GetPostMap())
+	form := base.NewForm(r.GetQueryMap())
 	form.SetParam("userId", gconv.String(userId))
 
 	// 角色列表
@@ -173,8 +173,8 @@ func (action *UserAction) RoleInfo(r *ghttp.Request) {
 
 // 用户绑定角色
 func (action *UserAction) RoleSave(r *ghttp.Request) {
-	userId := r.GetPostInt("userid")
-	roleIds := r.GetPostString("roleids")
+	userId := r.GetInt("userid")
+	roleIds := r.GetString("roleids")
 	if userId == 0 {
 		base.Fail(r, "参数错误")
 	}
@@ -193,8 +193,8 @@ func (action *UserAction) Password(r *ghttp.Request) {
 		base.Fail(r, "登录异常")
 	}
 
-	password := r.GetPostString("password")
-	newPassword := r.GetPostString("newPassword")
+	password := r.GetString("password")
+	newPassword := r.GetString("newPassword")
 	if password == "" || newPassword == "" {
 		base.Fail(r, "参数错误")
 	}
