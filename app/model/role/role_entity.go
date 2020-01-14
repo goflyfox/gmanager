@@ -11,16 +11,19 @@ import (
 
 // Entity is the golang structure for table sys_role.
 type Entity struct {
-	Id         int    `orm:"id,primary"  json:"id"`          // 主键
-	Name       string `orm:"name"        json:"name"`        // 名称/11111/
-	Status     int    `orm:"status"      json:"status"`      // 状态//radio/2,隐藏,1,显示
-	Sort       int    `orm:"sort"        json:"sort"`        // 排序
-	Remark     string `orm:"remark"      json:"remark"`      // 说明//textarea
-	Enable     int    `orm:"enable"      json:"enable"`      // 是否启用//radio/1,启用,2,禁用
-	UpdateTime string `orm:"update_time" json:"update_time"` // 更新时间
-	UpdateId   int    `orm:"update_id"   json:"update_id"`   // 更新人
-	CreateTime string `orm:"create_time" json:"create_time"` // 创建时间
-	CreateId   int    `orm:"create_id"   json:"create_id"`   // 创建者
+	Id         int    `orm:"id,primary"  json:"id"`         // 主键
+	Name       string `orm:"name"        json:"name"`       // 名称/11111/
+	Status     int    `orm:"status"      json:"status"`     // 状态//radio/2,隐藏,1,显示
+	Sort       int    `orm:"sort"        json:"sort"`       // 排序
+	Remark     string `orm:"remark"      json:"remark"`     // 说明//textarea
+	Enable     int    `orm:"enable"      json:"enable"`     // 是否启用//radio/1,启用,2,禁用
+	UpdateTime string `orm:"update_time" json:"updateTime"` // 更新时间
+	UpdateId   int    `orm:"update_id"   json:"updateId"`   // 更新人
+	CreateTime string `orm:"create_time" json:"createTime"` // 创建时间
+	CreateId   int    `orm:"create_id"   json:"createId"`   // 创建者
+
+	UpdateName string `json:"updateName,omitempty" gconv:"updateName,omitempty"`
+	CreateName string `json:"createName,omitempty" gconv:"createName,omitempty"`
 }
 
 // OmitEmpty sets OPTION_OMITEMPTY option for the model, which automatically filers

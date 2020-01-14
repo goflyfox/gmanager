@@ -12,12 +12,12 @@ import (
 
 // 请求参数
 type Request struct {
-	LogType    int    `orm:"log_type"    json:"log_type"`    // 类型
-	OperObject string `orm:"oper_object" json:"oper_object"` // 操作对象
-	OperTable  string `orm:"oper_table"  json:"oper_table"`  // 操作表
-	OperId     int    `orm:"oper_id"     json:"oper_id"`     // 操作主键
-	OperType   string `orm:"oper_type"   json:"oper_type"`   // 操作类型
-	OperRemark string `orm:"oper_remark" json:"oper_remark"` // 操作备注
+	LogType    int    `orm:"log_type"    json:"logType"`    // 类型
+	OperObject string `orm:"oper_object" json:"operObject"` // 操作对象
+	OperTable  string `orm:"oper_table"  json:"operTable"`  // 操作表
+	OperId     int    `orm:"oper_id"     json:"operId"`     // 操作主键
+	OperType   string `orm:"oper_type"   json:"operType"`   // 操作类型
+	OperRemark string `orm:"oper_remark" json:"operRemark"` // 操作备注
 }
 
 func GetById(id int64) (*log.Entity, error) {
