@@ -119,7 +119,7 @@ func Page(form *base.BaseForm) ([]log.Entity, error) {
 		params = append(params, gconv.Int(form.Params["operType"]))
 	}
 
-	num, err := log.Model.FindCount(where, params)
+	num, err := log.Model.As("t").FindCount(where, params)
 	form.TotalSize = num
 	form.TotalPage = num / form.Rows
 
@@ -136,11 +136,10 @@ func Page(form *base.BaseForm) ([]log.Entity, error) {
 	}
 
 	var resData []log.Entity
-	pageNum, pageSize := (form.Page-1)*form.Rows, form.Rows
-	dbModel := log.Model.Fields(log.Model.Columns() + ",su1.real_name as updateName,su2.real_name as createName")
+	dbModel := log.Model.As("t").Fields(log.Model.Columns() + ",su1.real_name as updateName,su2.real_name as createName")
 	dbModel = dbModel.LeftJoin("sys_user su1", " t.update_id = su1.id ")
 	dbModel = dbModel.LeftJoin("sys_user su2", " t.update_id = su2.id ")
-	err = dbModel.Where(where, params).Order(form.OrderBy).Page(pageNum, pageSize).M.Structs(&resData)
+	err = dbModel.Where(where, params).Order(form.OrderBy).Page(form.Page, form.Rows).M.Structs(&resData)
 	if err != nil {
 		glog.Error("page list error", err)
 		return []log.Entity{}, err

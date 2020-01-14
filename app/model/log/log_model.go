@@ -18,7 +18,7 @@ type arModel struct {
 
 var (
 	// Table is the table name of sys_log.
-	Table = "sys_log" + " t"
+	Table = "sys_log"
 	// Model is the model object of sys_log.
 	Model = &arModel{g.DB("default").Table(Table).Safe()}
 )
@@ -70,6 +70,11 @@ func Update(dataAndWhere ...interface{}) (result sql.Result, err error) {
 // Delete is a convenience method for Model.Delete.
 func Delete(where ...interface{}) (result sql.Result, err error) {
 	return Model.Delete(where...)
+}
+
+// As sets an alias name for current table.
+func (m *arModel) As(as string) *arModel {
+	return &arModel{m.M.As(as)}
 }
 
 // TX sets the transaction for current operation.

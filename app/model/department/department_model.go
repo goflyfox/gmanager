@@ -72,6 +72,11 @@ func Delete(where ...interface{}) (result sql.Result, err error) {
 	return Model.Delete(where...)
 }
 
+// As sets an alias name for current table.
+func (m *arModel) As(as string) *arModel {
+	return &arModel{m.M.As(as)}
+}
+
 // TX sets the transaction for current operation.
 func (m *arModel) TX(tx *gdb.TX) *arModel {
 	return &arModel{m.M.TX(tx)}
