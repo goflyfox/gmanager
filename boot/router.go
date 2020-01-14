@@ -5,6 +5,7 @@ import (
 	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
 	"gmanager/app/api/common"
+	"gmanager/app/api/config"
 	"gmanager/app/api/log"
 	"gmanager/module/component/middle"
 	"gmanager/module/constants"
@@ -57,7 +58,7 @@ func bindRouter() {
 		g.GET("/role/get/{id}", roleAction.Get)
 		g.ALL("/role/delete/{id}", roleAction.Delete)
 
-		configAction := new(system.ConfigAction)
+		configAction := new(config.Action)
 		g.ALL("config", configAction)
 		g.GET("/config/get/{id}", configAction.Get)
 		g.ALL("/config/delete/{id}", configAction.Delete)

@@ -12,12 +12,7 @@ import (
 
 // 请求参数
 type Request struct {
-	LogType    int    `orm:"log_type"    json:"logType"`    // 类型
-	OperObject string `orm:"oper_object" json:"operObject"` // 操作对象
-	OperTable  string `orm:"oper_table"  json:"operTable"`  // 操作表
-	OperId     int    `orm:"oper_id"     json:"operId"`     // 操作主键
-	OperType   string `orm:"oper_type"   json:"operType"`   // 操作类型
-	OperRemark string `orm:"oper_remark" json:"operRemark"` // 操作备注
+	log.Entity
 }
 
 func GetById(id int64) (*log.Entity, error) {
@@ -65,7 +60,13 @@ func Delete(id int64) (int64, error) {
 	return r.RowsAffected()
 }
 
-func Update(entity *log.Entity) (int64, error) {
+func Update(request *Request) (int64, error) {
+	entity := (*log.Entity)(nil)
+	err := gconv.StructDeep(request.Entity, &entity)
+	if err != nil {
+		return 0, errors.New("数据错误")
+	}
+
 	if entity.Id <= 0 {
 		glog.Error("update id error")
 		return 0, errors.New("参数不合法")
@@ -79,7 +80,13 @@ func Update(entity *log.Entity) (int64, error) {
 	return r.RowsAffected()
 }
 
-func Insert(entity *log.Entity) (int64, error) {
+func Insert(request *Request) (int64, error) {
+	entity := (*log.Entity)(nil)
+	err := gconv.Struct(request.Entity, &entity)
+	if err != nil {
+		return 0, errors.New("数据错误")
+	}
+
 	if entity.Id > 0 {
 		glog.Error("insert id error")
 		return 0, errors.New("参数不合法")

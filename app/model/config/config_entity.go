@@ -11,23 +11,23 @@ import (
 
 // Entity is the golang structure for table sys_config.
 type Entity struct {
-	Id           int    `orm:"id,primary"    json:"id"`            // 主键
-	Name         string `orm:"name"          json:"name"`          // 名称
-	Key          string `orm:"key"           json:"key"`           // 键
-	Value        string `orm:"value"         json:"value"`         // 值
-	Code         string `orm:"code"          json:"code"`          // 编码
-	DataType     int    `orm:"data_type"     json:"data_type"`     // 数据类型//radio/1,KV,2,字典,3,数组
-	ParentId     int    `orm:"parent_id"     json:"parent_id"`     // 类型
-	ParentKey    string `orm:"parent_key"    json:"parent_key"`    //
-	Sort         int    `orm:"sort"          json:"sort"`          // 排序号
-	ProjectId    int    `orm:"project_id"    json:"project_id"`    // 项目ID
-	CopyStatus   int    `orm:"copy_status"   json:"copy_status"`   // 拷贝状态 1 拷贝  2  不拷贝
-	ChangeStatus int    `orm:"change_status" json:"change_status"` // 1 不可更改 2 可以更改
-	Enable       int    `orm:"enable"        json:"enable"`        // 是否启用//radio/1,启用,2,禁用
-	UpdateTime   string `orm:"update_time" json:"updateTime"`      // 更新时间
-	UpdateId     int    `orm:"update_id"   json:"updateId"`        // 更新人
-	CreateTime   string `orm:"create_time" json:"createTime"`      // 创建时间
-	CreateId     int    `orm:"create_id"   json:"createId"`        // 创建者
+	Id           int    `orm:"id,primary"    json:"id"`           // 主键
+	Name         string `orm:"name"          json:"name"`         // 名称
+	Key          string `orm:"key"           json:"key"`          // 键
+	Value        string `orm:"value"         json:"value"`        // 值
+	Code         string `orm:"code"          json:"code"`         // 编码
+	DataType     int    `orm:"data_type"     json:"dataType"`     // 数据类型//radio/1,KV,2,字典,3,数组
+	ParentId     int    `orm:"parent_id"     json:"parentId"`     // 类型
+	ParentKey    string `orm:"parent_key"    json:"parentKey"`    //
+	Sort         int    `orm:"sort"          json:"sort"`         // 排序号
+	ProjectId    int    `orm:"project_id"    json:"projectId"`    // 项目ID
+	CopyStatus   int    `orm:"copy_status"   json:"copyStatus"`   // 拷贝状态 1 拷贝  2  不拷贝
+	ChangeStatus int    `orm:"change_status" json:"changeStatus"` // 1 不可更改 2 可以更改
+	Enable       int    `orm:"enable"        json:"enable"`       // 是否启用//radio/1,启用,2,禁用
+	UpdateTime   string `orm:"update_time" json:"updateTime"`     // 更新时间
+	UpdateId     int    `orm:"update_id"   json:"updateId"`       // 更新人
+	CreateTime   string `orm:"create_time" json:"createTime"`     // 创建时间
+	CreateId     int    `orm:"create_id"   json:"createId"`       // 创建者
 
 	UpdateName string `json:"updateName,omitempty" gconv:"updateName,omitempty"`
 	CreateName string `json:"createName,omitempty" gconv:"createName,omitempty"`

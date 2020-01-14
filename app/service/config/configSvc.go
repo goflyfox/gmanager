@@ -40,6 +40,10 @@ func List(form *base.BaseForm) ([]*config.Entity, error) {
 		where += " and name like ? "
 		params = append(params, "%"+form.Params["name"]+"%")
 	}
+	if form.Params != nil && form.Params["parentId"] != "" {
+		where += " and parent_id = ? "
+		params = append(params, gconv.Int(form.Params["parentId"]))
+	}
 
 	return config.Model.Order(form.OrderBy).FindAll(where, params)
 }
@@ -58,13 +62,19 @@ func Delete(id int64) (int64, error) {
 	return r.RowsAffected()
 }
 
-func Update(entity *config.Entity) (int64, error) {
+func Update(request *Request) (int64, error) {
+	entity := (*config.Entity)(nil)
+	err := gconv.StructDeep(request.Entity, &entity)
+	if err != nil {
+		return 0, errors.New("数据错误")
+	}
+
 	if entity.Id <= 0 {
 		glog.Error("update id error")
 		return 0, errors.New("参数不合法")
 	}
 
-	r, err := config.Model.Where(" id = ?", entity.Id).Update(entity)
+	r, err := config.Model.OmitEmpty().Where(" id = ?", entity.Id).Update(entity)
 	if err != nil {
 		return 0, err
 	}
@@ -72,7 +82,13 @@ func Update(entity *config.Entity) (int64, error) {
 	return r.RowsAffected()
 }
 
-func Insert(entity *config.Entity) (int64, error) {
+func Insert(request *Request) (int64, error) {
+	entity := (*config.Entity)(nil)
+	err := gconv.StructDeep(request.Entity, &entity)
+	if err != nil {
+		return 0, errors.New("数据错误")
+	}
+
 	if entity.Id > 0 {
 		glog.Error("insert id error")
 		return 0, errors.New("参数不合法")
@@ -95,21 +111,19 @@ func Page(form *base.BaseForm) ([]config.Entity, error) {
 
 	where := " 1 = 1 "
 	var params []interface{}
-	if form.Params != nil && form.Params["operObject"] != "" {
-		where += " and oper_object like ? "
-		params = append(params, "%"+form.Params["operObject"]+"%")
-	}
-	if form.Params != nil && form.Params["operTable"] != "" {
-		where += " and oper_table like ? "
-		params = append(params, "%"+form.Params["operTable"]+"%")
-	}
-	if form.Params != nil && gconv.Int(form.Params["logType"]) > 0 {
-		where += " and log_type = ? "
-		params = append(params, gconv.Int(form.Params["logType"]))
-	}
-	if form.Params != nil && gconv.Int(form.Params["operType"]) > 0 {
-		where += " and oper_type = ? "
-		params = append(params, gconv.Int(form.Params["operType"]))
+	if form.Params != nil {
+		if form.Params["name"] != "" {
+			where += " and t.name like ? "
+			params = append(params, "%"+form.Params["name"]+"%")
+		}
+		if form.Params["key"] != "" {
+			where += " and t.key like ? "
+			params = append(params, "%"+form.Params["key"]+"%")
+		}
+		if gconv.Int(form.Params["parentId"]) > 0 {
+			where += " and t.parent_id = ? "
+			params = append(params, gconv.Int(form.Params["parentId"]))
+		}
 	}
 
 	num, err := config.Model.As("t").FindCount(where, params)

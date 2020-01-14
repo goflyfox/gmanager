@@ -1,4 +1,4 @@
-package log
+package config
 
 import (
 	"github.com/gogf/gf/frame/g"
@@ -6,7 +6,7 @@ import (
 	"github.com/gogf/gf/os/glog"
 	"github.com/gogf/gf/os/gtime"
 	"github.com/gogf/gf/util/gconv"
-	"gmanager/app/service/log"
+	"gmanager/app/service/config"
 	"gmanager/utils"
 	"gmanager/utils/base"
 )
@@ -17,7 +17,7 @@ type Action struct {
 
 // path: /index
 func (action *Action) Index(r *ghttp.Request) {
-	tplFile := "pages/system/log_index.html"
+	tplFile := "pages/system/config_index.html"
 	err := r.Response.WriteTpl(tplFile, g.Map{
 		"now": gtime.Datetime(),
 	})
@@ -30,7 +30,7 @@ func (action *Action) Index(r *ghttp.Request) {
 // path: /get/{id}
 func (action *Action) Get(r *ghttp.Request) {
 	id := r.GetInt64("id")
-	model, err := log.GetById(id)
+	model, err := config.GetById(id)
 	if err != nil {
 		base.Fail(r, err.Error())
 	}
@@ -41,7 +41,7 @@ func (action *Action) Get(r *ghttp.Request) {
 // path: /delete/{id}
 func (action *Action) Delete(r *ghttp.Request) {
 	id := r.GetInt64("id")
-	_, err := log.Delete(id)
+	_, err := config.Delete(id)
 	if err != nil {
 		base.Fail(r, err.Error())
 	}
@@ -51,7 +51,7 @@ func (action *Action) Delete(r *ghttp.Request) {
 
 // path: /save
 func (action *Action) Save(r *ghttp.Request) {
-	model := log.Request{}
+	model := config.Request{}
 	err := gconv.Struct(r.GetQueryMap(), &model)
 	if err != nil {
 		glog.Error("save struct error", err)
@@ -66,9 +66,9 @@ func (action *Action) Save(r *ghttp.Request) {
 	if model.Id <= 0 {
 		model.CreateId = userId
 		model.CreateTime = utils.GetNow()
-		_, err = log.Insert(&model)
+		_, err = config.Insert(&model)
 	} else {
-		_, err = log.Update(&model)
+		_, err = config.Update(&model)
 	}
 
 	if err != nil {
@@ -82,7 +82,7 @@ func (action *Action) Save(r *ghttp.Request) {
 func (action *Action) List(r *ghttp.Request) {
 	form := base.NewForm(r.GetQueryMap())
 
-	list, err := log.List(&form)
+	list, err := config.List(&form)
 	if err != nil {
 		glog.Error("page error", err)
 		base.Error(r, err.Error())
@@ -94,7 +94,7 @@ func (action *Action) List(r *ghttp.Request) {
 // path: /page
 func (action *Action) Page(r *ghttp.Request) {
 	form := base.NewForm(r.GetQueryMap())
-	page, err := log.Page(&form)
+	page, err := config.Page(&form)
 	if err != nil {
 		glog.Error("page error", err)
 		base.Error(r, err.Error())
@@ -112,7 +112,7 @@ func (action *Action) Page(r *ghttp.Request) {
 // path: /jqgrid
 func (action *Action) Jqgrid(r *ghttp.Request) {
 	form := base.NewForm(r.GetQueryMap())
-	page, err := log.Page(&form)
+	page, err := config.Page(&form)
 	if err != nil {
 		glog.Error("jqgrid error", err)
 		base.Error(r, err.Error())
@@ -124,4 +124,21 @@ func (action *Action) Jqgrid(r *ghttp.Request) {
 		"total":   form.TotalPage,
 		"records": form.TotalSize,
 	})
+}
+
+// path: /type
+func (action *Action) Type(r *ghttp.Request) {
+	form := base.NewForm(r.GetQueryMap())
+
+	//userId := base.GetUser(r).Id
+	//user := SysUser{Id: userId}.Get()
+	form.SetParam("parentId", "0")
+	form.OrderBy = "sort asc,create_time desc"
+
+	list, err := config.List(&form)
+	if err != nil {
+		glog.Error("type error", err)
+		base.Error(r, err.Error())
+	}
+	base.Succ(r, list)
 }

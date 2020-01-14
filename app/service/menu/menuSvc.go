@@ -58,7 +58,13 @@ func Delete(id int64) (int64, error) {
 	return r.RowsAffected()
 }
 
-func Update(entity *menu.Entity) (int64, error) {
+func Update(request *Request) (int64, error) {
+	entity := (*menu.Entity)(nil)
+	err := gconv.StructDeep(request.Entity, &entity)
+	if err != nil {
+		return 0, errors.New("数据错误")
+	}
+
 	if entity.Id <= 0 {
 		glog.Error("update id error")
 		return 0, errors.New("参数不合法")

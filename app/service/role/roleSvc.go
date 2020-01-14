@@ -58,7 +58,13 @@ func Delete(id int64) (int64, error) {
 	return r.RowsAffected()
 }
 
-func Update(entity *role.Entity) (int64, error) {
+func Update(request *Request) (int64, error) {
+	entity := (*role.Entity)(nil)
+	err := gconv.StructDeep(request.Entity, &entity)
+	if err != nil {
+		return 0, errors.New("数据错误")
+	}
+
 	if entity.Id <= 0 {
 		glog.Error("update id error")
 		return 0, errors.New("参数不合法")
@@ -72,7 +78,13 @@ func Update(entity *role.Entity) (int64, error) {
 	return r.RowsAffected()
 }
 
-func Insert(entity *role.Entity) (int64, error) {
+func Insert(request *Request) (int64, error) {
+	entity := (*role.Entity)(nil)
+	err := gconv.StructDeep(request.Entity, &entity)
+	if err != nil {
+		return 0, errors.New("数据错误")
+	}
+
 	if entity.Id > 0 {
 		glog.Error("insert id error")
 		return 0, errors.New("参数不合法")
