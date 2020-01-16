@@ -78,7 +78,13 @@ func Update(request *Request) (int64, error) {
 	return r.RowsAffected()
 }
 
-func Insert(entity *menu.Entity) (int64, error) {
+func Insert(request *Request) (int64, error) {
+	entity := (*menu.Entity)(nil)
+	err := gconv.StructDeep(request.Entity, &entity)
+	if err != nil {
+		return 0, errors.New("数据错误")
+	}
+
 	if entity.Id > 0 {
 		glog.Error("insert id error")
 		return 0, errors.New("参数不合法")
