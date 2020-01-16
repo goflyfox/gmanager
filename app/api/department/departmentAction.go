@@ -41,8 +41,15 @@ func (action *Action) Get(r *ghttp.Request) {
 // path: /delete/{id}
 func (action *Action) Delete(r *ghttp.Request) {
 	id := r.GetInt64("id")
-	_, err := department.Delete(id)
-	if err != nil {
+
+	form := base.NewForm(g.Map{"parentId": id})
+	childModel, err := department.GetOne(&form)
+	if err == nil || childModel.Id > 0 {
+		base.Fail(r, "请先删除子机构")
+	}
+
+	_, err1 := department.Delete(id)
+	if err1 != nil {
 		base.Fail(r, err.Error())
 	}
 

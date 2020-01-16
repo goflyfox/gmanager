@@ -13,6 +13,7 @@ type Request struct {
 	config.Entity
 }
 
+// 通过id获取实体
 func GetById(id int64) (*config.Entity, error) {
 	if id <= 0 {
 		glog.Error(" get id error")
@@ -22,6 +23,7 @@ func GetById(id int64) (*config.Entity, error) {
 	return config.Model.FindOne(" id = ?", id)
 }
 
+// 根据条件获取实体
 func GetOne(form *base.BaseForm) (*config.Entity, error) {
 	where := " 1 = 1 "
 	var params []interface{}
@@ -33,21 +35,7 @@ func GetOne(form *base.BaseForm) (*config.Entity, error) {
 	return config.Model.FindOne(where, params)
 }
 
-func List(form *base.BaseForm) ([]*config.Entity, error) {
-	where := " 1 = 1 "
-	var params []interface{}
-	if form.Params != nil && form.Params["name"] != "" {
-		where += " and name like ? "
-		params = append(params, "%"+form.Params["name"]+"%")
-	}
-	if form.Params != nil && form.Params["parentId"] != "" {
-		where += " and parent_id = ? "
-		params = append(params, gconv.Int(form.Params["parentId"]))
-	}
-
-	return config.Model.Order(form.OrderBy).FindAll(where, params)
-}
-
+// 删除实体
 func Delete(id int64) (int64, error) {
 	if id <= 0 {
 		glog.Error("delete id error")
@@ -62,6 +50,7 @@ func Delete(id int64) (int64, error) {
 	return r.RowsAffected()
 }
 
+// 更新实体
 func Update(request *Request) (int64, error) {
 	entity := (*config.Entity)(nil)
 	err := gconv.StructDeep(request.Entity, &entity)
@@ -82,6 +71,7 @@ func Update(request *Request) (int64, error) {
 	return r.RowsAffected()
 }
 
+// 插入实体
 func Insert(request *Request) (int64, error) {
 	entity := (*config.Entity)(nil)
 	err := gconv.StructDeep(request.Entity, &entity)
@@ -100,6 +90,22 @@ func Insert(request *Request) (int64, error) {
 	}
 
 	return r.RowsAffected()
+}
+
+// 列表数据查询
+func List(form *base.BaseForm) ([]*config.Entity, error) {
+	where := " 1 = 1 "
+	var params []interface{}
+	if form.Params != nil && form.Params["name"] != "" {
+		where += " and name like ? "
+		params = append(params, "%"+form.Params["name"]+"%")
+	}
+	if form.Params != nil && form.Params["parentId"] != "" {
+		where += " and parent_id = ? "
+		params = append(params, gconv.Int(form.Params["parentId"]))
+	}
+
+	return config.Model.Order(form.OrderBy).FindAll(where, params)
 }
 
 // 分页查询

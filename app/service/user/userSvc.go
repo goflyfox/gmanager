@@ -13,6 +13,7 @@ type Request struct {
 	user.Entity
 }
 
+// 通过id获取实体
 func GetById(id int64) (*user.Entity, error) {
 	if id <= 0 {
 		glog.Error(" get id error")
@@ -22,6 +23,7 @@ func GetById(id int64) (*user.Entity, error) {
 	return user.Model.FindOne(" id = ?", id)
 }
 
+// 根据条件获取实体
 func GetOne(form *base.BaseForm) (*user.Entity, error) {
 	where := " 1 = 1 "
 	var params []interface{}
@@ -33,17 +35,17 @@ func GetOne(form *base.BaseForm) (*user.Entity, error) {
 	return user.Model.FindOne(where, params)
 }
 
-func List(form *base.BaseForm) ([]*user.Entity, error) {
-	where := " 1 = 1 "
-	var params []interface{}
-	if form.Params != nil && form.Params["name"] != "" {
-		where += " and name like ? "
-		params = append(params, "%"+form.Params["name"]+"%")
+// 根据用户名获取实体
+func GetByUsername(username string) (*user.Entity, error) {
+	if username == "" {
+		glog.Error(" getByUsername username error")
+		return new(user.Entity), nil
 	}
 
-	return user.Model.Order(form.OrderBy).FindAll(where, params)
+	return user.Model.FindOne("username = ?", username)
 }
 
+// 删除实体
 func Delete(id int64) (int64, error) {
 	if id <= 0 {
 		glog.Error("delete id error")
@@ -58,6 +60,7 @@ func Delete(id int64) (int64, error) {
 	return r.RowsAffected()
 }
 
+// 更新实体
 func Update(request *Request) (int64, error) {
 	entity := (*user.Entity)(nil)
 	err := gconv.StructDeep(request.Entity, &entity)
@@ -78,6 +81,7 @@ func Update(request *Request) (int64, error) {
 	return r.RowsAffected()
 }
 
+// 插入实体
 func Insert(request *Request) (int64, error) {
 	entity := (*user.Entity)(nil)
 	err := gconv.StructDeep(request.Entity, &entity)
@@ -98,6 +102,18 @@ func Insert(request *Request) (int64, error) {
 	return r.RowsAffected()
 }
 
+// 列表数据查询
+func List(form *base.BaseForm) ([]*user.Entity, error) {
+	where := " 1 = 1 "
+	var params []interface{}
+	if form.Params != nil && form.Params["name"] != "" {
+		where += " and name like ? "
+		params = append(params, "%"+form.Params["name"]+"%")
+	}
+
+	return user.Model.Order(form.OrderBy).FindAll(where, params)
+}
+
 // 分页查询
 func Page(form *base.BaseForm) ([]user.Entity, error) {
 	if form.Page <= 0 || form.Rows <= 0 {
@@ -107,21 +123,23 @@ func Page(form *base.BaseForm) ([]user.Entity, error) {
 
 	where := " 1 = 1 "
 	var params []interface{}
-	if form.Params != nil && form.Params["operObject"] != "" {
-		where += " and oper_object like ? "
-		params = append(params, "%"+form.Params["operObject"]+"%")
-	}
-	if form.Params != nil && form.Params["operTable"] != "" {
-		where += " and oper_table like ? "
-		params = append(params, "%"+form.Params["operTable"]+"%")
-	}
-	if form.Params != nil && gconv.Int(form.Params["logType"]) > 0 {
-		where += " and log_type = ? "
-		params = append(params, gconv.Int(form.Params["logType"]))
-	}
-	if form.Params != nil && gconv.Int(form.Params["operType"]) > 0 {
-		where += " and oper_type = ? "
-		params = append(params, gconv.Int(form.Params["operType"]))
+	if form.Params != nil {
+		if form.Params["username"] != "" {
+			where += " and t.username like ? "
+			params = append(params, "%"+form.Params["username"]+"%")
+		}
+		if form.Params["realName"] != "" {
+			where += " and t.real_name like ? "
+			params = append(params, "%"+form.Params["realName"]+"%")
+		}
+		if gconv.Int(form.Params["userType"]) > 0 {
+			where += " and t.user_type = ? "
+			params = append(params, gconv.Int(form.Params["userType"]))
+		}
+		if gconv.Int(form.Params["departId"]) > 0 {
+			where += " and t.depart_id = ? "
+			params = append(params, gconv.Int(form.Params["departId"]))
+		}
 	}
 
 	num, err := user.Model.As("t").FindCount(where, params)

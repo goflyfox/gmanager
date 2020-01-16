@@ -3,6 +3,7 @@ package menu
 import (
 	"errors"
 	"github.com/gogf/gf/os/glog"
+	"github.com/gogf/gf/text/gstr"
 	"github.com/gogf/gf/util/gconv"
 	"gmanager/app/model/menu"
 	"gmanager/utils/base"
@@ -13,6 +14,7 @@ type Request struct {
 	menu.Entity
 }
 
+// 通过id获取实体
 func GetById(id int64) (*menu.Entity, error) {
 	if id <= 0 {
 		glog.Error(" get id error")
@@ -22,6 +24,7 @@ func GetById(id int64) (*menu.Entity, error) {
 	return menu.Model.FindOne(" id = ?", id)
 }
 
+// 根据条件获取实体
 func GetOne(form *base.BaseForm) (*menu.Entity, error) {
 	where := " 1 = 1 "
 	var params []interface{}
@@ -29,21 +32,15 @@ func GetOne(form *base.BaseForm) (*menu.Entity, error) {
 		where += " and id = ? "
 		params = append(params, gconv.Int(form.Params["id"]))
 	}
+	if form.Params != nil && form.Params["parentId"] != "" {
+		where += " and parent_id = ? "
+		params = append(params, gconv.Int(form.Params["parentId"]))
+	}
 
 	return menu.Model.FindOne(where, params)
 }
 
-func List(form *base.BaseForm) ([]*menu.Entity, error) {
-	where := " 1 = 1 "
-	var params []interface{}
-	if form.Params != nil && form.Params["name"] != "" {
-		where += " and name like ? "
-		params = append(params, "%"+form.Params["name"]+"%")
-	}
-
-	return menu.Model.Order(form.OrderBy).FindAll(where, params)
-}
-
+// 删除实体
 func Delete(id int64) (int64, error) {
 	if id <= 0 {
 		glog.Error("delete id error")
@@ -58,6 +55,7 @@ func Delete(id int64) (int64, error) {
 	return r.RowsAffected()
 }
 
+// 更新实体
 func Update(request *Request) (int64, error) {
 	entity := (*menu.Entity)(nil)
 	err := gconv.StructDeep(request.Entity, &entity)
@@ -78,6 +76,7 @@ func Update(request *Request) (int64, error) {
 	return r.RowsAffected()
 }
 
+// 插入实体
 func Insert(request *Request) (int64, error) {
 	entity := (*menu.Entity)(nil)
 	err := gconv.StructDeep(request.Entity, &entity)
@@ -98,6 +97,32 @@ func Insert(request *Request) (int64, error) {
 	return r.RowsAffected()
 }
 
+func ListUser(userId int, userType int) ([]*menu.Entity, error) {
+	return menu.Model.Fields(menu.Model.Columns()).LeftJoin(
+		"sys_role_menu rm", "rm.menu_id = t.id ").LeftJoin(
+		"sys_user_role ur", "ur.role_id = rm.role_id ").Where(
+		"ur.user_id = ? ", userId).FindAll()
+}
+
+// 列表数据查询
+func List(form *base.BaseForm) ([]*menu.Entity, error) {
+	where := " 1 = 1 "
+	var params []interface{}
+	if form.Params != nil && form.Params["name"] != "" {
+		where += " and name like ? "
+		params = append(params, "%"+form.Params["name"]+"%")
+	}
+	if form.Params != nil && form.Params["level"] != "" {
+		where += " and level in (?) "
+		params = append(params, gstr.Split(form.Params["level"], ","))
+	}
+	if gstr.Trim(form.OrderBy) == "" {
+		form.OrderBy = " sort,id desc"
+	}
+
+	return menu.Model.Order(form.OrderBy).FindAll(where, params)
+}
+
 // 分页查询
 func Page(form *base.BaseForm) ([]menu.Entity, error) {
 	if form.Page <= 0 || form.Rows <= 0 {
@@ -107,21 +132,9 @@ func Page(form *base.BaseForm) ([]menu.Entity, error) {
 
 	where := " 1 = 1 "
 	var params []interface{}
-	if form.Params != nil && form.Params["operObject"] != "" {
-		where += " and oper_object like ? "
-		params = append(params, "%"+form.Params["operObject"]+"%")
-	}
-	if form.Params != nil && form.Params["operTable"] != "" {
-		where += " and oper_table like ? "
-		params = append(params, "%"+form.Params["operTable"]+"%")
-	}
-	if form.Params != nil && gconv.Int(form.Params["logType"]) > 0 {
-		where += " and log_type = ? "
-		params = append(params, gconv.Int(form.Params["logType"]))
-	}
-	if form.Params != nil && gconv.Int(form.Params["operType"]) > 0 {
-		where += " and oper_type = ? "
-		params = append(params, gconv.Int(form.Params["operType"]))
+	if form.Params != nil && form.Params["name"] != "" {
+		where += " and name like ? "
+		params = append(params, "%"+form.Params["name"]+"%")
 	}
 
 	num, err := menu.Model.As("t").FindCount(where, params)
