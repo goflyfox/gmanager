@@ -6,7 +6,7 @@ import (
 	"github.com/gogf/gf/os/glog"
 	"github.com/gogf/gf/text/gstr"
 	"github.com/gogf/gf/util/gconv"
-	"gmanager/module/constants"
+	"gmanager/app/constants"
 	"gmanager/utils/base"
 )
 

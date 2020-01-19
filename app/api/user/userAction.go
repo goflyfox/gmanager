@@ -7,7 +7,6 @@ import (
 	"github.com/gogf/gf/os/gtime"
 	"github.com/gogf/gf/util/gconv"
 	"gmanager/app/service/user"
-	"gmanager/utils"
 	"gmanager/utils/base"
 )
 
@@ -41,7 +40,7 @@ func (action *Action) Get(r *ghttp.Request) {
 // path: /delete/{id}
 func (action *Action) Delete(r *ghttp.Request) {
 	id := r.GetInt64("id")
-	_, err := user.Delete(id)
+	_, err := user.Delete(id, base.GetUser(r).Id)
 	if err != nil {
 		base.Fail(r, err.Error())
 	}
@@ -51,28 +50,17 @@ func (action *Action) Delete(r *ghttp.Request) {
 
 // path: /save
 func (action *Action) Save(r *ghttp.Request) {
-	model := user.Request{}
-	err := gconv.Struct(r.GetQueryMap(), &model)
+	request := (*user.Request)(nil)
+	err := gconv.Struct(r.GetQueryMap(), request)
 	if err != nil {
 		glog.Error("save struct error", err)
 		base.Error(r, "save error")
 	}
 
-	userId := base.GetUser(r).Id
-
-	model.UpdateId = userId
-	model.UpdateTime = utils.GetNow()
-
-	if model.Id <= 0 {
-		model.CreateId = userId
-		model.CreateTime = utils.GetNow()
-		_, err = user.Insert(&model)
-	} else {
-		_, err = user.Update(&model)
-	}
-
+	request.UserId = base.GetUser(r).Id
+	_, err = user.Save(request)
 	if err != nil {
-		base.Fail(r, "save fail")
+		base.Fail(r, "保存失败")
 	}
 
 	base.Succ(r, "")

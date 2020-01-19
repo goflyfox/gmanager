@@ -7,7 +7,6 @@ import (
 	"github.com/gogf/gf/os/gtime"
 	"github.com/gogf/gf/util/gconv"
 	"gmanager/app/service/department"
-	"gmanager/utils"
 	"gmanager/utils/base"
 )
 
@@ -48,8 +47,8 @@ func (action *Action) Delete(r *ghttp.Request) {
 		base.Fail(r, "请先删除子机构")
 	}
 
-	_, err1 := department.Delete(id)
-	if err1 != nil {
+	_, err = department.Delete(id, base.GetUser(r).Id)
+	if err != nil {
 		base.Fail(r, err.Error())
 	}
 
@@ -58,28 +57,17 @@ func (action *Action) Delete(r *ghttp.Request) {
 
 // path: /save
 func (action *Action) Save(r *ghttp.Request) {
-	model := department.Request{}
-	err := gconv.Struct(r.GetQueryMap(), &model)
+	request := (*department.Request)(nil)
+	err := gconv.Struct(r.GetQueryMap(), request)
 	if err != nil {
 		glog.Error("save struct error", err)
 		base.Error(r, "save error")
 	}
 
-	userId := base.GetUser(r).Id
-
-	model.UpdateId = userId
-	model.UpdateTime = utils.GetNow()
-
-	if model.Id <= 0 {
-		model.CreateId = userId
-		model.CreateTime = utils.GetNow()
-		_, err = department.Insert(&model)
-	} else {
-		_, err = department.Update(&model)
-	}
-
+	request.UserId = base.GetUser(r).Id
+	_, err = department.Save(request)
 	if err != nil {
-		base.Fail(r, "save fail")
+		base.Fail(r, "保存失败")
 	}
 
 	base.Succ(r, "")

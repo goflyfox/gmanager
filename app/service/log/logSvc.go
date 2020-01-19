@@ -4,8 +4,11 @@ import (
 	"errors"
 	"github.com/gogf/gf/os/glog"
 	"github.com/gogf/gf/util/gconv"
+	"gmanager/app/constants"
+	"gmanager/app/model/department"
 	"gmanager/app/model/log"
 	"gmanager/module/component/started"
+	"gmanager/utils"
 	"gmanager/utils/base"
 	"reflect"
 )
@@ -13,6 +16,7 @@ import (
 // 请求参数
 type Request struct {
 	log.Entity
+	UserId int `form:"userId" json:"userId"`
 }
 
 // 通过id获取实体
@@ -38,60 +42,59 @@ func GetOne(form *base.BaseForm) (*log.Entity, error) {
 }
 
 // 删除实体
-func Delete(id int64) (int64, error) {
+func Delete(id int64, userId int) (int64, error) {
 	if id <= 0 {
 		glog.Error("delete id error")
 		return 0, errors.New("参数不合法")
 	}
 
-	r, err := log.Model.Delete(" id = ?", id)
+	// 获取删除对象
+	entity, err := GetById(id)
 	if err != nil {
 		return 0, err
 	}
+	entity.UpdateId = userId
+	entity.UpdateTime = utils.GetNow()
 
+	r, err1 := log.Model.Delete(" id = ?", id)
+	if err1 != nil {
+		return 0, err1
+	}
+
+	log.SaveLog(entity, constants.DELETE)
 	return r.RowsAffected()
 }
 
-// 更新实体
-func Update(request *Request) (int64, error) {
+// 保存实体
+func Save(request *Request) (int64, error) {
 	entity := (*log.Entity)(nil)
 	err := gconv.StructDeep(request.Entity, &entity)
 	if err != nil {
 		return 0, errors.New("数据错误")
 	}
 
+	entity.UpdateId = request.UserId
+	entity.UpdateTime = utils.GetNow()
+
+	// 判断新增还是修改
 	if entity.Id <= 0 {
-		glog.Error("update id error")
-		return 0, errors.New("参数不合法")
+		entity.CreateId = request.UserId
+		entity.CreateTime = utils.GetNow()
+
+		r, err := log.Model.Insert(entity)
+		if err != nil {
+			return 0, err
+		}
+
+		return r.RowsAffected()
+	} else {
+		r, err := log.Model.OmitEmpty().Where(" id = ?", entity.Id).Update(entity)
+		if err != nil {
+			return 0, err
+		}
+
+		return r.RowsAffected()
 	}
-
-	r, err := log.Model.Where(" id = ?", entity.Id).Update(entity)
-	if err != nil {
-		return 0, err
-	}
-
-	return r.RowsAffected()
-}
-
-// 插入实体
-func Insert(request *Request) (int64, error) {
-	entity := (*log.Entity)(nil)
-	err := gconv.Struct(request.Entity, &entity)
-	if err != nil {
-		return 0, errors.New("数据错误")
-	}
-
-	if entity.Id > 0 {
-		glog.Error("insert id error")
-		return 0, errors.New("参数不合法")
-	}
-
-	r, err := log.Model.Insert(entity)
-	if err != nil {
-		return 0, err
-	}
-
-	return r.RowsAffected()
 }
 
 // 列表数据查询
@@ -180,12 +183,12 @@ func SaveLog(model interface{}, operType string) (int64, error) {
 		updateTime = baseModel.FieldByName("UpdateTime").String()
 	}
 
-	logType := log.TypeEdit
+	logType := constants.TypeEdit
 	// SELECT table_name,table_comment FROM information_schema.TABLES where table_SCHEMA='gmanager'
 	operRemark := ""
 	operObject := started.TableInfo[iModel.TableName()]
-	if operType == log.LOGIN || operType == log.LOGOUT {
-		logType = log.TypeSystem
+	if operType == constants.LOGIN || operType == constants.LOGOUT {
+		logType = constants.TypeSystem
 	} else {
 		operRemark = gconv.String(model)
 	}

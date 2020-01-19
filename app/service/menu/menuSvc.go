@@ -5,13 +5,17 @@ import (
 	"github.com/gogf/gf/os/glog"
 	"github.com/gogf/gf/text/gstr"
 	"github.com/gogf/gf/util/gconv"
+	"gmanager/app/constants"
 	"gmanager/app/model/menu"
+	"gmanager/app/service/log"
+	"gmanager/utils"
 	"gmanager/utils/base"
 )
 
 // 请求参数
 type Request struct {
 	menu.Entity
+	UserId int `form:"userId" json:"userId"`
 }
 
 // 通过id获取实体
@@ -41,60 +45,61 @@ func GetOne(form *base.BaseForm) (*menu.Entity, error) {
 }
 
 // 删除实体
-func Delete(id int64) (int64, error) {
+func Delete(id int64, userId int) (int64, error) {
 	if id <= 0 {
 		glog.Error("delete id error")
 		return 0, errors.New("参数不合法")
 	}
 
-	r, err := menu.Model.Delete(" id = ?", id)
+	// 获取删除对象
+	entity, err := GetById(id)
 	if err != nil {
 		return 0, err
 	}
+	entity.UpdateId = userId
+	entity.UpdateTime = utils.GetNow()
 
+	r, err1 := menu.Model.Delete(" id = ?", id)
+	if err1 != nil {
+		return 0, err1
+	}
+
+	log.SaveLog(entity, constants.DELETE)
 	return r.RowsAffected()
 }
 
-// 更新实体
-func Update(request *Request) (int64, error) {
+// 保存实体
+func Save(request *Request) (int64, error) {
 	entity := (*menu.Entity)(nil)
 	err := gconv.StructDeep(request.Entity, &entity)
 	if err != nil {
 		return 0, errors.New("数据错误")
 	}
 
+	entity.UpdateId = request.UserId
+	entity.UpdateTime = utils.GetNow()
+
+	// 判断新增还是修改
 	if entity.Id <= 0 {
-		glog.Error("update id error")
-		return 0, errors.New("参数不合法")
+		entity.CreateId = request.UserId
+		entity.CreateTime = utils.GetNow()
+
+		r, err := menu.Model.Insert(entity)
+		if err != nil {
+			return 0, err
+		}
+
+		log.SaveLog(entity, constants.INSERT)
+		return r.RowsAffected()
+	} else {
+		r, err := menu.Model.OmitEmpty().Where(" id = ?", entity.Id).Update(entity)
+		if err != nil {
+			return 0, err
+		}
+
+		log.SaveLog(entity, constants.UPDATE)
+		return r.RowsAffected()
 	}
-
-	r, err := menu.Model.Where(" id = ?", entity.Id).Update(entity)
-	if err != nil {
-		return 0, err
-	}
-
-	return r.RowsAffected()
-}
-
-// 插入实体
-func Insert(request *Request) (int64, error) {
-	entity := (*menu.Entity)(nil)
-	err := gconv.StructDeep(request.Entity, &entity)
-	if err != nil {
-		return 0, errors.New("数据错误")
-	}
-
-	if entity.Id > 0 {
-		glog.Error("insert id error")
-		return 0, errors.New("参数不合法")
-	}
-
-	r, err := menu.Model.Insert(entity)
-	if err != nil {
-		return 0, err
-	}
-
-	return r.RowsAffected()
 }
 
 func ListUser(userId int, userType int) ([]*menu.Entity, error) {

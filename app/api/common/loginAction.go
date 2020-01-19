@@ -5,6 +5,7 @@ import (
 	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
 	"github.com/gogf/gf/os/glog"
+	"gmanager/app/service/log"
 	"gmanager/module/constants"
 	"gmanager/module/system"
 	"gmanager/utils"
@@ -75,7 +76,7 @@ func LoginSubmit(r *ghttp.Request) (string, interface{}) {
 	// 登录日志
 	model.UpdateTime = utils.GetNow()
 	model.UpdateId = model.Id
-	system.LogSave(model, system.LOGIN)
+	log.SaveLog(model, system.LOGIN)
 
 	return username, sessionUser
 }
