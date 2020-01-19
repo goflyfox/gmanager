@@ -16,7 +16,7 @@ func Welcome(r *ghttp.Request) {
 	}
 }
 
-// Login 登录页面
+// 调试页面
 func Debug(r *ghttp.Request) {
 	if constants.DEBUG {
 		constants.DEBUG = false
