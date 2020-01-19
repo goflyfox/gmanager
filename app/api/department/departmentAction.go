@@ -43,7 +43,9 @@ func (action *Action) Delete(r *ghttp.Request) {
 
 	form := base.NewForm(g.Map{"parentId": id})
 	childModel, err := department.GetOne(&form)
-	if err == nil || childModel.Id > 0 {
+	if err != nil {
+		base.Fail(r, err.Error())
+	} else if childModel.Id > 0 {
 		base.Fail(r, "请先删除子机构")
 	}
 
@@ -57,7 +59,7 @@ func (action *Action) Delete(r *ghttp.Request) {
 
 // path: /save
 func (action *Action) Save(r *ghttp.Request) {
-	request := (*department.Request)(nil)
+	request := new(department.Request)
 	err := gconv.Struct(r.GetQueryMap(), request)
 	if err != nil {
 		glog.Error("save struct error", err)

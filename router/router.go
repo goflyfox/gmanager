@@ -1,14 +1,17 @@
-package boot
+package router
 
 import (
 	"github.com/goflyfox/gtoken/gtoken"
 	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
+	"github.com/gogf/gf/os/glog"
 	"gmanager/app/api/common"
 	"gmanager/app/api/config"
+	"gmanager/app/api/department"
 	"gmanager/app/api/log"
+	"gmanager/app/constants"
 	"gmanager/module/component/middle"
-	"gmanager/module/constants"
+	"gmanager/module/component/started"
 	"gmanager/module/system"
 	"gmanager/utils/base"
 	"strings"
@@ -38,7 +41,7 @@ func bindRouter() {
 		g.GET("/user/get/{id}", userAction.Get)
 		g.ALL("user/delete/{id}", userAction.Delete)
 
-		departAction := new(system.DepartmentAction)
+		departAction := new(department.Action)
 		g.ALL("department", departAction)
 		g.GET("/department/get/{id}", departAction.Get)
 		g.ALL("/department/delete/{id}", departAction.Delete)
@@ -94,7 +97,8 @@ func bindRouter() {
 /*
 统一路由注册
 */
-func initRouter() {
+func init() {
+	glog.Info("########router start...")
 
 	s := g.Server()
 
@@ -137,4 +141,8 @@ func initRouter() {
 	//        r.ExitAll()
 	//    }
 	//})
+
+	started.Start()
+
+	glog.Info("########router finish.")
 }

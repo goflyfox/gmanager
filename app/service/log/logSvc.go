@@ -5,7 +5,6 @@ import (
 	"github.com/gogf/gf/os/glog"
 	"github.com/gogf/gf/util/gconv"
 	"gmanager/app/constants"
-	"gmanager/app/model/department"
 	"gmanager/app/model/log"
 	"gmanager/module/component/started"
 	"gmanager/utils"
@@ -48,20 +47,11 @@ func Delete(id int64, userId int) (int64, error) {
 		return 0, errors.New("参数不合法")
 	}
 
-	// 获取删除对象
-	entity, err := GetById(id)
-	if err != nil {
-		return 0, err
-	}
-	entity.UpdateId = userId
-	entity.UpdateTime = utils.GetNow()
-
 	r, err1 := log.Model.Delete(" id = ?", id)
 	if err1 != nil {
 		return 0, err1
 	}
 
-	log.SaveLog(entity, constants.DELETE)
 	return r.RowsAffected()
 }
 

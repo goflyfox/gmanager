@@ -50,7 +50,7 @@ func (action *Action) Delete(r *ghttp.Request) {
 
 // path: /save
 func (action *Action) Save(r *ghttp.Request) {
-	request := (*menu.Request)(nil)
+	request := new(menu.Request)
 	err := gconv.Struct(r.GetQueryMap(), request)
 	if err != nil {
 		glog.Error("save struct error", err)

@@ -11,9 +11,9 @@ import (
 
 // Entity is the golang structure for table sys_role_menu.
 type Entity struct {
-	Id     int `orm:"id,primary" json:"id"`      // 主键
-	RoleId int `orm:"role_id"    json:"role_id"` // 角色id
-	MenuId int `orm:"menu_id"    json:"menu_id"` // 菜单id
+	Id     int `orm:"id,primary" json:"id"`     // 主键
+	RoleId int `orm:"role_id"    json:"roleId"` // 角色id
+	MenuId int `orm:"menu_id"    json:"menuId"` // 菜单id
 }
 
 // OmitEmpty sets OPTION_OMITEMPTY option for the model, which automatically filers

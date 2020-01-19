@@ -12,13 +12,14 @@ import (
 // Entity is the golang structure for table sys_department.
 type Entity struct {
 	Id         int    `orm:"id,primary"  json:"id"`         // 主键
-	ParentId   int    `orm:"parent_id"   json:"parent_id"`  // 上级机构
+	ParentId   int    `orm:"parent_id"   json:"parentId"`   // 上级机构
 	Name       string `orm:"name,unique" json:"name"`       // 部门/11111
 	Code       string `orm:"code"        json:"code"`       // 机构编码
 	Sort       int    `orm:"sort"        json:"sort"`       // 序号
 	Linkman    string `orm:"linkman"     json:"linkman"`    // 联系人
-	LinkmanNo  string `orm:"linkman_no"  json:"linkman_no"` // 联系人电话
+	LinkmanNo  string `orm:"linkmanNo"   json:"linkmanNo"`  // 联系人电话
 	Remark     string `orm:"remark"      json:"remark"`     // 机构描述
+	Enable     int    `orm:"enable"      json:"enable"`     // 是否启用//radio/1,启用,2,禁用
 	UpdateTime string `orm:"update_time" json:"updateTime"` // 更新时间
 	UpdateId   int    `orm:"update_id"   json:"updateId"`   // 更新人
 	CreateTime string `orm:"create_time" json:"createTime"` // 创建时间
