@@ -9,7 +9,7 @@ import (
 
 var TableInfo g.MapStrStr
 
-func Start() {
+func StartLog() {
 	var dbName = "gmanager"
 	link := g.Config().GetString("database.link")
 	if link != "" {

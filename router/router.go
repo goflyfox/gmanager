@@ -12,9 +12,9 @@ import (
 	"gmanager/app/api/menu"
 	"gmanager/app/api/role"
 	"gmanager/app/api/user"
+	"gmanager/app/component/middle"
+	"gmanager/app/component/started"
 	"gmanager/app/constants"
-	"gmanager/module/component/middle"
-	"gmanager/module/component/started"
 	"gmanager/utils/base"
 	"strings"
 )
@@ -150,7 +150,7 @@ func init() {
 	//    }
 	//})
 
-	started.Start()
+	started.StartLog()
 
 	glog.Info("########router finish.")
 }

@@ -5,7 +5,7 @@ import (
 	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/os/glog"
 	"github.com/gogf/gf/util/gconv"
-	"gmanager/module/component/started"
+	"gmanager/app/component/started"
 	"gmanager/utils/base"
 	"reflect"
 )
