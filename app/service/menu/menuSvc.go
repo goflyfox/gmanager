@@ -9,8 +9,8 @@ import (
 	"gmanager/app/constants"
 	"gmanager/app/model/menu"
 	"gmanager/app/service/log"
-	"gmanager/utils"
-	"gmanager/utils/base"
+	"gmanager/library"
+	"gmanager/library/base"
 )
 
 // 请求参数
@@ -58,7 +58,7 @@ func Delete(id int64, userId int) (int64, error) {
 		return 0, err
 	}
 	entity.UpdateId = userId
-	entity.UpdateTime = utils.GetNow()
+	entity.UpdateTime = library.GetNow()
 
 	r, err1 := menu.Model.Delete(" id = ?", id)
 	if err1 != nil {
@@ -78,7 +78,7 @@ func Save(request *Request) (int64, error) {
 	}
 
 	entity.UpdateId = request.UserId
-	entity.UpdateTime = utils.GetNow()
+	entity.UpdateTime = library.GetNow()
 
 	// 根目录级别为1，其他为父节点 + 1
 	parentId := entity.ParentId
@@ -96,7 +96,7 @@ func Save(request *Request) (int64, error) {
 	// 判断新增还是修改
 	if entity.Id <= 0 {
 		entity.CreateId = request.UserId
-		entity.CreateTime = utils.GetNow()
+		entity.CreateTime = library.GetNow()
 
 		r, err := menu.Model.Insert(entity)
 		if err != nil {

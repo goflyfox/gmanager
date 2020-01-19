@@ -5,8 +5,8 @@ import (
 	"github.com/gogf/gf/encoding/gjson"
 	"github.com/gogf/gf/net/ghttp"
 	"github.com/gogf/gf/os/glog"
-	"gmanager/utils/bean"
-	"gmanager/utils/resp"
+	"gmanager/library/bean"
+	"gmanager/library/resp"
 )
 
 var Token *gtoken.GfToken

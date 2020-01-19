@@ -6,7 +6,7 @@ import (
 	"github.com/gogf/gf/os/glog"
 	"github.com/gogf/gf/text/gstr"
 	"github.com/gogf/gf/util/gconv"
-	"gmanager/utils/base"
+	"gmanager/library/base"
 )
 
 func Error301(r *ghttp.Request) {

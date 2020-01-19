@@ -7,7 +7,7 @@ import (
 	"github.com/gogf/gf/os/gtime"
 	"github.com/gogf/gf/util/gconv"
 	"gmanager/app/service/menu"
-	"gmanager/utils/base"
+	"gmanager/library/base"
 )
 
 type Action struct {

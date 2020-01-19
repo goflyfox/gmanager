@@ -11,8 +11,8 @@ import (
 	"gmanager/app/service/menu"
 	"gmanager/app/service/role"
 	"gmanager/app/service/user"
-	"gmanager/utils"
-	"gmanager/utils/base"
+	"gmanager/library"
+	"gmanager/library/base"
 )
 
 type Action struct {
@@ -197,7 +197,7 @@ func (action *Action) Password(r *ghttp.Request) {
 	}
 
 	model.UpdateId = userId
-	model.UpdateTime = utils.GetNow()
+	model.UpdateTime = library.GetNow()
 	model.Password, err = gmd5.Encrypt(newPassword + model.Salt)
 	if err != nil {
 		glog.Error(" Password error", err)

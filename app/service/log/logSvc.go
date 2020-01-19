@@ -7,8 +7,8 @@ import (
 	"gmanager/app/component/started"
 	"gmanager/app/constants"
 	"gmanager/app/model/log"
-	"gmanager/utils"
-	"gmanager/utils/base"
+	"gmanager/library"
+	"gmanager/library/base"
 	"reflect"
 )
 
@@ -64,12 +64,12 @@ func Save(request *Request) (int64, error) {
 	}
 
 	entity.UpdateId = request.UserId
-	entity.UpdateTime = utils.GetNow()
+	entity.UpdateTime = library.GetNow()
 
 	// 判断新增还是修改
 	if entity.Id <= 0 {
 		entity.CreateId = request.UserId
-		entity.CreateTime = utils.GetNow()
+		entity.CreateTime = library.GetNow()
 
 		r, err := log.Model.Insert(entity)
 		if err != nil {

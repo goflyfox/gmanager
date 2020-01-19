@@ -5,12 +5,13 @@ import (
 	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
 	"github.com/gogf/gf/os/glog"
+	"github.com/gogf/gf/util/gconv"
 	"gmanager/app/constants"
 	"gmanager/app/service/log"
-	"gmanager/module/system"
-	"gmanager/utils"
-	"gmanager/utils/base"
-	"gmanager/utils/bean"
+	"gmanager/app/service/user"
+	"gmanager/library"
+	"gmanager/library/base"
+	"gmanager/library/bean"
 )
 
 // Login 登录页面
@@ -43,7 +44,7 @@ func LoginSubmit(r *ghttp.Request) (string, interface{}) {
 		base.Fail(r, "用户名或密码为空")
 	}
 
-	model, err := system.SysUser{Username: username}.GetByUsername()
+	model, err := user.GetByUsername(username)
 	if err != nil {
 		base.Error(r, "服务异常，请联系管理员")
 	}
@@ -74,9 +75,9 @@ func LoginSubmit(r *ghttp.Request) (string, interface{}) {
 	}
 
 	// 登录日志
-	model.UpdateTime = utils.GetNow()
+	model.UpdateTime = library.GetNow()
 	model.UpdateId = model.Id
-	log.SaveLog(model, system.LOGIN)
+	log.SaveLog(model, constants.LOGIN)
 
 	return username, sessionUser
 }
@@ -84,16 +85,19 @@ func LoginSubmit(r *ghttp.Request) (string, interface{}) {
 // 登出
 func LogoutBefore(r *ghttp.Request) bool {
 	userId := base.GetUser(r).Id
-	model := system.SysUser{Id: userId}.Get()
-	if model.Id != userId {
+	model, err := user.GetById(gconv.Int64(userId))
+	if err != nil {
+		glog.Warning("logout getUser error", err)
+		return false
+	} else if model.Id != userId {
 		// 登出用户不存在
 		glog.Warning("logout userId error", userId)
 		return false
 	}
 
 	// 登出日志
-	model.UpdateTime = utils.GetNow()
+	model.UpdateTime = library.GetNow()
 	model.UpdateId = userId
-	system.LogSave(model, system.LOGOUT)
+	log.SaveLog(model, constants.LOGOUT)
 	return true
 }

@@ -8,7 +8,7 @@ import (
 	"github.com/gogf/gf/text/gstr"
 	"github.com/gogf/gf/util/gconv"
 	"gmanager/app/constants"
-	"gmanager/utils/base"
+	"gmanager/library/base"
 )
 
 func MiddlewareLog(r *ghttp.Request) {
