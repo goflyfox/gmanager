@@ -17,7 +17,7 @@ type Entity struct {
 	Code       string `orm:"code"        json:"code"`       // 机构编码
 	Sort       int    `orm:"sort"        json:"sort"`       // 序号
 	Linkman    string `orm:"linkman"     json:"linkman"`    // 联系人
-	LinkmanNo  string `orm:"linkmanNo"   json:"linkmanNo"`  // 联系人电话
+	LinkmanNo  string `orm:"linkman_no"   json:"linkmanNo"` // 联系人电话
 	Remark     string `orm:"remark"      json:"remark"`     // 机构描述
 	Enable     int    `orm:"enable"      json:"enable"`     // 是否启用//radio/1,启用,2,禁用
 	UpdateTime string `orm:"update_time" json:"updateTime"` // 更新时间
@@ -25,6 +25,7 @@ type Entity struct {
 	CreateTime string `orm:"create_time" json:"createTime"` // 创建时间
 	CreateId   int    `orm:"create_id"   json:"createId"`   // 创建者
 
+	ParentName string `json:"parentName" gconv:"parentName,omitempty"` // 父节点名称
 	UpdateName string `json:"updateName,omitempty" gconv:"updateName,omitempty"`
 	CreateName string `json:"createName,omitempty" gconv:"createName,omitempty"`
 }

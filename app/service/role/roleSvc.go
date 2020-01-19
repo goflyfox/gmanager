@@ -3,9 +3,11 @@ package role
 import (
 	"errors"
 	"github.com/gogf/gf/os/glog"
+	"github.com/gogf/gf/text/gstr"
 	"github.com/gogf/gf/util/gconv"
 	"gmanager/app/constants"
 	"gmanager/app/model/role"
+	"gmanager/app/model/role_menu"
 	"gmanager/app/service/log"
 	"gmanager/utils"
 	"gmanager/utils/base"
@@ -84,6 +86,8 @@ func Save(request *Request) (int64, error) {
 			return 0, err
 		}
 
+		// 回写主键
+		request.Id = entity.Id
 		log.SaveLog(entity, constants.INSERT)
 		return r.RowsAffected()
 	} else {
@@ -107,6 +111,18 @@ func List(form *base.BaseForm) ([]*role.Entity, error) {
 	}
 
 	return role.Model.Order(form.OrderBy).FindAll(where, params)
+}
+
+// 角色菜单列表数据查询
+func ListRoleMenu(form *base.BaseForm) ([]*role_menu.Entity, error) {
+	where := " 1 = 1 "
+	var params []interface{}
+	if form.Params != nil && gconv.Int(form.Params["roleId"]) > 0 {
+		where += " and role_id = ? "
+		params = append(params, gconv.Int(form.Params["roleId"]))
+	}
+
+	return role_menu.Model.Order(form.OrderBy).FindAll(where, params)
 }
 
 // 分页查询
@@ -143,4 +159,30 @@ func Page(form *base.BaseForm) ([]*role.Entity, error) {
 	dbModel = dbModel.LeftJoin("sys_user su1", " t.update_id = su1.id ")
 	dbModel = dbModel.LeftJoin("sys_user su2", " t.update_id = su2.id ")
 	return dbModel.Where(where, params).Order(form.OrderBy).Page(form.Page, form.Rows).FindAll(where, params)
+}
+
+// 保存角色和菜单
+func SaveRoleMenu(roleId int, menuIds string) error {
+	if roleId <= 0 {
+		return errors.New("参数错误")
+	}
+
+	_, err := role_menu.Model.Delete(" role_id = ?", roleId)
+	if err != nil {
+		return err
+	}
+
+	if menuIds == "" {
+		return nil
+	}
+	menuIdArray := gstr.Split(menuIds, ",")
+	for _, menuId := range menuIdArray {
+		roleMenu := role_menu.Entity{RoleId: roleId, MenuId: gconv.Int(menuId)}
+		_, err := roleMenu.Insert()
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
 }

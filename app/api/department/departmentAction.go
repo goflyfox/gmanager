@@ -45,7 +45,7 @@ func (action *Action) Delete(r *ghttp.Request) {
 	childModel, err := department.GetOne(&form)
 	if err != nil {
 		base.Fail(r, err.Error())
-	} else if childModel.Id > 0 {
+	} else if childModel != nil && childModel.Id > 0 {
 		base.Fail(r, "请先删除子机构")
 	}
 
@@ -121,21 +121,4 @@ func (action *Action) Jqgrid(r *ghttp.Request) {
 		"total":   form.TotalPage,
 		"records": form.TotalSize,
 	})
-}
-
-// path: /type
-func (action *Action) Type(r *ghttp.Request) {
-	form := base.NewForm(r.GetQueryMap())
-
-	//userId := base.GetUser(r).Id
-	//user := SysUser{Id: userId}.Get()
-	form.SetParam("parentId", "0")
-	form.OrderBy = "sort asc,create_time desc"
-
-	list, err := department.List(&form)
-	if err != nil {
-		glog.Error("type error", err)
-		base.Error(r, err.Error())
-	}
-	base.Succ(r, list)
 }

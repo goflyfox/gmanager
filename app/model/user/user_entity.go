@@ -38,6 +38,7 @@ type Entity struct {
 	CreateTime   string `orm:"create_time" json:"createTime"`       // 创建时间
 	CreateId     int    `orm:"create_id"   json:"createId"`         // 创建者
 
+	DepartName string `json:"departName" gconv:"departName,omitempty"` // 项目名称
 	UpdateName string `json:"updateName,omitempty" gconv:"updateName,omitempty"`
 	CreateName string `json:"createName,omitempty" gconv:"createName,omitempty"`
 }

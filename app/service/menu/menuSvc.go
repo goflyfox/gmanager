@@ -2,6 +2,7 @@ package menu
 
 import (
 	"errors"
+	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/os/glog"
 	"github.com/gogf/gf/text/gstr"
 	"github.com/gogf/gf/util/gconv"
@@ -79,6 +80,19 @@ func Save(request *Request) (int64, error) {
 	entity.UpdateId = request.UserId
 	entity.UpdateTime = utils.GetNow()
 
+	// 根目录级别为1，其他为父节点 + 1
+	parentId := entity.ParentId
+	if parentId == 0 {
+		entity.Level = 1
+	} else {
+		form := base.NewForm(g.Map{"id": parentId})
+		parentModel, err := GetOne(&form)
+		if err != nil {
+			return 0, err
+		}
+		entity.Level = parentModel.Level + 1
+	}
+
 	// 判断新增还是修改
 	if entity.Id <= 0 {
 		entity.CreateId = request.UserId
@@ -103,7 +117,11 @@ func Save(request *Request) (int64, error) {
 }
 
 func ListUser(userId int, userType int) ([]*menu.Entity, error) {
-	return menu.Model.Fields(menu.Model.Columns()).LeftJoin(
+	if userType == constants.UserTypeAdmin {
+		return List(&base.BaseForm{})
+	}
+
+	return menu.Model.As("t").Fields(menu.Model.Columns()).LeftJoin(
 		"sys_role_menu rm", "rm.menu_id = t.id ").LeftJoin(
 		"sys_user_role ur", "ur.role_id = rm.role_id ").Where(
 		"ur.user_id = ? ", userId).FindAll()

@@ -122,6 +122,10 @@ var vm = new Vue({
                 return;
             }
 
+            if (vm.operType == 2) {
+                vm.model.parentId = 0;
+            }
+
             var url = dudu.ctx + "/system/config/save";
             dudu.post(url, vm.model, function (result) {
                 if (result.code === 0) {

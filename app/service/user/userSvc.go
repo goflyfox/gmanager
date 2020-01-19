@@ -3,9 +3,11 @@ package user
 import (
 	"errors"
 	"github.com/gogf/gf/os/glog"
+	"github.com/gogf/gf/text/gstr"
 	"github.com/gogf/gf/util/gconv"
 	"gmanager/app/constants"
 	"gmanager/app/model/user"
+	"gmanager/app/model/user_role"
 	"gmanager/app/service/log"
 	"gmanager/utils"
 	"gmanager/utils/base"
@@ -119,6 +121,18 @@ func List(form *base.BaseForm) ([]*user.Entity, error) {
 	return user.Model.Order(form.OrderBy).FindAll(where, params)
 }
 
+// 用户角色列表数据查询
+func ListUserRole(form *base.BaseForm) ([]*user_role.Entity, error) {
+	where := " 1 = 1 "
+	var params []interface{}
+	if form.Params != nil && gconv.Int(form.Params["userId"]) > 0 {
+		where += " and user_id = ? "
+		params = append(params, gconv.Int(form.Params["userId"]))
+	}
+
+	return user_role.Model.Order(form.OrderBy).FindAll(where, params)
+}
+
 // 分页查询
 func Page(form *base.BaseForm) ([]user.Entity, error) {
 	if form.Page <= 0 || form.Rows <= 0 {
@@ -164,7 +178,9 @@ func Page(form *base.BaseForm) ([]user.Entity, error) {
 	}
 
 	var resData []user.Entity
-	dbModel := user.Model.As("t").Fields(user.Model.Columns() + ",su1.real_name as updateName,su2.real_name as createName")
+	dbModel := user.Model.As("t").Fields(user.Model.Columns() +
+		",depart.name as departName,su1.real_name as updateName,su2.real_name as createName")
+	dbModel = dbModel.LeftJoin("sys_department depart", "t.depart_id = depart.id ")
 	dbModel = dbModel.LeftJoin("sys_user su1", " t.update_id = su1.id ")
 	dbModel = dbModel.LeftJoin("sys_user su2", " t.update_id = su2.id ")
 	err = dbModel.Where(where, params).Order(form.OrderBy).Page(form.Page, form.Rows).M.Structs(&resData)
@@ -174,4 +190,30 @@ func Page(form *base.BaseForm) ([]user.Entity, error) {
 	}
 
 	return resData, nil
+}
+
+// 保存用户和角色
+func SaveUserRole(userId int, roleIds string) error {
+	if userId <= 0 {
+		return errors.New("参数错误")
+	}
+
+	_, err := user_role.Model.Delete(" user_id = ?", userId)
+	if err != nil {
+		return err
+	}
+
+	if roleIds == "" {
+		return nil
+	}
+	roleIdArray := gstr.Split(roleIds, ",")
+	for _, roleId := range roleIdArray {
+		userRole := user_role.Entity{UserId: userId, RoleId: gconv.Int(roleId)}
+		_, err := userRole.Insert()
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
 }

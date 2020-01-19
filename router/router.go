@@ -9,10 +9,12 @@ import (
 	"gmanager/app/api/config"
 	"gmanager/app/api/department"
 	"gmanager/app/api/log"
+	"gmanager/app/api/menu"
+	"gmanager/app/api/role"
+	"gmanager/app/api/user"
 	"gmanager/app/constants"
 	"gmanager/module/component/middle"
 	"gmanager/module/component/started"
-	"gmanager/module/system"
 	"gmanager/utils/base"
 	"strings"
 )
@@ -35,8 +37,14 @@ func bindRouter() {
 	s.BindMiddleware(urlPath+"/*", middle.MiddlewareCommon)
 
 	s.Group(urlPath+"/system", func(g *ghttp.RouterGroup) {
+		// 允许跨域
+		g.Middleware(func(r *ghttp.Request) {
+			r.Response.CORSDefault()
+			r.Middleware.Next()
+		})
+
 		// 系统路由
-		userAction := new(system.UserAction)
+		userAction := new(user.Action)
 		g.ALL("user", userAction)
 		g.GET("/user/get/{id}", userAction.Get)
 		g.ALL("user/delete/{id}", userAction.Delete)
@@ -51,12 +59,12 @@ func bindRouter() {
 		g.GET("/log/get/{id}", logAction.Get)
 		g.ALL("/log/delete/{id}", logAction.Delete)
 
-		menuAction := new(system.MenuAction)
+		menuAction := new(menu.Action)
 		g.ALL("menu", menuAction)
 		g.GET("/menu/get/{id}", menuAction.Get)
 		g.ALL("/menu/delete/{id}", menuAction.Delete)
 
-		roleAction := new(system.RoleAction)
+		roleAction := new(role.Action)
 		g.ALL("role", roleAction)
 		g.GET("/role/get/{id}", roleAction.Get)
 		g.ALL("/role/delete/{id}", roleAction.Delete)

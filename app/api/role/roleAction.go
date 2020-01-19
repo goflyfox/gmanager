@@ -57,11 +57,16 @@ func (action *Action) Save(r *ghttp.Request) {
 		base.Error(r, "save error")
 	}
 
+	menus := r.GetString("menus")
+
 	request.UserId = base.GetUser(r).Id
 	_, err = role.Save(request)
 	if err != nil {
 		base.Fail(r, "保存失败")
 	}
+
+	// 保存菜单信息
+	role.SaveRoleMenu(request.Id, menus)
 
 	base.Succ(r, "")
 }
@@ -114,19 +119,46 @@ func (action *Action) Jqgrid(r *ghttp.Request) {
 	})
 }
 
-// path: /type
-func (action *Action) Type(r *ghttp.Request) {
+// 角色绑定菜单信息
+func (action *Action) Info(r *ghttp.Request) {
+	roleId := r.GetInt("roleId")
+	if roleId == 0 {
+		base.Fail(r, "参数错误")
+	}
 	form := base.NewForm(r.GetQueryMap())
+	form.SetParam("roleId", gconv.String(roleId))
 
-	//userId := base.GetUser(r).Id
-	//user := SysUser{Id: userId}.Get()
-	form.SetParam("parentId", "0")
-	form.OrderBy = "sort asc,create_time desc"
-
-	list, err := role.List(&form)
+	// 选择的列表
+	roleMenuList, err := role.ListRoleMenu(&form)
 	if err != nil {
-		glog.Error("type error", err)
+		glog.Error("info error", err)
 		base.Error(r, err.Error())
 	}
-	base.Succ(r, list)
+
+	menuSlice := g.SliceStr{}
+	for _, roleMenu := range roleMenuList {
+		menuSlice = append(menuSlice, gconv.String(roleMenu.MenuId))
+	}
+
+	base.Succ(r, g.Map{
+		"roleId": roleId,
+		"menus":  menuSlice,
+	})
+}
+
+// 角色绑定菜单
+func (action *Action) MenuSave(r *ghttp.Request) {
+	roleId := r.GetInt("roleId")
+	menuIds := r.GetString("menuIds")
+	if roleId == 0 || menuIds == "" {
+		base.Fail(r, "参数错误")
+	}
+
+	err := role.SaveRoleMenu(roleId, menuIds)
+	if err != nil {
+		glog.Error("MenuSave error", err)
+		base.Error(r, err.Error())
+	}
+
+	base.Succ(r, "")
 }
