@@ -66,7 +66,7 @@ func (action *DepartmentAction) Delete(r *ghttp.Request) {
 // path: /save
 func (action *DepartmentAction) Save(r *ghttp.Request) {
 	model := SysDepartment{}
-	err := gconv.Struct(r.GetPostMap(), &model)
+	err := gconv.Struct(r.GetMap(), &model)
 	if err != nil {
 		glog.Error(actionNameDepartment+" save struct error", err)
 		base.Error(r, "save error")
@@ -95,7 +95,7 @@ func (action *DepartmentAction) Save(r *ghttp.Request) {
 
 // path: /list
 func (action *DepartmentAction) List(r *ghttp.Request) {
-	form := base.NewForm(r.GetPostMap())
+	form := base.NewForm(r.GetMap())
 	model := SysDepartment{}
 
 	list := model.List(&form)
@@ -104,7 +104,7 @@ func (action *DepartmentAction) List(r *ghttp.Request) {
 
 // path: /page
 func (action *DepartmentAction) Page(r *ghttp.Request) {
-	form := base.NewForm(r.GetPostMap())
+	form := base.NewForm(r.GetMap())
 	model := SysDepartment{}
 
 	page := model.Page(&form)
@@ -119,7 +119,7 @@ func (action *DepartmentAction) Page(r *ghttp.Request) {
 
 // path: /jqgrid
 func (action *DepartmentAction) Jqgrid(r *ghttp.Request) {
-	form := base.NewForm(r.GetPostMap())
+	form := base.NewForm(r.GetMap())
 	model := SysDepartment{}
 
 	page := model.Page(&form)

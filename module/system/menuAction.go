@@ -66,7 +66,7 @@ func (action *MenuAction) Delete(r *ghttp.Request) {
 // path: /save
 func (action *MenuAction) Save(r *ghttp.Request) {
 	model := SysMenu{}
-	err := gconv.Struct(r.GetPostMap(), &model)
+	err := gconv.Struct(r.GetMap(), &model)
 	if err != nil {
 		glog.Error(actionNameMenu+" save struct error", err)
 		base.Error(r, "save error")
@@ -104,7 +104,7 @@ func (action *MenuAction) Save(r *ghttp.Request) {
 
 // path: /tree
 func (action *MenuAction) Tree(r *ghttp.Request) {
-	form := base.NewForm(r.GetPostMap())
+	form := base.NewForm(r.GetMap())
 	model := SysMenu{}
 
 	list := model.List(&form)
@@ -113,7 +113,7 @@ func (action *MenuAction) Tree(r *ghttp.Request) {
 
 // path: /list
 func (action *MenuAction) List(r *ghttp.Request) {
-	form := base.NewForm(r.GetPostMap())
+	form := base.NewForm(r.GetMap())
 	model := SysMenu{}
 
 	list := model.List(&form)
@@ -122,7 +122,7 @@ func (action *MenuAction) List(r *ghttp.Request) {
 
 // path: /page
 func (action *MenuAction) Page(r *ghttp.Request) {
-	form := base.NewForm(r.GetPostMap())
+	form := base.NewForm(r.GetMap())
 	model := SysMenu{}
 
 	page := model.Page(&form)
@@ -137,7 +137,7 @@ func (action *MenuAction) Page(r *ghttp.Request) {
 
 // path: /jqgrid
 func (action *MenuAction) Jqgrid(r *ghttp.Request) {
-	form := base.NewForm(r.GetPostMap())
+	form := base.NewForm(r.GetMap())
 	model := SysMenu{}
 
 	page := model.Page(&form)

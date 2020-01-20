@@ -60,7 +60,7 @@ func (action *LogAction) Delete(r *ghttp.Request) {
 // path: /save
 func (action *LogAction) Save(r *ghttp.Request) {
 	model := SysLog{}
-	err := gconv.Struct(r.GetPostMap(), &model)
+	err := gconv.Struct(r.GetMap(), &model)
 	if err != nil {
 		glog.Error(actionNameLog+" save struct error", err)
 		base.Error(r, "save error")
@@ -89,7 +89,7 @@ func (action *LogAction) Save(r *ghttp.Request) {
 
 // path: /list
 func (action *LogAction) List(r *ghttp.Request) {
-	form := base.NewForm(r.GetPostMap())
+	form := base.NewForm(r.GetMap())
 	model := SysLog{}
 
 	list := model.List(&form)
@@ -98,7 +98,7 @@ func (action *LogAction) List(r *ghttp.Request) {
 
 // path: /page
 func (action *LogAction) Page(r *ghttp.Request) {
-	form := base.NewForm(r.GetPostMap())
+	form := base.NewForm(r.GetMap())
 	model := SysLog{}
 
 	page := model.Page(&form)
@@ -113,7 +113,7 @@ func (action *LogAction) Page(r *ghttp.Request) {
 
 // path: /jqgrid
 func (action *LogAction) Jqgrid(r *ghttp.Request) {
-	form := base.NewForm(r.GetPostMap())
+	form := base.NewForm(r.GetMap())
 	model := SysLog{}
 
 	page := model.Page(&form)
