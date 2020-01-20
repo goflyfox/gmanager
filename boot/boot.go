@@ -17,7 +17,6 @@ func init() {
 	// 配置对象及视图对象配置
 	c.AddPath("config")
 
-	v.SetDelimiters("${", "}")
 	v.AddPath("template")
 	glog.SetStdoutPrint(true)
 	s.SetNameToUriType(ghttp.URI_TYPE_ALLLOWER)

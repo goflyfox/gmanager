@@ -22,6 +22,18 @@ url-path = ""
 #    SessionMaxAge    = "24h"
 #    DumpRouterMap    = false
 
+# 全局日志配置
+[logger]
+    Path   = "./logs"
+    Level  = "all"
+    Stdout = true
+
+# 模板引擎配置
+[viewer]
+#    Path        = "./template"
+    DefaultFile = "index.html"
+    Delimiters  =  ["${", "}"]
+
 # title设置
 [setting]
     title = "配置管理中心"

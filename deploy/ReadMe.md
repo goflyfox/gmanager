@@ -12,7 +12,7 @@ gmanager:.
 │  ├─api                        业务接口
 │  ├─component
 │  │  ├─middle
-│  │  │      MiddlewareLog.go  访问日志中间件
+│  │  └─     MiddlewareLog.go  访问日志中间件
 │  ├─constants                  常量
 │  ├─model                     实体对象   
 │  └─service                业务层代码
