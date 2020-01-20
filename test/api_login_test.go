@@ -5,7 +5,6 @@ import (
 	"github.com/gogf/gf/crypto/gmd5"
 	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
-	"gmanager/utils/resp"
 	"testing"
 )
 
