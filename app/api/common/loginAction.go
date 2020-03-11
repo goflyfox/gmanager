@@ -49,7 +49,7 @@ func LoginSubmit(r *ghttp.Request) (string, interface{}) {
 		base.Error(r, "服务异常，请联系管理员")
 	}
 
-	if model.Id <= 0 {
+	if model == nil || model.Id <= 0 {
 		base.Fail(r, "用户名或密码错误.")
 	}
 
