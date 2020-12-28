@@ -53,7 +53,7 @@ func TestLogin(t *testing.T) {
 func TestLogout(t *testing.T) {
 	Username = "testLogout"
 	t.Log(" logout test ")
-	data := Post(t, "/user/logout", "username="+Username)
+	data := Post(t, "/system/user/logout", "username="+Username)
 	if data.Success() {
 		t.Log(data.Json())
 	} else {
@@ -80,7 +80,7 @@ func getToken(t *testing.T) string {
 	}
 
 	passwd, _ := gmd5.Encrypt("123456")
-	if r, e := ghttp.Post(TestURL+"/login/submit", "username="+Username+"&passwd="+passwd); e != nil {
+	if r, e := ghttp.Post(TestURL+"/system/login/submit", "username="+Username+"&passwd="+passwd); e != nil {
 		t.Error(e)
 	} else {
 		defer r.Close()

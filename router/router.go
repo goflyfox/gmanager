@@ -26,84 +26,87 @@ func bindRouter() {
 	urlPath := g.Config().GetString("url-path")
 	s := g.Server()
 
-	// 中间件
-	// 允许跨域
-	s.BindMiddleware("/*", func(r *ghttp.Request) {
-		r.Response.CORSDefault()
-		r.Middleware.Next()
+	s.Group(urlPath+"/", func(group *ghttp.RouterGroup) {
+		// 允许跨域
+		group.Middleware(func(r *ghttp.Request) {
+			r.Response.CORSDefault()
+			r.Middleware.Next()
+		})
+		// 日志拦截
+		group.Middleware(middle.MiddlewareLog)
+		// 通用属性
+		group.Middleware(middle.MiddlewareCommon)
+
+		// 首页
+		group.ALL("/", common.Login)
+		group.ALL("/main.html", common.Index)
+		group.ALL("/login", common.Login)
+
+		group.ALL("/welcome", common.Welcome)
+		group.ALL("/admin/welcome.html", common.Welcome)
+
+		// 启动gtoken
+		base.Token = &gtoken.GfToken{
+			//Timeout:         10 * 1000,
+			CacheMode:        g.Config().GetInt8("gtoken.cache-mode"),
+			MultiLogin:       g.Config().GetBool("gtoken.multi-login"),
+			LoginPath:        "/login/submit",
+			LoginBeforeFunc:  common.LoginSubmit,
+			LogoutPath:       "/user/logout",
+			LogoutBeforeFunc: common.LogoutBefore,
+			AuthPaths:        g.SliceStr{"/user", "/system"},
+			GlobalMiddleware: true,
+			AuthBeforeFunc: func(r *ghttp.Request) bool {
+				// 静态页面不拦截
+				if r.IsFileRequest() {
+					return false
+				}
+
+				if strings.HasSuffix(r.URL.Path, "index") {
+					return false
+				}
+
+				return true
+			},
+		}
+		// 需要认证
+		group.Group(urlPath+"/system", func(group *ghttp.RouterGroup) {
+			// gtoken认证中间件
+			base.Token.Middleware(group)
+
+			// 系统路由
+			userAction := new(user.Action)
+			group.ALL("user", userAction)
+			group.GET("/user/get/{id}", userAction.Get)
+			group.ALL("user/delete/{id}", userAction.Delete)
+
+			departAction := new(department.Action)
+			group.ALL("department", departAction)
+			group.GET("/department/get/{id}", departAction.Get)
+			group.ALL("/department/delete/{id}", departAction.Delete)
+
+			logAction := new(log.Action)
+			group.ALL("log", logAction)
+			group.GET("/log/get/{id}", logAction.Get)
+			group.ALL("/log/delete/{id}", logAction.Delete)
+
+			menuAction := new(menu.Action)
+			group.ALL("menu", menuAction)
+			group.GET("/menu/get/{id}", menuAction.Get)
+			group.ALL("/menu/delete/{id}", menuAction.Delete)
+
+			roleAction := new(role.Action)
+			group.ALL("role", roleAction)
+			group.GET("/role/get/{id}", roleAction.Get)
+			group.ALL("/role/delete/{id}", roleAction.Delete)
+
+			configAction := new(config.Action)
+			group.ALL("config", configAction)
+			group.GET("/config/get/{id}", configAction.Get)
+			group.ALL("/config/delete/{id}", configAction.Delete)
+		})
 	})
-	// 日志拦截
-	s.BindMiddleware(urlPath+"/*", middle.MiddlewareLog)
-	// 通用属性
-	s.BindMiddleware(urlPath+"/*", middle.MiddlewareCommon)
 
-	// 首页
-	s.BindHandler(urlPath+"/", common.Login)
-	s.BindHandler(urlPath+"/main.html", common.Index)
-	s.BindHandler(urlPath+"/login", common.Login)
-
-	s.BindHandler(urlPath+"/welcome", common.Welcome)
-	s.BindHandler(urlPath+"/admin/welcome.html", common.Welcome)
-
-	s.Group(urlPath+"/system", func(g *ghttp.RouterGroup) {
-		// 系统路由
-		userAction := new(user.Action)
-		g.ALL("user", userAction)
-		g.GET("/user/get/{id}", userAction.Get)
-		g.ALL("user/delete/{id}", userAction.Delete)
-
-		departAction := new(department.Action)
-		g.ALL("department", departAction)
-		g.GET("/department/get/{id}", departAction.Get)
-		g.ALL("/department/delete/{id}", departAction.Delete)
-
-		logAction := new(log.Action)
-		g.ALL("log", logAction)
-		g.GET("/log/get/{id}", logAction.Get)
-		g.ALL("/log/delete/{id}", logAction.Delete)
-
-		menuAction := new(menu.Action)
-		g.ALL("menu", menuAction)
-		g.GET("/menu/get/{id}", menuAction.Get)
-		g.ALL("/menu/delete/{id}", menuAction.Delete)
-
-		roleAction := new(role.Action)
-		g.ALL("role", roleAction)
-		g.GET("/role/get/{id}", roleAction.Get)
-		g.ALL("/role/delete/{id}", roleAction.Delete)
-
-		configAction := new(config.Action)
-		g.ALL("config", configAction)
-		g.GET("/config/get/{id}", configAction.Get)
-		g.ALL("/config/delete/{id}", configAction.Delete)
-
-	})
-
-	// 启动gtoken
-	base.Token = &gtoken.GfToken{
-		//Timeout:         10 * 1000,
-		CacheMode:        g.Config().GetInt8("gtoken.cache-mode"),
-		MultiLogin:       g.Config().GetBool("gtoken.multi-login"),
-		LoginPath:        "/login/submit",
-		LoginBeforeFunc:  common.LoginSubmit,
-		LogoutPath:       "/user/logout",
-		LogoutBeforeFunc: common.LogoutBefore,
-		AuthPaths:        g.SliceStr{"/user", "/system"},
-		GlobalMiddleware: true,
-		AuthBeforeFunc: func(r *ghttp.Request) bool {
-			// 静态页面不拦截
-			if r.IsFileRequest() {
-				return false
-			}
-
-			if strings.HasSuffix(r.URL.Path, "index") {
-				return false
-			}
-
-			return true
-		},
-	}
-	base.Token.Start()
 }
 
 /*

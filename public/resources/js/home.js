@@ -165,7 +165,7 @@ var vm = new Vue({
             });
         }
         , logout: function () {
-            dudu.get(dudu.ctx + "/user/logout?_" + $.now(), function (r) {
+            dudu.get(dudu.ctx + "/system/user/logout?_" + $.now(), function (r) {
                 if (r.code == 0) {
                     window.top.location.href = "login";
                 } else {
