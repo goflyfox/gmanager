@@ -3,6 +3,9 @@ Change Log 更新说明
 ## 2020-12-28 v1.1.7
 1. gtoken升级到v1.4.1
 2. 修改查询表结构sql
+3. 修改认证方式改为gtoken group
+4. getQueryMap改为getMap
+5. 修改model insert代码，加入lastInsertId
 
 ## 2020-07-11 v1.1.6
 1. gtoken升级到v1.3.18
