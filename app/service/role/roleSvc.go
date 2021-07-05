@@ -6,6 +6,8 @@ import (
 	"github.com/gogf/gf/text/gstr"
 	"github.com/gogf/gf/util/gconv"
 	"gmanager/app/constants"
+	"gmanager/app/dao"
+	"gmanager/app/model"
 	"gmanager/app/model/role"
 	"gmanager/app/model/role_menu"
 	"gmanager/app/service/log"
@@ -20,13 +22,14 @@ type Request struct {
 }
 
 // 通过id获取实体
-func GetById(id int64) (*role.Entity, error) {
+func GetById(id int64) (role *model.Role, err error) {
 	if id <= 0 {
 		glog.Error(" get id error")
-		return new(role.Entity), errors.New("参数不合法")
+		err = errors.New("参数不合法")
+		return
 	}
-
-	return role.Model.FindOne(" id = ?", id)
+	err = dao.Role.Scan(role, " id = ?", id)
+	return
 }
 
 // 根据条件获取实体
