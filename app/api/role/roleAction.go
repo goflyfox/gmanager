@@ -40,7 +40,7 @@ func (action *Action) Get(r *ghttp.Request) {
 // path: /delete/{id}
 func (action *Action) Delete(r *ghttp.Request) {
 	id := r.GetInt64("id")
-	_, err := role.Delete(id, base.GetUser(r).Id)
+	err := role.Delete(id, base.GetUser(r).Id)
 	if err != nil {
 		base.Fail(r, err.Error())
 	}
