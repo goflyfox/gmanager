@@ -8,6 +8,7 @@ import (
 	"github.com/gogf/gf/os/gtime"
 	"github.com/gogf/gf/text/gstr"
 	"github.com/gogf/gf/util/gconv"
+	"gmanager/app/dao"
 	"gmanager/app/service/menu"
 	"gmanager/app/service/role"
 	"gmanager/app/service/user"
@@ -204,7 +205,7 @@ func (action *Action) Password(r *ghttp.Request) {
 		base.Error(r, "密码错误!")
 	}
 
-	_, err = model.Update()
+	_, err = dao.User.Update(model)
 
 	if err != nil {
 		glog.Error(" Password error", err)
