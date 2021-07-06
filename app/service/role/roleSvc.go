@@ -8,7 +8,6 @@ import (
 	"gmanager/app/constants"
 	"gmanager/app/dao"
 	"gmanager/app/model"
-	"gmanager/app/model/role"
 	"gmanager/app/service/log"
 	"gmanager/library"
 	"gmanager/library/base"
@@ -162,7 +161,7 @@ func Page(form *base.BaseForm) (list []*model.Role, err error) {
 		return
 	}
 
-	dbModel := dao.Role.As("t").Fields(role.Model.Columns() + ",su1.real_name as updateName,su2.real_name as createName")
+	dbModel := dao.Role.As("t").Fields((model.Role{}).TableName() + ",su1.real_name as updateName,su2.real_name as createName")
 	dbModel = dbModel.LeftJoin("sys_user su1", " t.update_id = su1.id ")
 	dbModel = dbModel.LeftJoin("sys_user su2", " t.update_id = su2.id ")
 	err = dbModel.Where(where, params).Order(form.OrderBy).Page(form.Page, form.Rows).Scan(list, where, params)
