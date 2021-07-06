@@ -26,7 +26,7 @@ func GetById(id int64) (role *model.Role, err error) {
 		err = errors.New("参数不合法")
 		return
 	}
-	err = dao.Role.Scan(role, " id = ?", id)
+	err = dao.Role.Scan(&role, " id = ?", id)
 	return
 }
 
@@ -39,7 +39,7 @@ func GetOne(form *base.BaseForm) (role *model.Role, err error) {
 		params = append(params, gconv.Int(form.Params["id"]))
 	}
 
-	err = dao.Role.Scan(role, where)
+	err = dao.Role.Scan(&role, where)
 	return
 }
 
@@ -113,7 +113,7 @@ func List(form *base.BaseForm) (list []*model.Role, err error) {
 		params = append(params, "%"+form.Params["name"]+"%")
 	}
 
-	err = dao.Role.Order(form.OrderBy).Scan(list, where, params)
+	err = dao.Role.Order(form.OrderBy).Scan(&list, where, params)
 	return
 }
 
@@ -125,7 +125,7 @@ func ListRoleMenu(form *base.BaseForm) (list []*model.RoleMenu, err error) {
 		where += " and role_id = ? "
 		params = append(params, gconv.Int(form.Params["roleId"]))
 	}
-	err = dao.RoleMenu.Order(form.OrderBy).Scan(list, where, params)
+	err = dao.RoleMenu.Order(form.OrderBy).Scan(&list, where, params)
 	return
 }
 
@@ -161,10 +161,10 @@ func Page(form *base.BaseForm) (list []*model.Role, err error) {
 		return
 	}
 
-	dbModel := dao.Role.As("t").Fields((model.Role{}).TableName() + ",su1.real_name as updateName,su2.real_name as createName")
+	dbModel := dao.Role.As("t").Fields((model.Role{}).Columns() + ",su1.real_name as updateName,su2.real_name as createName")
 	dbModel = dbModel.LeftJoin("sys_user su1", " t.update_id = su1.id ")
 	dbModel = dbModel.LeftJoin("sys_user su2", " t.update_id = su2.id ")
-	err = dbModel.Where(where, params).Order(form.OrderBy).Page(form.Page, form.Rows).Scan(list, where, params)
+	err = dbModel.Where(where, params).Order(form.OrderBy).Page(form.Page, form.Rows).Scan(&list, where, params)
 	return
 }
 
