@@ -62,29 +62,29 @@ go build main.go
 
 ### 服务端模板截图
 登录：
-![image](https://raw.githubusercontent.com/goflyfox/gmanager/master/deploy/image/1.png)
+![image](./deploy/image/1.png)
 
 组织机构：
-![image](https://raw.githubusercontent.com/goflyfox/gmanager/master/deploy/image/2.png)
+![image](./deploy/image/2.png)
 
 用户管理：
-![image](https://raw.githubusercontent.com/goflyfox/gmanager/master/deploy/image/3.png)
+![image](./deploy/image/3.png)
 
 日志管理：
-![image](https://raw.githubusercontent.com/goflyfox/gmanager/master/deploy/image/4.png)
+![image](./deploy/image/4.png)
 
 ### 前后端分离Vue截图
 登录：
-![image](https://raw.githubusercontent.com/goflyfox/gmanager/master/deploy/image/web1.png)
+![image](./deploy/image/web1.png)
 
 组织机构：
-![image](https://raw.githubusercontent.com/goflyfox/gmanager/master/deploy/image/web2.png)
+![image](./deploy/image/web2.png)
 
 用户管理：
-![image](https://raw.githubusercontent.com/goflyfox/gmanager/master/deploy/image/web3.png)
+![image](./deploy/image/web3.png)
 
 日志管理：
-![image](https://raw.githubusercontent.com/goflyfox/gmanager/master/deploy/image/web4.png)
+![image](./deploy/image/web4.png)
 
 ## 感谢
 
