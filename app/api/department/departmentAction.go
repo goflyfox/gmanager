@@ -6,7 +6,7 @@ import (
 	"github.com/gogf/gf/os/glog"
 	"github.com/gogf/gf/os/gtime"
 	"github.com/gogf/gf/util/gconv"
-	"gmanager/app/service/department"
+	"gmanager/app/service"
 	"gmanager/library/base"
 )
 
@@ -29,7 +29,7 @@ func (action *Action) Index(r *ghttp.Request) {
 // path: /get/{id}
 func (action *Action) Get(r *ghttp.Request) {
 	id := r.GetInt64("id")
-	model, err := department.GetById(id)
+	model, err := service.Department.GetById(r.Context(), id)
 	if err != nil {
 		base.Fail(r, err.Error())
 	}
@@ -42,14 +42,14 @@ func (action *Action) Delete(r *ghttp.Request) {
 	id := r.GetInt64("id")
 
 	form := base.NewForm(g.Map{"parentId": id})
-	childModel, err := department.GetOne(&form)
+	childModel, err := service.Department.GetOne(r.Context(), &form)
 	if err != nil {
 		base.Fail(r, err.Error())
 	} else if childModel != nil && childModel.Id > 0 {
 		base.Fail(r, "请先删除子机构")
 	}
 
-	_, err = department.Delete(id, base.GetUser(r).Id)
+	err = service.Department.Delete(r.Context(), id, base.GetUser(r).Id)
 	if err != nil {
 		base.Fail(r, err.Error())
 	}
@@ -59,7 +59,7 @@ func (action *Action) Delete(r *ghttp.Request) {
 
 // path: /save
 func (action *Action) Save(r *ghttp.Request) {
-	request := new(department.Request)
+	request := new(service.DepartmentReq)
 	err := gconv.Struct(r.GetMap(), request)
 	if err != nil {
 		glog.Error("save struct error", err)
@@ -67,7 +67,7 @@ func (action *Action) Save(r *ghttp.Request) {
 	}
 
 	request.UserId = base.GetUser(r).Id
-	_, err = department.Save(request)
+	_, err = service.Department.Save(r.Context(), request)
 	if err != nil {
 		base.Fail(r, "保存失败")
 	}
@@ -79,7 +79,7 @@ func (action *Action) Save(r *ghttp.Request) {
 func (action *Action) List(r *ghttp.Request) {
 	form := base.NewForm(r.GetMap())
 
-	list, err := department.List(&form)
+	list, err := service.Department.List(r.Context(), &form)
 	if err != nil {
 		glog.Error("page error", err)
 		base.Error(r, err.Error())
@@ -91,7 +91,7 @@ func (action *Action) List(r *ghttp.Request) {
 // path: /page
 func (action *Action) Page(r *ghttp.Request) {
 	form := base.NewForm(r.GetMap())
-	page, err := department.Page(&form)
+	page, err := service.Department.Page(r.Context(), &form)
 	if err != nil {
 		glog.Error("page error", err)
 		base.Error(r, err.Error())
@@ -109,7 +109,7 @@ func (action *Action) Page(r *ghttp.Request) {
 // path: /jqgrid
 func (action *Action) Jqgrid(r *ghttp.Request) {
 	form := base.NewForm(r.GetMap())
-	page, err := department.Page(&form)
+	page, err := service.Department.Page(r.Context(), &form)
 	if err != nil {
 		glog.Error("jqgrid error", err)
 		base.Error(r, err.Error())

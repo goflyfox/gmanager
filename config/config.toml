@@ -45,4 +45,21 @@ url-path = ""
 
 # 数据库配置
 [database]
-    link = "mysql:root:A123456@tcp(127.0.0.1:33306)/gmanager"
+    link = "mysql:root:A123456@tcp(127.0.0.1:13306)/gmanager"
+
+# 工具相关配置
+[gfcli]
+    # 工具编译配置
+    [gfcli.build]
+        name     = "gmanager"
+        arch     = "amd64"
+        system   = "linux,windows"
+        pack     = "public,template"
+        mod      = ""
+        cgo      = 0
+
+    # dao生成
+    [[gfcli.gen.dao]]
+        link         = "mysql:root:A123456@tcp(127.0.0.1:13306)/gmanager"
+        removePrefix = "sys_"
+        tables       = "sys_config,sys_department,sys_log,sys_menu,sys_role,sys_role_menu,sys_user,sys_user_role"

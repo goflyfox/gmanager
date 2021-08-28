@@ -4,12 +4,9 @@ import (
 	"errors"
 	"github.com/gogf/gf/os/glog"
 	"github.com/gogf/gf/util/gconv"
-	"gmanager/app/component/started"
-	"gmanager/app/constants"
 	"gmanager/app/model/log"
 	"gmanager/library"
 	"gmanager/library/base"
-	"reflect"
 )
 
 // 请求参数
@@ -162,48 +159,49 @@ func Page(form *base.BaseForm) ([]log.Entity, error) {
 
 // 日志保存
 func SaveLog(model interface{}, operType string) (int64, error) {
-	iModel, ok := model.(base.IModel)
-	if !ok {
-		glog.Error("transfer error", model)
-		return 0, errors.New("transfer error")
-	}
-
-	var updateId int
-	var updateTime string
-	baseModel := reflect.ValueOf(model)
-	if kind := baseModel.Kind(); kind == reflect.Ptr {
-		updateId = gconv.Int(baseModel.Elem().FieldByName("UpdateId").Interface())
-		updateTime = baseModel.Elem().FieldByName("UpdateTime").String()
-	} else {
-		updateId = gconv.Int(baseModel.FieldByName("UpdateId").Interface())
-		updateTime = baseModel.FieldByName("UpdateTime").String()
-	}
-
-	logType := constants.TypeEdit
-	// SELECT table_name,table_comment FROM information_schema.TABLES where table_SCHEMA='gmanager'
-	operRemark := ""
-	operObject := started.TableInfo[iModel.TableName()]
-	if operType == constants.LOGIN || operType == constants.LOGOUT {
-		logType = constants.TypeSystem
-	} else {
-		operRemark = gconv.String(model)
-	}
-
-	entity := log.Entity{
-		LogType:    logType,
-		OperType:   operType,
-		OperId:     iModel.PkVal(),
-		OperTable:  iModel.TableName(),
-		OperObject: operObject,
-		OperRemark: operRemark,
-		UpdateId:   updateId,
-		UpdateTime: updateTime,
-		CreateId:   updateId,
-		CreateTime: updateTime,
-	}
-	result, err := log.Insert(entity)
-	if err != nil {
-		return 0, err
-	}
-	return result.RowsAffected()
+	//iModel, ok := model.(base.IModel)
+	//if !ok {
+	//	glog.Error("transfer error", model)
+	//	return 0, errors.New("transfer error")
+	//}
+	//
+	//var updateId int
+	//var updateTime string
+	//baseModel := reflect.ValueOf(model)
+	//if kind := baseModel.Kind(); kind == reflect.Ptr {
+	//	updateId = gconv.Int(baseModel.Elem().FieldByName("UpdateId").Interface())
+	//	updateTime = baseModel.Elem().FieldByName("UpdateTime").String()
+	//} else {
+	//	updateId = gconv.Int(baseModel.FieldByName("UpdateId").Interface())
+	//	updateTime = baseModel.FieldByName("UpdateTime").String()
+	//}
+	//
+	//logType := constants.TypeEdit
+	//// SELECT table_name,table_comment FROM information_schema.TABLES where table_SCHEMA='gmanager'
+	//operRemark := ""
+	//operObject := started.TableInfo[iModel.TableName()]
+	//if operType == constants.LOGIN || operType == constants.LOGOUT {
+	//	logType = constants.TypeSystem
+	//} else {
+	//	operRemark = gconv.String(model)
+	//}
+	//
+	//entity := log.Entity{
+	//	LogType:    logType,
+	//	OperType:   operType,
+	//	OperId:     iModel.PkVal(),
+	//	OperTable:  iModel.TableName(),
+	//	OperObject: operObject,
+	//	OperRemark: operRemark,
+	//	UpdateId:   updateId,
+	//	UpdateTime: updateTime,
+	//	CreateId:   updateId,
+	//	CreateTime: updateTime,
+	//}
+	//result, err := log.Insert(entity)
+	//if err != nil {
+	//	return 0, err
+	//}
+	//return result.RowsAffected()
+	return 0, nil
 }
