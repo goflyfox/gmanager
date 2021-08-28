@@ -16,7 +16,7 @@ var (
 
 func TestSystemConfigIndex(t *testing.T) {
 	// 登录，访问用户信息
-	if r, e := ghttp.Get(TestURL + "/system/config/index"); e != nil {
+	if r, e := g.Client().Get(TestURL + "/system/config/index"); e != nil {
 		t.Error(e)
 	} else {
 		t.Log(string(r.ReadAll()))
@@ -80,7 +80,7 @@ func getToken(t *testing.T) string {
 	}
 
 	passwd, _ := gmd5.Encrypt("123456")
-	if r, e := ghttp.Post(TestURL+"/system/login/submit", "username="+Username+"&passwd="+passwd); e != nil {
+	if r, e := g.Client().Post(TestURL+"/system/login/submit", "username="+Username+"&passwd="+passwd); e != nil {
 		t.Error(e)
 	} else {
 		defer r.Close()

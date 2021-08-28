@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/gogf/gf/net/ghttp"
+	"github.com/gogf/gf/frame/g"
 	"testing"
 )
 
@@ -10,7 +10,7 @@ const (
 )
 
 func BenchmarkLogGet(b *testing.B) {
-	if r, e := ghttp.Get(BenchmarkURL + "/log/access?name=john&age=18"); e != nil {
+	if r, e := g.Client().Get(BenchmarkURL + "/log/access?name=john&age=18"); e != nil {
 		b.Log(e)
 	} else {
 		b.Log(string(r.ReadAll()))
