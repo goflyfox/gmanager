@@ -106,7 +106,7 @@
 
         jQuery.ajax({
             type: 'POST',
-            url: 'login/submit',
+            url: 'system/login/submit',
             data: {"username": username, passwd: hex_md5(pwd)},
             success: function (data) {
                 if (data.code == 0) {

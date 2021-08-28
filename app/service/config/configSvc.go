@@ -66,7 +66,7 @@ func Delete(id int64, userId int) (int64, error) {
 // 保存实体
 func Save(request *Request) (int64, error) {
 	entity := (*config.Entity)(nil)
-	err := gconv.StructDeep(request.Entity, &entity)
+	err := gconv.Struct(request.Entity, &entity)
 	if err != nil {
 		return 0, errors.New("数据错误")
 	}
@@ -83,6 +83,12 @@ func Save(request *Request) (int64, error) {
 		if err != nil {
 			return 0, err
 		}
+		// 回写主键
+		lastId, err := r.LastInsertId()
+		if err != nil {
+			return 0, err
+		}
+		entity.Id = gconv.Int(lastId)
 
 		log.SaveLog(entity, constants.INSERT)
 		return r.RowsAffected()

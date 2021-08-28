@@ -60,7 +60,7 @@ func (action *Action) Delete(r *ghttp.Request) {
 // path: /save
 func (action *Action) Save(r *ghttp.Request) {
 	request := new(department.Request)
-	err := gconv.Struct(r.GetQueryMap(), request)
+	err := gconv.Struct(r.GetMap(), request)
 	if err != nil {
 		glog.Error("save struct error", err)
 		base.Error(r, "save error")
@@ -77,7 +77,7 @@ func (action *Action) Save(r *ghttp.Request) {
 
 // path: /list
 func (action *Action) List(r *ghttp.Request) {
-	form := base.NewForm(r.GetQueryMap())
+	form := base.NewForm(r.GetMap())
 
 	list, err := department.List(&form)
 	if err != nil {
@@ -90,7 +90,7 @@ func (action *Action) List(r *ghttp.Request) {
 
 // path: /page
 func (action *Action) Page(r *ghttp.Request) {
-	form := base.NewForm(r.GetQueryMap())
+	form := base.NewForm(r.GetMap())
 	page, err := department.Page(&form)
 	if err != nil {
 		glog.Error("page error", err)
@@ -108,7 +108,7 @@ func (action *Action) Page(r *ghttp.Request) {
 
 // path: /jqgrid
 func (action *Action) Jqgrid(r *ghttp.Request) {
-	form := base.NewForm(r.GetQueryMap())
+	form := base.NewForm(r.GetMap())
 	page, err := department.Page(&form)
 	if err != nil {
 		glog.Error("jqgrid error", err)

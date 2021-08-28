@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/gogf/gf/util/gconv"
+	"gmanager/app/model/config"
 	"reflect"
 	"testing"
 )
@@ -23,7 +24,7 @@ func TestRun(t *testing.T) {
 }
 
 func TestReflect(t *testing.T) {
-	model := system.SysConfig{}
+	model := config.Entity{}
 	model.UpdateId = 1
 	re := reflect.ValueOf(model).FieldByName("BaseModel")
 	updateId := gconv.Int(re.FieldByName("UpdateId").Interface())

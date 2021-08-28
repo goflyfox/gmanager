@@ -24,9 +24,9 @@ func MiddlewareLog(r *ghttp.Request) {
 		}
 
 		if r.Method == "GET" {
-			params = r.GetQueryMap()
+			params = r.GetMap()
 		} else if r.Method == "POST" {
-			params = r.GetQueryMap()
+			params = r.GetMap()
 		} else {
 			base.Error(r, "Request Method is ERROR! ")
 			return
