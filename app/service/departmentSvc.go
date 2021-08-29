@@ -12,7 +12,6 @@ import (
 	"gmanager/app/service/log"
 	"gmanager/library"
 	"gmanager/library/base"
-	"gmanager/library/util"
 )
 
 // 文章管理
@@ -169,11 +168,16 @@ func (s *departmentSvc) Page(ctx context.Context, form *base.BaseForm) (list []*
 		return
 	}
 
-	dbModel := dao.Department.Ctx(ctx).As("t").Fields(util.ToCols(dao.Department.Columns) + ",sdp.name parentName,su1.real_name as updateName,su2.real_name as createName")
+	dbModel := dao.Department.Ctx(ctx).As("t").Fields(s.Columns() + ",sdp.name parentName,su1.real_name as updateName,su2.real_name as createName")
 	dbModel = dbModel.LeftJoin("sys_user su1", " t.update_id = su1.id ")
 	dbModel = dbModel.LeftJoin("sys_user su2", " t.update_id = su2.id ")
 	dbModel = dbModel.LeftJoin("sys_department sdp", " sdp.id = t.parent_id ")
 
 	err = dbModel.Order(form.OrderBy).Where(where, params).Page(form.Page, form.Rows).Scan(&list)
 	return
+}
+
+func (s *departmentSvc) Columns() string {
+	sqlColumns := "t.id,t.parent_id as parentId,t.name,t.code,t.sort,t.linkman,t.linkman_no as linkmanNo,t.remark,t.enable,t.update_time as updateTime,t.update_id as updateId,t.create_time as createTime,t.create_id as createId"
+	return sqlColumns
 }
