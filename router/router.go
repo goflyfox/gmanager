@@ -5,9 +5,9 @@ import (
 	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/net/ghttp"
 	"github.com/gogf/gf/os/glog"
+	"gmanager/app/api"
 	"gmanager/app/api/common"
 	"gmanager/app/api/config"
-	"gmanager/app/api/department"
 	"gmanager/app/api/log"
 	"gmanager/app/api/menu"
 	"gmanager/app/api/role"
@@ -80,10 +80,9 @@ func bindRouter() {
 			group.GET("/user/get/{id}", userAction.Get)
 			group.ALL("user/delete/{id}", userAction.Delete)
 
-			departAction := new(department.Action)
-			group.ALL("department", departAction)
-			group.GET("/department/get/{id}", departAction.Get)
-			group.ALL("/department/delete/{id}", departAction.Delete)
+			group.ALL("department", api.Department)
+			group.GET("/department/get/{id}", api.Department.Get)
+			group.ALL("/department/delete/{id}", api.Department.Delete)
 
 			logAction := new(log.Action)
 			group.ALL("log", logAction)

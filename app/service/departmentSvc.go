@@ -2,16 +2,17 @@ package service
 
 import (
 	"context"
+	"database/sql"
 	"errors"
 	"github.com/gogf/gf/os/glog"
 	"github.com/gogf/gf/util/gconv"
 	"gmanager/app/constants"
 	"gmanager/app/dao"
 	"gmanager/app/model"
-	"gmanager/app/model/department"
 	"gmanager/app/service/log"
 	"gmanager/library"
 	"gmanager/library/base"
+	"gmanager/library/util"
 )
 
 // 文章管理
@@ -56,7 +57,7 @@ func (s *departmentSvc) GetOne(ctx context.Context, form *base.BaseForm) (*model
 	}
 
 	err := dao.Department.Ctx(ctx).Where(where, params).Scan(&output)
-	if err != nil {
+	if err != nil && err != sql.ErrNoRows {
 		return nil, err
 	}
 	return output, nil
@@ -69,18 +70,17 @@ func (s *departmentSvc) Delete(ctx context.Context, id int64, userId int) error 
 		return errors.New("参数不合法")
 	}
 
+	_, err := dao.Department.Ctx(ctx).WherePri(gconv.Int(id)).Delete()
+	if err != nil {
+		return err
+	}
+
 	// 获取删除对象
 	entity := model.Department{
 		Id:         gconv.Int(id),
 		UpdateId:   userId,
 		UpdateTime: library.GetNow(),
 	}
-
-	_, err := dao.Department.Ctx(ctx).Where(entity).Delete()
-	if err != nil {
-		return err
-	}
-
 	log.SaveLog(entity, constants.DELETE)
 	return nil
 }
@@ -169,7 +169,7 @@ func (s *departmentSvc) Page(ctx context.Context, form *base.BaseForm) (list []*
 		return
 	}
 
-	dbModel := dao.Department.Ctx(ctx).As("t").Fields(department.Model.Columns() + ",sdp.name parentName,su1.real_name as updateName,su2.real_name as createName")
+	dbModel := dao.Department.Ctx(ctx).As("t").Fields(util.ToCols(dao.Department.Columns) + ",sdp.name parentName,su1.real_name as updateName,su2.real_name as createName")
 	dbModel = dbModel.LeftJoin("sys_user su1", " t.update_id = su1.id ")
 	dbModel = dbModel.LeftJoin("sys_user su2", " t.update_id = su2.id ")
 	dbModel = dbModel.LeftJoin("sys_department sdp", " sdp.id = t.parent_id ")

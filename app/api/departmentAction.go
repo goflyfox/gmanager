@@ -1,4 +1,4 @@
-package department
+package api
 
 import (
 	"github.com/gogf/gf/frame/g"
@@ -10,12 +10,12 @@ import (
 	"gmanager/library/base"
 )
 
-type Action struct {
-	base.BaseRouter
-}
+var Department = departmentApi{}
+
+type departmentApi struct{ base.BaseRouter }
 
 // path: /index
-func (action *Action) Index(r *ghttp.Request) {
+func (action *departmentApi) Index(r *ghttp.Request) {
 	tplFile := "pages/system/department_index.html"
 	err := r.Response.WriteTpl(tplFile, g.Map{
 		"now": gtime.Datetime(),
@@ -27,7 +27,7 @@ func (action *Action) Index(r *ghttp.Request) {
 }
 
 // path: /get/{id}
-func (action *Action) Get(r *ghttp.Request) {
+func (action *departmentApi) Get(r *ghttp.Request) {
 	id := r.GetInt64("id")
 	model, err := service.Department.GetById(r.Context(), id)
 	if err != nil {
@@ -38,7 +38,7 @@ func (action *Action) Get(r *ghttp.Request) {
 }
 
 // path: /delete/{id}
-func (action *Action) Delete(r *ghttp.Request) {
+func (action *departmentApi) Delete(r *ghttp.Request) {
 	id := r.GetInt64("id")
 
 	form := base.NewForm(g.Map{"parentId": id})
@@ -58,7 +58,7 @@ func (action *Action) Delete(r *ghttp.Request) {
 }
 
 // path: /save
-func (action *Action) Save(r *ghttp.Request) {
+func (action *departmentApi) Save(r *ghttp.Request) {
 	request := new(service.DepartmentReq)
 	err := gconv.Struct(r.GetMap(), request)
 	if err != nil {
@@ -76,7 +76,7 @@ func (action *Action) Save(r *ghttp.Request) {
 }
 
 // path: /list
-func (action *Action) List(r *ghttp.Request) {
+func (action *departmentApi) List(r *ghttp.Request) {
 	form := base.NewForm(r.GetMap())
 
 	list, err := service.Department.List(r.Context(), &form)
@@ -89,7 +89,7 @@ func (action *Action) List(r *ghttp.Request) {
 }
 
 // path: /page
-func (action *Action) Page(r *ghttp.Request) {
+func (action *departmentApi) Page(r *ghttp.Request) {
 	form := base.NewForm(r.GetMap())
 	page, err := service.Department.Page(r.Context(), &form)
 	if err != nil {
@@ -107,7 +107,7 @@ func (action *Action) Page(r *ghttp.Request) {
 }
 
 // path: /jqgrid
-func (action *Action) Jqgrid(r *ghttp.Request) {
+func (action *departmentApi) Jqgrid(r *ghttp.Request) {
 	form := base.NewForm(r.GetMap())
 	page, err := service.Department.Page(r.Context(), &form)
 	if err != nil {
