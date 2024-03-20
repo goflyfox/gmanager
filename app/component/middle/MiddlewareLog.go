@@ -43,7 +43,7 @@ func MiddlewareLog(r *ghttp.Request) {
 
 	r.Middleware.Next()
 
-	// 青牛完成
+	// 完成
 	if constants.DEBUG {
 		data := string(r.Response.Buffer())
 		if r.URL.Path == "" || r.URL.Path == "/" || gstr.Contains(
