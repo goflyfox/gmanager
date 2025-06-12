@@ -5,7 +5,7 @@ go 1.22
 toolchain go1.24.0
 
 require (
-	github.com/goflyfox/gtoken/v2 v2.0.0-beta3
+	github.com/goflyfox/gtoken/v2 v2.0.0
 	github.com/gogf/gf/contrib/drivers/mysql/v2 v2.9.0
 	github.com/gogf/gf/v2 v2.9.0
 	github.com/mojocn/base64Captcha v1.3.8
