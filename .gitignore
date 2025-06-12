@@ -1,20 +1,21 @@
-# Binaries for programs and plugins
-*.exe
-*.exe~
-*.dll
-*.so
-*.dylib
-
-# Test binary, built with `go test -c`
-*.test
-
-# Output of the go coverage tool, specifically when used with LiteIDE
-*.out
-
-# third
-
-# other
-pkg
+# Vue 项目忽略项
+node_modules
 .idea
-logs
-vendor
+.dist
+.cache
+
+# Golang 项目忽略项
+go.sum
+.gofmt.tmp
+.go_build
+*.test
+*.prof
+
+# 日志文件
+*.log
+
+# 临时文件
+*.tmp
+
+# 本地配置文件
+**/config/config.yaml
