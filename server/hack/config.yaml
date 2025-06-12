@@ -1,0 +1,15 @@
+
+# CLI tool, only in development environment.
+# https://goframe.org/docs/cli
+gfcli:
+  gen:
+    dao:
+      - link: "mysql:root:123456@tcp(127.0.0.1:3306)/gmanager"
+        descriptionTag: true
+        removePrefix: "sys_"
+        tables: "sys_dept,sys_config,sys_log,sys_menu,sys_role,sys_role_menu,sys_user,sys_user_role,sys_user_role_casbin"
+
+docker:
+  build: "-a amd64 -s linux -p temp -ew"
+  tagPrefixes:
+    - my.image.pub/my-app
