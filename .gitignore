@@ -1,6 +1,7 @@
 # Vue 项目忽略项
 node_modules
 .idea
+.vscode
 .dist
 .cache
 
