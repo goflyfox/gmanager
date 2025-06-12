@@ -24,7 +24,7 @@
 
 以下为部署简要说明，详情参考[部署文档](docs/installation.md) 
 
-#### 后端
+### 后端
 
 1. 从git下载项目： git clone https://github.com/goflyfox/gmanager
 2. 安装mysql数据库运行resource/sql/gmanager.sql脚本
@@ -47,7 +47,7 @@ go run main.go
 
 5. 访问 http://localhost:8000/ping 后端接口，返回`pong`验证部署成功
 
-#### 前端部署
+### 前端部署
 
 
 ```bash
@@ -86,4 +86,4 @@ pnpm run dev
 
 ![jflyfox](https://raw.githubusercontent.com/jflyfox/jfinal_cms/master/doc/pay01.jpg "Open source support")
 
-[捐赠列表](deploy/Donate.md)
+[捐赠列表](docs/Donate.md)
