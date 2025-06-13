@@ -2,7 +2,6 @@ package logic
 
 import (
 	"context"
-	"errors"
 	"github.com/gogf/gf/v2/crypto/gmd5"
 	"github.com/gogf/gf/v2/errors/gcode"
 	"github.com/gogf/gf/v2/errors/gerror"
@@ -105,11 +104,21 @@ func (s *user) Save(ctx context.Context, in *v1.UserSaveReq) error {
 	var model do.User
 	err := gconv.Struct(in, &model)
 	if err != nil {
-		return errors.New("数据转换错误")
+		return gerror.Wrap(err, "数据转换错误")
 	}
 
 	m := dao.User.Ctx(ctx)
 	columns := dao.User.Columns()
+
+	// 用户名唯一性校验
+	nameCount, err := m.Where(columns.UserName, model.UserName).
+		WhereNot(columns.Id, in.Id).Count()
+	if err != nil {
+		return gerror.Wrap(err, "检查用户名唯一性失败")
+	}
+	if nameCount > 0 {
+		return gerror.New("用户名已存在")
+	}
 
 	userId := gftoken.GetSessionUser(ctx).Id
 	model.UpdateId = userId
@@ -167,10 +176,18 @@ func (s *user) Save(ctx context.Context, in *v1.UserSaveReq) error {
 
 // Delete 删除用户
 func (s *user) Delete(ctx context.Context, ids []int) error {
-	_, err := dao.User.Ctx(ctx).WhereIn(dao.User.Columns().Id, ids).Delete()
+	// 删除用户角色关联
+	_, err := dao.UserRole.Ctx(ctx).WhereIn(dao.UserRole.Columns().UserId, ids).Delete()
 	if err != nil {
 		return err
 	}
+
+	// 删除用户
+	_, err = dao.User.Ctx(ctx).WhereIn(dao.User.Columns().Id, ids).Delete()
+	if err != nil {
+		return err
+	}
+
 	// 删除日志
 	for _, id := range ids {
 		_ = Log.Save(ctx, do.User{

@@ -131,10 +131,27 @@ func (s *role) Save(ctx context.Context, in *v1.RoleSaveReq) error {
 
 // Delete 删除角色
 func (s *role) Delete(ctx context.Context, ids []int) error {
-	_, err := dao.Role.Ctx(ctx).WhereIn(dao.Role.Columns().Id, ids).Delete()
+	// 检查是否有用户使用该角色
+	userRoleCount, err := dao.UserRole.Ctx(ctx).WhereIn(dao.UserRole.Columns().RoleId, ids).Count()
 	if err != nil {
 		return err
 	}
+	if userRoleCount > 0 {
+		return gerror.New("该角色已被用户使用，无法删除")
+	}
+
+	// 删除角色菜单关联
+	_, err = dao.RoleMenu.Ctx(ctx).WhereIn(dao.RoleMenu.Columns().RoleId, ids).Delete()
+	if err != nil {
+		return err
+	}
+
+	// 删除角色
+	_, err = dao.Role.Ctx(ctx).WhereIn(dao.Role.Columns().Id, ids).Delete()
+	if err != nil {
+		return err
+	}
+
 	// 删除日志
 	for _, id := range ids {
 		_ = Log.Save(ctx, do.Role{

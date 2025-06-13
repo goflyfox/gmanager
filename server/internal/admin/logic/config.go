@@ -153,6 +153,24 @@ func (s *config) Save(ctx context.Context, in *v1.ConfigSaveReq) error {
 		return errors.New("数据转换错误")
 	}
 
+	// 配置名称唯一性校验
+	nameCount, err := dao.Config.Ctx(ctx).Where(dao.Config.Columns().Name, model.Name).WhereNot(dao.Config.Columns().Id, in.Id).Count()
+	if err != nil {
+		return gerror.Wrap(err, "检查配置名称唯一性失败")
+	}
+	if nameCount > 0 {
+		return gerror.New("配置名称已存在")
+	}
+
+	// 配置键唯一性校验
+	keyCount, err := dao.Config.Ctx(ctx).Where(dao.Config.Columns().Key, model.Key).WhereNot(dao.Config.Columns().Id, in.Id).Count()
+	if err != nil {
+		return gerror.Wrap(err, "检查配置键唯一性失败")
+	}
+	if keyCount > 0 {
+		return gerror.New("配置键已存在")
+	}
+
 	if in.DataType == consts.DataTypeDictData {
 		res, err := s.Get(ctx, in.ParentId)
 		if err != nil {

@@ -185,6 +185,57 @@ func (s *menu) Save(ctx context.Context, in *v1.MenuSaveReq) error {
 		return errors.New("数据转换错误")
 	}
 
+	// 菜单名称唯一性校验
+	nameCount, err := dao.Menu.Ctx(ctx).Where(dao.Menu.Columns().Name, model.Name).WhereNot(dao.Menu.Columns().Id, in.Id).Count()
+	if err != nil {
+		return gerror.Wrap(err, "检查菜单名称唯一性失败")
+	}
+	if nameCount > 0 {
+		return gerror.New("菜单名称已存在")
+	}
+
+	// 路由名称唯一性校验
+	if model.Type != consts.MenuTypeButton && model.RouteName != "" {
+		routeNameCount, err := dao.Menu.Ctx(ctx).Where(dao.Menu.Columns().RouteName, model.RouteName).WhereNot(dao.Menu.Columns().Id, in.Id).Count()
+		if err != nil {
+			return gerror.Wrap(err, "检查路由名称唯一性失败")
+		}
+		if routeNameCount > 0 {
+			return gerror.New("路由名称已存在")
+		}
+	}
+	// 路由路径唯一性校验
+	if model.Type != consts.MenuTypeButton && model.RoutePath != "" {
+		routePathCount, err := dao.Menu.Ctx(ctx).Where(dao.Menu.Columns().RoutePath, model.RoutePath).WhereNot(dao.Menu.Columns().Id, in.Id).Count()
+		if err != nil {
+			return gerror.Wrap(err, "检查路由路径唯一性失败")
+		}
+		if routePathCount > 0 {
+			return gerror.New("路由路径已存在")
+		}
+	}
+	// 组件路径唯一性校验
+	if model.Type != consts.MenuTypeButton && model.Component != "" {
+		componentCount, err := dao.Menu.Ctx(ctx).Where(dao.Menu.Columns().Component, model.Component).WhereNot(dao.Menu.Columns().Id, in.Id).Count()
+		if err != nil {
+			return gerror.Wrap(err, "检查组件路径唯一性失败")
+		}
+		if componentCount > 0 {
+			return gerror.New("组件路径已存在")
+		}
+	}
+
+	// 按钮权限唯一性校验
+	if model.Type == consts.MenuTypeButton && model.Perm != "" {
+		permCount, err := dao.Menu.Ctx(ctx).Where(dao.Menu.Columns().Perm, model.Perm).WhereNot(dao.Menu.Columns().Id, in.Id).Count()
+		if err != nil {
+			return gerror.Wrap(err, "检查权限标识唯一性失败")
+		}
+		if permCount > 0 {
+			return gerror.New("权限标识已存在")
+		}
+	}
+
 	m := dao.Menu.Ctx(ctx)
 	columns := dao.Menu.Columns()
 

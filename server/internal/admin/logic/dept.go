@@ -190,6 +190,24 @@ func (s *dept) Save(ctx context.Context, in *v1.DeptSaveReq) error {
 	m := dao.Dept.Ctx(ctx)
 	columns := dao.Dept.Columns()
 
+	// 唯一性校验：部门名称
+	nameCount, err := m.Where(columns.Name, model.Name).WhereNot(columns.Id, in.Id).Count()
+	if err != nil {
+		return gerror.Wrap(err, "检查部门名称唯一性失败")
+	}
+	if nameCount > 0 {
+		return gerror.New("部门名称已存在")
+	}
+
+	// 唯一性校验：部门编号
+	codeCount, err := m.Where(columns.Code, model.Code).WhereNot(columns.Id, in.Id).Count()
+	if err != nil {
+		return gerror.Wrap(err, "检查部门编号唯一性失败")
+	}
+	if codeCount > 0 {
+		return gerror.New("部门编号已存在")
+	}
+
 	userId := gftoken.GetSessionUser(ctx).Id
 	model.UpdateId = userId
 	model.UpdateAt = gtime.Now()
