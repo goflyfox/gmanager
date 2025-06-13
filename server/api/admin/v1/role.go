@@ -8,7 +8,8 @@ import (
 
 type RoleListReq struct {
 	g.Meta   `path:"/role/list" method:"post" tags:"角色管理" summary:"角色列表"`
-	Keywords string `json:"keywords" dc:"角色名称"`
+	Keywords string `json:"keywords" dc:"角色或编码名称"`
+	Name     string `json:"name" dc:"角色名称"`
 	Enable   int    `json:"enable" dc:"是否启用"`
 	input.PageReq
 }

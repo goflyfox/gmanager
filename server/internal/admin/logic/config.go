@@ -3,10 +3,6 @@ package logic
 import (
 	"context"
 	"errors"
-	"github.com/gogf/gf/v2/errors/gerror"
-	"github.com/gogf/gf/v2/frame/g"
-	"github.com/gogf/gf/v2/os/gtime"
-	"github.com/gogf/gf/v2/util/gconv"
 	v1 "gmanager/api/admin/v1"
 	"gmanager/internal/consts"
 	"gmanager/internal/dao"
@@ -15,6 +11,11 @@ import (
 	"gmanager/internal/model/do"
 	"gmanager/internal/model/entity"
 	"gmanager/internal/model/input"
+
+	"github.com/gogf/gf/v2/errors/gerror"
+	"github.com/gogf/gf/v2/frame/g"
+	"github.com/gogf/gf/v2/os/gtime"
+	"github.com/gogf/gf/v2/util/gconv"
 )
 
 // Config 配置服务
@@ -92,14 +93,26 @@ func (s *config) DictOptions(ctx context.Context, in *v1.ConfigDictOptionsReq) (
 	return
 }
 
-func (s *config) Value(ctx context.Context, req *v1.ConfigValueReq) (*v1.ConfigValueRes, error) {
+func (s *config) Value(ctx context.Context, in *v1.ConfigValueReq) (*v1.ConfigValueRes, error) {
+	if in.Name == "" && in.Key == "" {
+		return nil, gerror.New("参数错误")
+	}
 	var model *entity.Config
-	err := dao.Config.Ctx(ctx).Where(dao.Config.Columns().Key, req.Key).Scan(&model)
+	m := dao.Config.Ctx(ctx).Where(dao.Config.Columns().Enable, consts.EnableYes)
+	if in.Key != "" {
+		m = m.Where(dao.Config.Columns().Key, in.Key)
+	}
+	if in.Name != "" {
+		m = m.Where(dao.Config.Columns().Name, in.Name)
+	}
+	err := m.Scan(&model)
 	if err != nil {
 		return nil, err
 	}
 	return &v1.ConfigValueRes{
 		Id:    model.Id,
+		Key:   model.Key,
+		Name:  model.Name,
 		Value: model.Value,
 		Code:  model.Code,
 	}, nil
@@ -124,7 +137,7 @@ func (s *config) DictItems(ctx context.Context, in *v1.ConfigDictItemsReq) (res 
 			continue
 		}
 		t := &input.OptionVal{
-			Value: model.Id,
+			Value: gconv.Int64(model.Value),
 			Label: model.Name,
 		}
 		options = append(options, t)

@@ -35,6 +35,9 @@ func (s *role) List(ctx context.Context, in *v1.RoleListReq) (res *v1.RoleListRe
 		m = m.Where(m.Builder().WhereLike(columns.Name, "%"+in.Keywords+"%").
 			WhereOrLike(columns.Code, "%"+in.Keywords+"%"))
 	}
+	if in.Name != "" {
+		m = m.Where(columns.Name, in.Name)
+	}
 	if in.Enable > 0 {
 		m = m.Where(columns.Enable, in.Enable)
 	}

@@ -1,10 +1,13 @@
 package consts
 
 const (
+	CodeOK = 0
+
 	UserTypeAdmin  = 1
 	UserTypeNormal = 2
 
-	RoleAdmin = "ADMIN" // 管理员角色
+	DefaultAvatar = "/images/title1.png"
+	RoleAdmin     = "ADMIN" // 管理员角色
 
 	EnableYes = 1
 	EnableNo  = 2

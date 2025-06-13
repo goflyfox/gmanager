@@ -2,6 +2,7 @@ package v1
 
 import (
 	"github.com/gogf/gf/v2/frame/g"
+	"github.com/gogf/gf/v2/net/ghttp"
 	"gmanager/internal/model/input"
 )
 
@@ -83,3 +84,35 @@ type UserMenusReq struct {
 }
 
 type UserMenusRes = []*input.UserMenu
+
+type UserExportReq struct {
+	g.Meta   `path:"/user/export" method:"get" tags:"用户管理" summary:"用户数据导出"`
+	Keywords string      `json:"keywords" dc:"用户/手机号/昵称名称"`
+	DeptId   int64       `json:"deptId"  dc:"部门"`
+	Status   int         `json:"code"  dc:"用户状态"`
+	Enable   int         `json:"enable" dc:"是否启用"`
+	CreateAt g.MapIntStr `json:"createAt" dc:"创建时间区间"`
+	input.PageReq
+}
+
+type UserExportRes struct {
+}
+
+type UserImportReq struct {
+	g.Meta `path:"/user/import" method:"post" tags:"用户管理" summary:"批量导入用户"`
+	File   *ghttp.UploadFile `json:"file" type:"file" dc:"分片文件"`
+}
+
+type UserImportRes struct {
+	Code         int      `json:"code"   dc:"状态码"`         // 状态码
+	InvalidCount int      `json:"invalidCount"   dc:"手机号"` // 无效数据条数
+	ValidCount   int      `json:"validCount"   dc:"手机号"`   // 有效数据条数
+	MessageList  []string `json:"messageList"   dc:"手机号"`  // 错误信息
+}
+
+type UserTemplateReq struct {
+	g.Meta `path:"/user/template" method:"get" tags:"用户管理" summary:"批量创建用户模版下载"`
+}
+
+type UserTemplateRes struct {
+}

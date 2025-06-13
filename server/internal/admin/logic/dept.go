@@ -3,9 +3,6 @@ package logic
 import (
 	"context"
 	"errors"
-	"github.com/gogf/gf/v2/errors/gerror"
-	"github.com/gogf/gf/v2/os/gtime"
-	"github.com/gogf/gf/v2/util/gconv"
 	v1 "gmanager/api/admin/v1"
 	"gmanager/internal/consts"
 	"gmanager/internal/dao"
@@ -13,6 +10,10 @@ import (
 	"gmanager/internal/model/do"
 	"gmanager/internal/model/entity"
 	"gmanager/internal/model/input"
+
+	"github.com/gogf/gf/v2/errors/gerror"
+	"github.com/gogf/gf/v2/os/gtime"
+	"github.com/gogf/gf/v2/util/gconv"
 )
 
 // Dept 部门服务
@@ -113,6 +114,23 @@ func (s *dept) DeptMap(ctx context.Context) (deptMap map[int64]*entity.Dept, err
 	deptMap = make(map[int64]*entity.Dept, len(depts))
 	for _, e := range depts {
 		deptMap[e.Id] = e
+	}
+	return
+}
+
+// DeptNameMap 获取所有部门Map
+func (s *dept) DeptNameMap(ctx context.Context) (deptMap map[string]*entity.Dept, err error) {
+	m := dao.Dept.Ctx(ctx)
+	columns := dao.Dept.Columns()
+	m = m.Where(columns.Enable, consts.EnableYes)
+	var depts []*entity.Dept
+	if err = m.Scan(&depts); err != nil {
+		err = gerror.Wrap(err, "获取数据失败！")
+		return
+	}
+	deptMap = make(map[string]*entity.Dept, len(depts))
+	for _, e := range depts {
+		deptMap[e.Name] = e
 	}
 	return
 }

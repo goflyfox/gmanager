@@ -69,11 +69,14 @@ type ConfigDictOptionsRes = []*input.OptionVal
 
 type ConfigValueReq struct {
 	g.Meta `path:"/config/value/:key" method:"post" tags:"配置管理" summary:"获取配置对应信息"`
-	Key    string `json:"key"   dc:"配置键" v:"required#键不能为空"`
+	Key    string `json:"key"   dc:"配置键" `
+	Name   string `json:"name"   dc:"配置名称" `
 }
 
 type ConfigValueRes struct {
 	Id    int64  `json:"id"`
+	Key   string `json:"key"`
+	Name  string `json:"name"`
 	Value string `json:"value"`
 	Code  string `json:"code"`
 }

@@ -3,6 +3,7 @@ server:
   address:     ":8000"
   openapiPath: "/api.json"
   swaggerPath: "/swagger"
+  serverRoot: "resource/public"               # 静态文件服务的目录根路径，配置时自动开启静态文件服务。
   # 日志基本配置
   # 此配置类似nginx，主要对请求日志的记录
   logPath:             "./logs"           # 日志文件存储目录路径，建议使用绝对路径。默认为空，表示关闭

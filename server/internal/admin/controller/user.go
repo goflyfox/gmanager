@@ -55,3 +55,18 @@ func (c *user) UserMenus(ctx context.Context, req *v1.UserMenusReq) (res *v1.Use
 	res, err = logic.Login.UserMenus(ctx, req)
 	return
 }
+
+func (c *user) Export(ctx context.Context, req *v1.UserExportReq) (res *v1.UserExportRes, err error) {
+	err = logic.User.Export(ctx, req)
+	return
+}
+
+func (c *user) Import(ctx context.Context, req *v1.UserImportReq) (res *v1.UserImportRes, err error) {
+	res, err = logic.User.Import(ctx, req)
+	return
+}
+
+func (c *user) Template(ctx context.Context, req *v1.UserTemplateReq) (res *v1.UserTemplateRes, err error) {
+	err = logic.User.Template(ctx, req)
+	return
+}

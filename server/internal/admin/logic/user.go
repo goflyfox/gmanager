@@ -138,6 +138,7 @@ func (s *user) Save(ctx context.Context, in *v1.UserSaveReq) error {
 		model.CreateId = userId
 		model.CreateAt = gtime.Now()
 		model.UserType = consts.UserTypeNormal
+		model.Avatar = consts.DefaultAvatar
 
 		model.Uuid = guid.S()
 		tmpStr, err := gmd5.Encrypt(consts.DefaultPassword)
