@@ -7,14 +7,14 @@ import (
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/os/gtime"
 	v1 "gmanager/api/admin/v1"
-	"gmanager/internal/consts"
-	"gmanager/internal/dao"
+	"gmanager/internal/admin/consts"
+	"gmanager/internal/admin/dao"
+	"gmanager/internal/admin/model/do"
+	entity2 "gmanager/internal/admin/model/entity"
+	input2 "gmanager/internal/admin/model/input"
 	"gmanager/internal/library/bean"
 	"gmanager/internal/library/captcha"
 	"gmanager/internal/library/gftoken"
-	"gmanager/internal/model/do"
-	"gmanager/internal/model/entity"
-	"gmanager/internal/model/input"
 )
 
 var Login = login{}
@@ -28,7 +28,7 @@ func (s *login) Login(ctx context.Context, req *v1.LoginReq) (res *v1.LoginRes, 
 		return
 	}
 
-	var model *entity.User
+	var model *entity2.User
 	err = dao.User.Ctx(ctx).Where(dao.User.Columns().UserName, req.Username).Scan(&model)
 	if err != nil {
 		return
@@ -71,7 +71,7 @@ func (s *login) Login(ctx context.Context, req *v1.LoginReq) (res *v1.LoginRes, 
 		return
 	}
 	// 记录日志
-	_ = Log.SaveLog(ctx, &input.LogData{
+	_ = Log.SaveLog(ctx, &input2.LogData{
 		Model: do.User{
 			Id:       model.Id,
 			UserName: model.UserName,
@@ -92,12 +92,12 @@ func (s *login) Logout(ctx context.Context, req *v1.LogoutReq) (res *v1.LogoutRe
 		return
 	}
 	// 记录日志
-	var model *entity.User
+	var model *entity2.User
 	userErr := dao.User.Ctx(ctx).Where(dao.User.Columns().UserName, userName).Scan(&model)
 	if userErr != nil {
 		return
 	}
-	_ = Log.SaveLog(ctx, &input.LogData{
+	_ = Log.SaveLog(ctx, &input2.LogData{
 		Model: do.User{
 			Id:       model.Id,
 			UserName: model.UserName,
@@ -114,21 +114,21 @@ func (s *login) Logout(ctx context.Context, req *v1.LogoutReq) (res *v1.LogoutRe
 }
 
 // GetTree 菜单树形菜单
-func (s *login) GetTree(pid int64, list []*entity.Menu) (tree []*input.UserMenu) {
-	tree = make([]*input.UserMenu, 0, len(list))
+func (s *login) GetTree(pid int64, list []*entity2.Menu) (tree []*input2.UserMenu) {
+	tree = make([]*input2.UserMenu, 0, len(list))
 	for _, v := range list {
 		if v.ParentId == pid {
 			name := v.RouteName
 			if name == "" {
 				name = v.RoutePath
 			}
-			t := &input.UserMenu{
+			t := &input2.UserMenu{
 				Id:        v.Id,
 				Name:      name,
 				Component: v.Component,
 				Path:      v.RoutePath,
 				Redirect:  v.Redirect,
-				Meta: input.Meta{
+				Meta: input2.Meta{
 					AlwaysShow: v.AlwaysShow == 1,
 					Hidden:     v.Enable != 1,
 					Icon:       v.Icon,

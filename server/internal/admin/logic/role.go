@@ -8,12 +8,12 @@ import (
 	"github.com/gogf/gf/v2/os/gtime"
 	"github.com/gogf/gf/v2/util/gconv"
 	v1 "gmanager/api/admin/v1"
-	"gmanager/internal/consts"
-	"gmanager/internal/dao"
+	"gmanager/internal/admin/consts"
+	dao2 "gmanager/internal/admin/dao"
+	"gmanager/internal/admin/model/do"
+	"gmanager/internal/admin/model/entity"
+	input2 "gmanager/internal/admin/model/input"
 	"gmanager/internal/library/gftoken"
-	"gmanager/internal/model/do"
-	"gmanager/internal/model/entity"
-	"gmanager/internal/model/input"
 )
 
 // Role 角色服务
@@ -26,8 +26,8 @@ func (s *role) List(ctx context.Context, in *v1.RoleListReq) (res *v1.RoleListRe
 	if in == nil {
 		return
 	}
-	m := dao.Role.Ctx(ctx)
-	columns := dao.Role.Columns()
+	m := dao2.Role.Ctx(ctx)
+	columns := dao2.Role.Columns()
 	res = &v1.RoleListRes{}
 
 	// where条件
@@ -71,17 +71,17 @@ func (s *role) Options(ctx context.Context, in *v1.RoleOptionsReq) (res *v1.Role
 		return
 	}
 
-	m := dao.Role.Ctx(ctx)
-	columns := dao.Role.Columns()
+	m := dao2.Role.Ctx(ctx)
+	columns := dao2.Role.Columns()
 	m = m.Where(columns.Enable, consts.EnableYes).Order("sort asc,id desc")
 	var roles []*entity.Role
 	if err = m.Scan(&roles); err != nil {
 		err = gerror.Wrap(err, "获取数据失败！")
 	}
 
-	options := make([]*input.OptionVal, 0, len(roles))
+	options := make([]*input2.OptionVal, 0, len(roles))
 	for _, v := range roles {
-		t := &input.OptionVal{
+		t := &input2.OptionVal{
 			Value: v.Id,
 			Label: v.Name,
 		}
@@ -93,7 +93,7 @@ func (s *role) Options(ctx context.Context, in *v1.RoleOptionsReq) (res *v1.Role
 
 // Get 获取角色详情
 func (s *role) Get(ctx context.Context, id int64) (res *v1.RoleGetRes, err error) {
-	err = dao.Role.Ctx(ctx).Where(dao.Role.Columns().Id, id).Scan(&res)
+	err = dao2.Role.Ctx(ctx).Where(dao2.Role.Columns().Id, id).Scan(&res)
 	return
 }
 
@@ -105,8 +105,8 @@ func (s *role) Save(ctx context.Context, in *v1.RoleSaveReq) error {
 		return errors.New("数据转换错误")
 	}
 
-	m := dao.Role.Ctx(ctx)
-	columns := dao.Role.Columns()
+	m := dao2.Role.Ctx(ctx)
+	columns := dao2.Role.Columns()
 
 	roleId := gftoken.GetSessionUser(ctx).Id
 	model.UpdateId = roleId
@@ -135,7 +135,7 @@ func (s *role) Save(ctx context.Context, in *v1.RoleSaveReq) error {
 // Delete 删除角色
 func (s *role) Delete(ctx context.Context, ids []int) error {
 	// 检查是否有用户使用该角色
-	userRoleCount, err := dao.UserRole.Ctx(ctx).WhereIn(dao.UserRole.Columns().RoleId, ids).Count()
+	userRoleCount, err := dao2.UserRole.Ctx(ctx).WhereIn(dao2.UserRole.Columns().RoleId, ids).Count()
 	if err != nil {
 		return err
 	}
@@ -144,13 +144,13 @@ func (s *role) Delete(ctx context.Context, ids []int) error {
 	}
 
 	// 删除角色菜单关联
-	_, err = dao.RoleMenu.Ctx(ctx).WhereIn(dao.RoleMenu.Columns().RoleId, ids).Delete()
+	_, err = dao2.RoleMenu.Ctx(ctx).WhereIn(dao2.RoleMenu.Columns().RoleId, ids).Delete()
 	if err != nil {
 		return err
 	}
 
 	// 删除角色
-	_, err = dao.Role.Ctx(ctx).WhereIn(dao.Role.Columns().Id, ids).Delete()
+	_, err = dao2.Role.Ctx(ctx).WhereIn(dao2.Role.Columns().Id, ids).Delete()
 	if err != nil {
 		return err
 	}
@@ -165,7 +165,7 @@ func (s *role) Delete(ctx context.Context, ids []int) error {
 }
 
 func (s *role) MenuIds(ctx context.Context, id int64) (res *v1.RoleMenuIdsRes, err error) {
-	values, err := dao.RoleMenu.Ctx(ctx).Fields(dao.RoleMenu.Columns().MenuId).Where(dao.RoleMenu.Columns().RoleId, id).Array()
+	values, err := dao2.RoleMenu.Ctx(ctx).Fields(dao2.RoleMenu.Columns().MenuId).Where(dao2.RoleMenu.Columns().RoleId, id).Array()
 	if err != nil {
 		return
 	}
@@ -176,7 +176,7 @@ func (s *role) MenuIds(ctx context.Context, id int64) (res *v1.RoleMenuIdsRes, e
 
 func (s *role) AddMenuIds(ctx context.Context, in *v1.RoleAddMenuIdsReq) error {
 	// 删除历史菜单
-	_, err := dao.RoleMenu.Ctx(ctx).Where(dao.RoleMenu.Columns().RoleId, in.Id).Delete()
+	_, err := dao2.RoleMenu.Ctx(ctx).Where(dao2.RoleMenu.Columns().RoleId, in.Id).Delete()
 	if err != nil {
 		return err
 	}
@@ -184,17 +184,17 @@ func (s *role) AddMenuIds(ctx context.Context, in *v1.RoleAddMenuIdsReq) error {
 	roleMenuList := g.List{}
 	for _, menuId := range in.MenuIds {
 		roleMenuList = append(roleMenuList,
-			g.Map{dao.RoleMenu.Columns().RoleId: in.Id,
-				dao.RoleMenu.Columns().MenuId: menuId,
+			g.Map{dao2.RoleMenu.Columns().RoleId: in.Id,
+				dao2.RoleMenu.Columns().MenuId: menuId,
 			})
 	}
-	_, err = dao.RoleMenu.Ctx(ctx).Insert(roleMenuList)
+	_, err = dao2.RoleMenu.Ctx(ctx).Insert(roleMenuList)
 
 	model := do.Role{Id: in.Id}
 	userId := gftoken.GetSessionUser(ctx).Id
 	model.UpdateId = userId
 	model.UpdateAt = gtime.Now()
-	_ = Log.SaveLog(ctx, &input.LogData{
+	_ = Log.SaveLog(ctx, &input2.LogData{
 		Model:      model,
 		OperType:   consts.INSERT,
 		OperRemark: "菜单ID：" + gconv.String(in.MenuIds),

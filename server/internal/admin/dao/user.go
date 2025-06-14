@@ -5,18 +5,18 @@
 package dao
 
 import (
-	"gmanager/internal/dao/internal"
+	"gmanager/internal/admin/dao/internal"
 )
 
-// logDao is the data access object for the table sys_log.
+// userDao is the data access object for the table sys_user.
 // You can define custom methods on it to extend its functionality as needed.
-type logDao struct {
-	*internal.LogDao
+type userDao struct {
+	*internal.UserDao
 }
 
 var (
-	// Log is a globally accessible object for table sys_log operations.
-	Log = logDao{internal.NewLogDao()}
+	// User is a globally accessible object for table sys_user operations.
+	User = userDao{internal.NewUserDao()}
 )
 
 // Add your custom methods and functionality below.

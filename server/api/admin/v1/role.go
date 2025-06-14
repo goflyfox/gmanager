@@ -2,8 +2,8 @@ package v1
 
 import (
 	"github.com/gogf/gf/v2/frame/g"
-	"gmanager/internal/model/entity"
-	"gmanager/internal/model/input"
+	"gmanager/internal/admin/model/entity"
+	input2 "gmanager/internal/admin/model/input"
 )
 
 type RoleListReq struct {
@@ -11,12 +11,12 @@ type RoleListReq struct {
 	Keywords string `json:"keywords" dc:"角色或编码名称"`
 	Name     string `json:"name" dc:"角色名称"`
 	Enable   int    `json:"enable" dc:"是否启用"`
-	input.PageReq
+	input2.PageReq
 }
 
 type RoleListRes struct {
 	List []*entity.Role `json:"list" dc:"角色列表"`
-	input.PageRes
+	input2.PageRes
 }
 
 type RoleOptionsReq struct {
@@ -24,7 +24,7 @@ type RoleOptionsReq struct {
 	Enable int `json:"enable" dc:"是否启用"`
 }
 
-type RoleOptionsRes = []*input.OptionVal
+type RoleOptionsRes = []*input2.OptionVal
 
 type RoleSaveReq struct {
 	g.Meta    `path:"/role/save/:id" method:"post" tags:"角色管理" summary:"角色保存"`

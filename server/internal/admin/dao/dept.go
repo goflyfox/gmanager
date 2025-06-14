@@ -5,18 +5,18 @@
 package dao
 
 import (
-	"gmanager/internal/dao/internal"
+	"gmanager/internal/admin/dao/internal"
 )
 
-// configDao is the data access object for the table sys_config.
+// deptDao is the data access object for the table sys_dept.
 // You can define custom methods on it to extend its functionality as needed.
-type configDao struct {
-	*internal.ConfigDao
+type deptDao struct {
+	*internal.DeptDao
 }
 
 var (
-	// Config is a globally accessible object for table sys_config operations.
-	Config = configDao{internal.NewConfigDao()}
+	// Dept is a globally accessible object for table sys_dept operations.
+	Dept = deptDao{internal.NewDeptDao()}
 )
 
 // Add your custom methods and functionality below.

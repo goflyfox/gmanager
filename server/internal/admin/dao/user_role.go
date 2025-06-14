@@ -5,18 +5,18 @@
 package dao
 
 import (
-	"gmanager/internal/dao/internal"
+	"gmanager/internal/admin/dao/internal"
 )
 
-// userDao is the data access object for the table sys_user.
+// userRoleDao is the data access object for the table sys_user_role.
 // You can define custom methods on it to extend its functionality as needed.
-type userDao struct {
-	*internal.UserDao
+type userRoleDao struct {
+	*internal.UserRoleDao
 }
 
 var (
-	// User is a globally accessible object for table sys_user operations.
-	User = userDao{internal.NewUserDao()}
+	// UserRole is a globally accessible object for table sys_user_role operations.
+	UserRole = userRoleDao{internal.NewUserRoleDao()}
 )
 
 // Add your custom methods and functionality below.

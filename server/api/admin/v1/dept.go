@@ -2,8 +2,8 @@ package v1
 
 import (
 	"github.com/gogf/gf/v2/frame/g"
-	"gmanager/internal/model/entity"
-	"gmanager/internal/model/input"
+	"gmanager/internal/admin/model/entity"
+	input2 "gmanager/internal/admin/model/input"
 )
 
 type DeptListReq struct {
@@ -11,12 +11,12 @@ type DeptListReq struct {
 	Keywords string `json:"keywords" dc:"名称"`
 	Code     string `json:"code"  dc:"部门编码"`
 	Enable   int    `json:"enable" dc:"是否启用"`
-	input.PageReq
+	input2.PageReq
 }
 
 type DeptListRes struct {
-	List []*input.DeptTreeRes `json:"list" dc:"部门列表"`
-	input.PageRes
+	List []*input2.DeptTreeRes `json:"list" dc:"部门列表"`
+	input2.PageRes
 }
 
 type DeptOptionsReq struct {
@@ -24,7 +24,7 @@ type DeptOptionsReq struct {
 	Enable int `json:"enable" dc:"是否启用"`
 }
 
-type DeptOptionsRes = []*input.OptionVal
+type DeptOptionsRes = []*input2.OptionVal
 
 type DeptGetReq struct {
 	g.Meta `path:"/dept/get/:id" method:"get" tags:"部门管理" summary:"部门获取"`

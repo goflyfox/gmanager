@@ -5,7 +5,7 @@
 package dao
 
 import (
-	"gmanager/internal/dao/internal"
+	"gmanager/internal/admin/dao/internal"
 )
 
 // menuDao is the data access object for the table sys_menu.

@@ -5,18 +5,18 @@
 package dao
 
 import (
-	"gmanager/internal/dao/internal"
+	"gmanager/internal/admin/dao/internal"
 )
 
-// deptDao is the data access object for the table sys_dept.
+// roleMenuDao is the data access object for the table sys_role_menu.
 // You can define custom methods on it to extend its functionality as needed.
-type deptDao struct {
-	*internal.DeptDao
+type roleMenuDao struct {
+	*internal.RoleMenuDao
 }
 
 var (
-	// Dept is a globally accessible object for table sys_dept operations.
-	Dept = deptDao{internal.NewDeptDao()}
+	// RoleMenu is a globally accessible object for table sys_role_menu operations.
+	RoleMenu = roleMenuDao{internal.NewRoleMenuDao()}
 )
 
 // Add your custom methods and functionality below.

@@ -13,12 +13,12 @@ import (
 	"github.com/gogf/gf/v2/util/gconv"
 	"github.com/gogf/gf/v2/util/gmeta"
 	v1 "gmanager/api/admin/v1"
-	"gmanager/internal/consts"
-	"gmanager/internal/dao"
+	"gmanager/internal/admin/consts"
+	"gmanager/internal/admin/dao"
+	"gmanager/internal/admin/model/do"
+	"gmanager/internal/admin/model/entity"
+	"gmanager/internal/admin/model/input"
 	"gmanager/internal/library/gftoken"
-	"gmanager/internal/model/do"
-	"gmanager/internal/model/entity"
-	"gmanager/internal/model/input"
 )
 
 // Log 用户服务

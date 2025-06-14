@@ -5,8 +5,8 @@ import (
 	"github.com/gogf/gf/v2/errors/gcode"
 	"github.com/gogf/gf/v2/util/gconv"
 	v1 "gmanager/api/admin/v1"
-	"gmanager/internal/consts"
-	"gmanager/internal/model/input"
+	"gmanager/internal/admin/consts"
+	"gmanager/internal/admin/model/input"
 	"gmanager/utility/excel"
 
 	"github.com/gogf/gf/v2/errors/gerror"

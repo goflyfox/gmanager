@@ -2,8 +2,8 @@ package v1
 
 import (
 	"github.com/gogf/gf/v2/frame/g"
-	"gmanager/internal/model/entity"
-	"gmanager/internal/model/input"
+	"gmanager/internal/admin/model/entity"
+	input2 "gmanager/internal/admin/model/input"
 )
 
 type ConfigListReq struct {
@@ -11,12 +11,12 @@ type ConfigListReq struct {
 	Keywords string `json:"keywords" dc:"名称"`
 	DataType int    `json:"dataType" dc:"数据类型"`
 	Enable   int    `json:"enable" dc:"是否启用"`
-	input.PageReq
+	input2.PageReq
 }
 
 type ConfigListRes struct {
 	List []*entity.Config `json:"list" dc:"配置列表"`
-	input.PageRes
+	input2.PageRes
 }
 
 type ConfigGetReq struct {
@@ -65,7 +65,7 @@ type ConfigDictOptionsReq struct {
 	Enable int `json:"enable" dc:"是否启用"`
 }
 
-type ConfigDictOptionsRes = []*input.OptionVal
+type ConfigDictOptionsRes = []*input2.OptionVal
 
 type ConfigValueReq struct {
 	g.Meta `path:"/config/value/:key" method:"post" tags:"配置管理" summary:"获取配置对应信息"`
@@ -86,4 +86,4 @@ type ConfigDictItemsReq struct {
 	ParentKey string `json:"parentKey" dc:"类型Key" v:"required#字典Key不能为空"`
 }
 
-type ConfigDictItemsRes = []*input.OptionVal
+type ConfigDictItemsRes = []*input2.OptionVal

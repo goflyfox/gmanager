@@ -2,8 +2,8 @@ package v1
 
 import (
 	"github.com/gogf/gf/v2/frame/g"
-	"gmanager/internal/model/entity"
-	"gmanager/internal/model/input"
+	"gmanager/internal/admin/model/entity"
+	"gmanager/internal/admin/model/input"
 )
 
 type LogListReq struct {

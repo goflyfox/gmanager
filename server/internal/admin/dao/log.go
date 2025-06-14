@@ -5,18 +5,18 @@
 package dao
 
 import (
-	"gmanager/internal/dao/internal"
+	"gmanager/internal/admin/dao/internal"
 )
 
-// userRoleCasbinDao is the data access object for the table sys_user_role_casbin.
+// logDao is the data access object for the table sys_log.
 // You can define custom methods on it to extend its functionality as needed.
-type userRoleCasbinDao struct {
-	*internal.UserRoleCasbinDao
+type logDao struct {
+	*internal.LogDao
 }
 
 var (
-	// UserRoleCasbin is a globally accessible object for table sys_user_role_casbin operations.
-	UserRoleCasbin = userRoleCasbinDao{internal.NewUserRoleCasbinDao()}
+	// Log is a globally accessible object for table sys_log operations.
+	Log = logDao{internal.NewLogDao()}
 )
 
 // Add your custom methods and functionality below.

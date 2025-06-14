@@ -3,17 +3,16 @@ package logic
 import (
 	"context"
 	"errors"
-	v1 "gmanager/api/admin/v1"
-	"gmanager/internal/consts"
-	"gmanager/internal/dao"
-	"gmanager/internal/library/gftoken"
-	"gmanager/internal/model/do"
-	"gmanager/internal/model/entity"
-	"gmanager/internal/model/input"
-
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/os/gtime"
 	"github.com/gogf/gf/v2/util/gconv"
+	v1 "gmanager/api/admin/v1"
+	"gmanager/internal/admin/consts"
+	"gmanager/internal/admin/dao"
+	"gmanager/internal/admin/model/do"
+	"gmanager/internal/admin/model/entity"
+	input2 "gmanager/internal/admin/model/input"
+	"gmanager/internal/library/gftoken"
 )
 
 // Dept 部门服务
@@ -79,13 +78,13 @@ func (s *dept) List(ctx context.Context, in *v1.DeptListReq) (list *v1.DeptListR
 }
 
 // SelectALlList 获取所有部门
-func (s *dept) SelectALlList(ctx context.Context, in *v1.DeptListReq) (list []*input.DeptTreeRes, err error) {
+func (s *dept) SelectALlList(ctx context.Context, in *v1.DeptListReq) (list []*input2.DeptTreeRes, err error) {
 	if in == nil {
 		return
 	}
 	m := dao.Dept.Ctx(ctx)
 	columns := dao.Dept.Columns()
-	list = make([]*input.DeptTreeRes, 0)
+	list = make([]*input2.DeptTreeRes, 0)
 	if in.Enable > 0 {
 		m = m.Where(columns.Enable, in.Enable)
 	}
@@ -136,11 +135,11 @@ func (s *dept) DeptNameMap(ctx context.Context) (deptMap map[string]*entity.Dept
 }
 
 // GetTree 部门树形菜单
-func (s *dept) GetTree(pid int64, list []*entity.Dept) (tree []*input.DeptTreeRes) {
-	tree = make([]*input.DeptTreeRes, 0, len(list))
+func (s *dept) GetTree(pid int64, list []*entity.Dept) (tree []*input2.DeptTreeRes) {
+	tree = make([]*input2.DeptTreeRes, 0, len(list))
 	for _, v := range list {
 		if v.ParentId == pid {
-			t := &input.DeptTreeRes{
+			t := &input2.DeptTreeRes{
 				Dept: v,
 			}
 			child := s.GetTree(v.Id, list)
@@ -173,11 +172,11 @@ func (s *dept) Options(ctx context.Context, in *v1.DeptOptionsReq) (res *v1.Dept
 }
 
 // OptionsTree 部门下拉框
-func (s *dept) OptionsTree(pid int64, list []*entity.Dept) (tree []*input.OptionVal) {
-	tree = make([]*input.OptionVal, 0, len(list))
+func (s *dept) OptionsTree(pid int64, list []*entity.Dept) (tree []*input2.OptionVal) {
+	tree = make([]*input2.OptionVal, 0, len(list))
 	for _, v := range list {
 		if v.ParentId == pid {
-			t := &input.OptionVal{
+			t := &input2.OptionVal{
 				Value: v.Id,
 				Label: v.Name,
 			}

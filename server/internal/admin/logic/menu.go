@@ -3,17 +3,16 @@ package logic
 import (
 	"context"
 	"errors"
-	v1 "gmanager/api/admin/v1"
-	"gmanager/internal/consts"
-	"gmanager/internal/dao"
-	"gmanager/internal/library/gftoken"
-	"gmanager/internal/model/do"
-	"gmanager/internal/model/entity"
-	"gmanager/internal/model/input"
-
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/os/gtime"
 	"github.com/gogf/gf/v2/util/gconv"
+	v1 "gmanager/api/admin/v1"
+	"gmanager/internal/admin/consts"
+	"gmanager/internal/admin/dao"
+	"gmanager/internal/admin/model/do"
+	"gmanager/internal/admin/model/entity"
+	input2 "gmanager/internal/admin/model/input"
+	"gmanager/internal/library/gftoken"
 )
 
 // Menu 菜单
@@ -75,7 +74,7 @@ func (s *menu) List(ctx context.Context, in *v1.MenuListReq) (list *v1.MenuListR
 	return
 }
 
-func (s *menu) allTree(ctx context.Context, in *v1.MenuListReq) (list []*input.MenuTreeRes, err error) {
+func (s *menu) allTree(ctx context.Context, in *v1.MenuListReq) (list []*input2.MenuTreeRes, err error) {
 	if in == nil {
 		return
 	}
@@ -97,11 +96,11 @@ func (s *menu) allTree(ctx context.Context, in *v1.MenuListReq) (list []*input.M
 }
 
 // GetTree 菜单树形菜单
-func (s *menu) GetTree(pid int64, list []*entity.Menu) (tree []*input.MenuTreeRes) {
-	tree = make([]*input.MenuTreeRes, 0, len(list))
+func (s *menu) GetTree(pid int64, list []*entity.Menu) (tree []*input2.MenuTreeRes) {
+	tree = make([]*input2.MenuTreeRes, 0, len(list))
 	for _, v := range list {
 		if v.ParentId == pid {
-			t := &input.MenuTreeRes{
+			t := &input2.MenuTreeRes{
 				Menu: v,
 			}
 			child := s.GetTree(v.Id, list)
@@ -138,11 +137,11 @@ func (s *menu) Options(ctx context.Context, in *v1.MenuOptionsReq) (res *v1.Menu
 }
 
 // OptionsTree 部门下拉框
-func (s *menu) OptionsTree(pid int64, list []*entity.Menu) (tree []*input.OptionVal) {
-	tree = make([]*input.OptionVal, 0, len(list))
+func (s *menu) OptionsTree(pid int64, list []*entity.Menu) (tree []*input2.OptionVal) {
+	tree = make([]*input2.OptionVal, 0, len(list))
 	for _, v := range list {
 		if v.ParentId == pid {
-			t := &input.OptionVal{
+			t := &input2.OptionVal{
 				Value: v.Id,
 				Label: v.Name,
 			}
@@ -163,7 +162,7 @@ func (s *menu) Get(ctx context.Context, id int) (res *v1.MenuGetRes, err error) 
 		return
 	}
 	if res.Params != "" {
-		var paramList []*input.KeyValue
+		var paramList []*input2.KeyValue
 		err = gconv.Struct(res.Params, &paramList)
 		res.ParamList = paramList
 	}

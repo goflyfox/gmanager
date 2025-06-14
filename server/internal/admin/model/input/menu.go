@@ -1,6 +1,8 @@
 package input
 
-import "gmanager/internal/model/entity"
+import (
+	"gmanager/internal/admin/model/entity"
+)
 
 type Menu struct {
 	*entity.Menu

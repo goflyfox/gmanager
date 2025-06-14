@@ -3,7 +3,7 @@ package v1
 import (
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"
-	"gmanager/internal/model/input"
+	input2 "gmanager/internal/admin/model/input"
 )
 
 type UserListReq struct {
@@ -13,12 +13,12 @@ type UserListReq struct {
 	Status   int         `json:"code"  dc:"用户状态"`
 	Enable   int         `json:"enable" dc:"是否启用"`
 	CreateAt g.MapIntStr `json:"createAt" dc:"创建时间区间"`
-	input.PageReq
+	input2.PageReq
 }
 
 type UserListRes struct {
-	List []*input.User `json:"list" dc:"用户列表"`
-	input.PageRes
+	List []*input2.User `json:"list" dc:"用户列表"`
+	input2.PageRes
 }
 
 type UserSaveReq struct {
@@ -48,7 +48,7 @@ type UserGetReq struct {
 	Id     int64 `json:"id" dc:"ID"`
 }
 
-type UserGetRes = input.User
+type UserGetRes = input2.User
 
 type UserDeleteReq struct {
 	g.Meta `path:"/user/delete/:ids" method:"post" tags:"用户管理" summary:"用户删除"`
@@ -83,7 +83,7 @@ type UserMenusReq struct {
 	g.Meta `path:"/user/menus" tags:"用户管理" method:"get" summary:"用户菜单信息"`
 }
 
-type UserMenusRes = []*input.UserMenu
+type UserMenusRes = []*input2.UserMenu
 
 type UserExportReq struct {
 	g.Meta   `path:"/user/export" method:"get" tags:"用户管理" summary:"用户数据导出"`
@@ -92,7 +92,7 @@ type UserExportReq struct {
 	Status   int         `json:"code"  dc:"用户状态"`
 	Enable   int         `json:"enable" dc:"是否启用"`
 	CreateAt g.MapIntStr `json:"createAt" dc:"创建时间区间"`
-	input.PageReq
+	input2.PageReq
 }
 
 type UserExportRes struct {
