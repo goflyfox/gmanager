@@ -23,7 +23,7 @@
       <div class="data-table__toolbar">
         <div class="data-table__toolbar--actions">
           <el-button
-            v-hasPerm="['sys:menu:add']"
+            v-hasPerm="['admin:menu:save']"
             type="success"
             icon="plus"
             @click="handleOpenDialog(0,0)"
@@ -82,7 +82,7 @@
           <template #default="scope">
             <el-button
               v-if="scope.row.type == MenuTypeEnum.CATALOG || scope.row.type == MenuTypeEnum.MENU"
-              v-hasPerm="['sys:menu:add']"
+              v-hasPerm="['admin:menu:save']"
               type="primary"
               link
               size="small"
@@ -93,7 +93,7 @@
             </el-button>
 
             <el-button
-              v-hasPerm="['sys:menu:edit']"
+              v-hasPerm="['admin:menu:save']"
               type="primary"
               link
               size="small"
@@ -103,7 +103,7 @@
               编辑
             </el-button>
             <el-button
-              v-hasPerm="['sys:menu:delete']"
+              v-hasPerm="['admin:menu:delete']"
               type="danger"
               link
               size="small"
@@ -316,7 +316,7 @@
 
         <!-- 权限标识 -->
         <el-form-item v-if="formData.type == MenuTypeEnum.BUTTON" label="权限标识" prop="perm">
-          <el-input v-model="formData.perm" placeholder="sys:user:add" />
+          <el-input v-model="formData.perm" placeholder="admin:user:save" />
         </el-form-item>
 
         <el-form-item v-if="formData.type !== MenuTypeEnum.BUTTON" label="图标" prop="icon">

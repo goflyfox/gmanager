@@ -23,7 +23,7 @@ type ToolbarTable = "edit" | "view" | "delete";
 export type IToolsButton = {
   name: string; // 按钮名称
   text?: string; // 按钮文本
-  perm?: Array<string> | string; // 权限标识(可以是完整权限字符串如'sys:user:add'或操作权限如'add')
+  perm?: Array<string> | string; // 权限标识(可以是完整权限字符串如'admin:user:save'或操作权限如'add')
   attrs?: Partial<ButtonProps> & { style?: CSSProperties }; // 按钮属性
   render?: (row: IObject) => boolean; // 条件渲染
 };
@@ -37,7 +37,7 @@ export interface IOperateData {
 }
 
 export interface ISearchConfig {
-  // 权限前缀(如sys:user，用于组成权限标识)，不提供则不进行权限校验
+  // 权限前缀(如admin:user，用于组成权限标识)，不提供则不进行权限校验
   permPrefix?: string;
   // 标签冒号(默认：false)
   colon?: boolean;
@@ -56,7 +56,7 @@ export interface ISearchConfig {
 }
 
 export interface IContentConfig<T = any> {
-  // 权限前缀(如sys:user，用于组成权限标识)，不提供则不进行权限校验
+  // 权限前缀(如admin:user，用于组成权限标识)，不提供则不进行权限校验
   permPrefix?: string;
   // table组件属性
   table?: Omit<TableProps<any>, "data">;
@@ -104,7 +104,7 @@ export interface IContentConfig<T = any> {
   importsAction?: (data: IObject[]) => Promise<any>;
   // 主键名(默认为id)
   pk?: string;
-  // 表格工具栏(默认:add,delete,export,也可自定义)
+  // 表格工具栏(默认:save,delete,export,也可自定义)
   toolbar?: Array<ToolbarLeft | IToolsButton>;
   // 表格工具栏右侧图标(默认:refresh,filter,imports,exports,search)
   defaultToolbar?: Array<ToolbarRight | IToolsButton>;
@@ -159,7 +159,7 @@ export interface IContentConfig<T = any> {
 }
 
 export interface IModalConfig<T = any> {
-  // 权限前缀(如sys:user，用于组成权限标识)，不提供则不进行权限校验
+  // 权限前缀(如admin:user，用于组成权限标识)，不提供则不进行权限校验
   permPrefix?: string;
   // 标签冒号(默认：false)
   colon?: boolean;

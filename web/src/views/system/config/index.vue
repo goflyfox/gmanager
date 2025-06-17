@@ -44,7 +44,7 @@
       <div class="data-table__toolbar">
         <div class="data-table__toolbar--actions">
           <el-button
-            v-hasPerm="['sys:config:add']"
+            v-hasPerm="['admin:config:save']"
             type="success"
             icon="plus"
             @click="handleOpenDialog()"
@@ -52,7 +52,7 @@
             新增
           </el-button>
           <el-button
-            v-hasPerm="['sys:config:refresh']"
+            v-hasPerm="['admin:config:refresh']"
             color="#626aef"
             icon="RefreshLeft"
             @click="handleRefreshCache"
@@ -95,7 +95,7 @@
         <el-table-column fixed="right" label="操作" width="220">
           <template #default="scope">
             <el-button
-              v-hasPerm="['sys:config:update']"
+              v-hasPerm="['admin:config:save']"
               type="primary"
               size="small"
               link
@@ -105,7 +105,7 @@
               编辑
             </el-button>
             <el-button
-              v-hasPerm="['sys:config:delete']"
+              v-hasPerm="['admin:config:delete']"
               type="danger"
               size="small"
               link

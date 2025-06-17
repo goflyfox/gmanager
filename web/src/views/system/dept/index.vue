@@ -31,7 +31,7 @@
       <div class="data-table__toolbar">
         <div class="data-table__toolbar--actions">
           <el-button
-            v-hasPerm="['sys:dept:add']"
+            v-hasPerm="['admin:dept:save']"
             type="success"
             icon="plus"
             @click="handleOpenDialog()"
@@ -39,7 +39,7 @@
             新增
           </el-button>
           <el-button
-            v-hasPerm="['sys:dept:delete']"
+            v-hasPerm="['admin:dept:delete']"
             type="danger"
             :disabled="selectIds.length === 0"
             icon="delete"
@@ -72,7 +72,7 @@
         <el-table-column label="操作" fixed="right" align="left" width="200">
           <template #default="scope">
             <el-button
-              v-hasPerm="['sys:dept:add']"
+              v-hasPerm="['admin:dept:save']"
               type="primary"
               link
               size="small"
@@ -82,7 +82,7 @@
               新增
             </el-button>
             <el-button
-              v-hasPerm="['sys:dept:edit']"
+              v-hasPerm="['admin:dept:save']"
               type="primary"
               link
               size="small"
@@ -92,7 +92,7 @@
               编辑
             </el-button>
             <el-button
-              v-hasPerm="['sys:dept:delete']"
+              v-hasPerm="['admin:dept:delete']"
               type="danger"
               link
               size="small"

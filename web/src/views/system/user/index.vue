@@ -56,7 +56,7 @@
           <div class="data-table__toolbar">
             <div class="data-table__toolbar--actions">
               <el-button
-                v-hasPerm="['sys:user:add']"
+                v-hasPerm="['admin:user:save']"
                 type="success"
                 icon="plus"
                 @click="handleOpenDialog()"
@@ -64,7 +64,7 @@
                 新增
               </el-button>
               <el-button
-                v-hasPerm="'sys:user:delete'"
+                v-hasPerm="'admin:user:delete'"
                 type="danger"
                 icon="delete"
                 :disabled="selectIds.length === 0"
@@ -75,14 +75,14 @@
             </div>
             <div class="data-table__toolbar--tools">
               <el-button
-                v-hasPerm="'sys:user:import'"
+                v-hasPerm="'admin:user:import'"
                 icon="upload"
                 @click="handleOpenImportDialog"
               >
                 导入
               </el-button>
 
-              <el-button v-hasPerm="'sys:user:export'" icon="download" @click="handleExport">
+              <el-button v-hasPerm="'admin:user:export'" icon="download" @click="handleExport">
                 导出
               </el-button>
             </div>
@@ -119,7 +119,7 @@
             <el-table-column label="操作" fixed="right" width="220">
               <template #default="scope">
                 <el-button
-                  v-hasPerm="'sys:user:reset-password'"
+                  v-hasPerm="'admin:user:reset-password'"
                   type="primary"
                   icon="RefreshLeft"
                   size="small"
@@ -129,7 +129,7 @@
                   重置密码
                 </el-button>
                 <el-button
-                  v-hasPerm="'sys:user:edit'"
+                  v-hasPerm="'admin:user:save'"
                   type="primary"
                   icon="edit"
                   link
@@ -139,7 +139,7 @@
                   编辑
                 </el-button>
                 <el-button
-                  v-hasPerm="'sys:user:delete'"
+                  v-hasPerm="'admin:user:delete'"
                   type="danger"
                   icon="delete"
                   link

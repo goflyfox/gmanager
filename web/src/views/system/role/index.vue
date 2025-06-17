@@ -22,8 +22,9 @@
     <el-card shadow="hover" class="data-table">
       <div class="data-table__toolbar">
         <div class="data-table__toolbar--actions">
-          <el-button type="success" icon="plus" @click="handleOpenDialog()">新增</el-button>
+          <el-button  v-hasPerm="'admin:role:save'" type="success" icon="plus" @click="handleOpenDialog()">新增</el-button>
           <el-button
+            v-hasPerm="'admin:role:delete'"
             type="danger"
             :disabled="ids.length === 0"
             icon="delete"
@@ -68,6 +69,7 @@
               分配权限
             </el-button>
             <el-button
+              v-hasPerm="'admin:role:save'"
               type="primary"
               size="small"
               link
@@ -77,6 +79,7 @@
               编辑
             </el-button>
             <el-button
+              v-hasPerm="'admin:role:delete'"
               type="danger"
               size="small"
               link

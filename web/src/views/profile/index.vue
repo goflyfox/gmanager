@@ -18,27 +18,12 @@
               <input ref="fileInput" type="file" style="display: none" @change="handleFileChange" />
             </div>
             <div class="user-name">
-              <span class="nickname">{{ userProfile.nickname }}</span>
+              <span class="nickName">{{ userProfile.nickName }}</span>
               <el-icon class="edit-icon" @click="handleOpenDialog(DialogType.ACCOUNT)">
                 <Edit />
               </el-icon>
             </div>
             <div class="user-role">{{ userProfile.roleNames }}</div>
-          </div>
-          <el-divider />
-          <div class="user-stats">
-            <div class="stat-item">
-              <div class="stat-value">0</div>
-              <div class="stat-label">待办</div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-value">0</div>
-              <div class="stat-label">消息</div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-value">0</div>
-              <div class="stat-label">通知</div>
-            </div>
           </div>
         </el-card>
       </el-col>
@@ -53,7 +38,7 @@
           </template>
           <el-descriptions :column="1" border>
             <el-descriptions-item label="用户名">
-              {{ userProfile.username }}
+              {{ userProfile.userName }}
               <el-icon v-if="userProfile.gender === 1" class="gender-icon male">
                 <Male />
               </el-icon>
@@ -137,7 +122,7 @@
         :label-width="100"
       >
         <el-form-item label="昵称">
-          <el-input v-model="userProfileForm.nickname" />
+          <el-input v-model="userProfileForm.nickName" />
         </el-form-item>
         <el-form-item label="性别">
           <Dict v-model="userProfileForm.gender" code="gender" />
@@ -305,7 +290,7 @@ const handleOpenDialog = (type: DialogType) => {
       dialog.title = "账号资料";
       // 初始化表单数据
       userProfileForm.id = userProfile.value.id;
-      userProfileForm.nickname = userProfile.value.nickname;
+      userProfileForm.nickName = userProfile.value.nickName;
       userProfileForm.gender = userProfile.value.gender;
       break;
     case DialogType.PASSWORD:
@@ -507,7 +492,7 @@ onMounted(async () => {
     .user-name {
       margin-bottom: 8px;
 
-      .nickname {
+      .nickName {
         font-size: 18px;
         font-weight: 600;
         color: var(--el-text-color-primary);

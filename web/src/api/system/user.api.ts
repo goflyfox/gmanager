@@ -136,7 +136,7 @@ const UserAPI = {
   /** 修改个人中心用户信息 */
   updateProfile(data: UserProfileForm) {
     return request({
-      url: `${USER_BASE_URL}/profile`,
+      url: `${USER_BASE_URL}/saveProfile`,
       method: "post",
       data: data,
     });
@@ -144,17 +144,22 @@ const UserAPI = {
 
   /** 修改个人中心用户密码 */
   changePassword(data: PasswordChangeForm) {
+    const newData = {
+      oldPassword: Md5.hashStr(data.oldPassword || ""),
+      newPassword: Md5.hashStr(data.newPassword || ""),
+    };
+
     return request({
-      url: `${USER_BASE_URL}/password`,
+      url: `${USER_BASE_URL}/changePassword`,
       method: "post",
-      data: data,
+      data: newData,
     });
   },
 
   /** 发送短信验证码（绑定或更换手机号）*/
   sendMobileCode(mobile: string) {
     return request({
-      url: `${USER_BASE_URL}/mobile/code`,
+      url: `${USER_BASE_URL}/sendMobileCode`,
       method: "post",
       params: { mobile: mobile },
     });
@@ -163,7 +168,7 @@ const UserAPI = {
   /** 绑定或更换手机号 */
   bindOrChangeMobile(data: MobileUpdateForm) {
     return request({
-      url: `${USER_BASE_URL}/mobile`,
+      url: `${USER_BASE_URL}/saveMobile`,
       method: "post",
       data: data,
     });
@@ -172,7 +177,7 @@ const UserAPI = {
   /** 发送邮箱验证码（绑定或更换邮箱）*/
   sendEmailCode(email: string) {
     return request({
-      url: `${USER_BASE_URL}/email/code`,
+      url: `${USER_BASE_URL}/sendEmailCode`,
       method: "post",
       params: { email: email },
     });
@@ -181,7 +186,7 @@ const UserAPI = {
   /** 绑定或更换邮箱 */
   bindOrChangeEmail(data: EmailUpdateForm) {
     return request({
-      url: `${USER_BASE_URL}/email`,
+      url: `${USER_BASE_URL}/saveEmail`,
       method: "post",
       data: data,
     });

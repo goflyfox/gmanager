@@ -9,15 +9,13 @@ export const enum ResultEnum {
   /**
    * 错误
    */
-  ERROR = "B0001",
-
+  ERROR = -1,
   /**
-   * 访问令牌无效或过期
+   * 权限不足
    */
-  ACCESS_TOKEN_INVALID = "A0230",
-
+  SECURITY_INVALID = 62,
   /**
-   * 刷新令牌无效或过期
+   * 认证失败
    */
-  REFRESH_TOKEN_INVALID = "A0231",
+  AUTH_INVALID = 300,
 }

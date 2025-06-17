@@ -26,9 +26,9 @@
       </div>
       <template #dropdown>
         <el-dropdown-menu>
-          <!-- <el-dropdown-item @click="handleProfileClick">
+          <el-dropdown-item @click="handleProfileClick">
             {{ t("navbar.profile") }}
-          </el-dropdown-item> -->
+          </el-dropdown-item>
           <el-dropdown-item divided @click="logout">
             {{ t("navbar.logout") }}
           </el-dropdown-item>

@@ -43,15 +43,12 @@ service.interceptors.response.use(
   },
   async (error) => {
     console.error("request error", error); // for debug
-    const { config, response } = error;
+    const { response } = error;
     if (response) {
       const { code, message } = response.data;
-      if (code === ResultEnum.ACCESS_TOKEN_INVALID) {
-        // Token 过期，刷新 Token
-        return handleTokenRefresh(config);
-      } else if (code === ResultEnum.REFRESH_TOKEN_INVALID) {
+      if (code === ResultEnum.AUTH_INVALID) {
         // 刷新 Token 过期，跳转登录页
-        await handleSessionExpired();
+        await handleLogin();
         return Promise.reject(new Error(message || "Error"));
       } else {
         ElMessage.error(message || "系统出错");
@@ -61,41 +58,9 @@ service.interceptors.response.use(
   }
 );
 export default service;
-// 是否正在刷新标识，避免重复刷新
-let isRefreshing = false;
-// 因 Token 过期导致的请求等待队列
-const waitingQueue: Array<() => void> = [];
-// 刷新 Token 处理
-async function handleTokenRefresh(config: InternalAxiosRequestConfig) {
-  return new Promise((resolve) => {
-    // 封装需要重试的请求
-    const retryRequest = () => {
-      config.headers.Authorization = `Bearer ${Auth.getAccessToken()}`;
-      resolve(service(config));
-    };
-    waitingQueue.push(retryRequest);
-    if (!isRefreshing) {
-      isRefreshing = true;
-      useUserStoreHook()
-        .refreshToken()
-        .then(() => {
-          // 依次重试队列中所有请求, 重试后清空队列
-          waitingQueue.forEach((callback) => callback());
-          waitingQueue.length = 0;
-        })
-        .catch(async (error) => {
-          console.error("handleTokenRefresh error", error);
-          // 刷新 Token 失败，跳转登录页
-          await handleSessionExpired();
-        })
-        .finally(() => {
-          isRefreshing = false;
-        });
-    }
-  });
-}
+
 // 处理会话过期
-async function handleSessionExpired() {
+async function handleLogin() {
   ElNotification({
     title: "提示",
     message: "您的会话已过期，请重新登录",

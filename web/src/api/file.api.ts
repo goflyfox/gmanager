@@ -24,7 +24,7 @@ const FileAPI = {
     const formData = new FormData();
     formData.append("file", file);
     return request<any, FileInfo>({
-      url: "/admin/files",
+      url: "/admin/upload/file",
       method: "post",
       data: formData,
       headers: {
