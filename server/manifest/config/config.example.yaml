@@ -36,7 +36,7 @@ database:
     level: "all"
     stdout: true
   default:
-    link: "mysql:uroot:Aa123456!#@tcp(127.0.0.1:3306)/gf_cms"
+    link: "mysql:root:123456#@tcp(127.0.0.1:3306)/gmanager"
     debug:   true
 
 gToken:

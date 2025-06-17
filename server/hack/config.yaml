@@ -8,7 +8,7 @@ gfcli:
         descriptionTag: true
         path: "./internal/admin"
         removePrefix: "sys_"
-        tables: "sys_dept,sys_config,sys_log,sys_menu,sys_role,sys_role_menu,sys_user,sys_user_role,sys_user_role_casbin"
+        tables: "sys_dept,sys_config,sys_log,sys_menu,sys_role,sys_role_menu,sys_user,sys_user_role"
 
   build:
     name: "gmanager"                       # 编译后的可执行文件名称
