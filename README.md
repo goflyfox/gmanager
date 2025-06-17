@@ -20,7 +20,14 @@
 
 > gmanager开源以来得到了大家的很多支持，本项目初衷只为互相学习交流，没有任何盈利性目的！欢迎为gmanager贡献代码或提供建议！
 
+## 演示地址
+
+[https://gmanager.jflyfox.com/](https://gmanager.jflyfox.com/)
+
+> 账号：admin 密码：123456
+
 ## 部署说明
+
 
 以下为部署简要说明，详情参考[部署文档](docs/installation.md) 
 
