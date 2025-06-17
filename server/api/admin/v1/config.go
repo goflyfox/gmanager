@@ -7,7 +7,7 @@ import (
 )
 
 type ConfigListReq struct {
-	g.Meta   `path:"/config/list" method:"POST" tags:"配置管理" summary:"配置列表"`
+	g.Meta   `path:"/config/list" method:"POST" perms:"admin:config:query" tags:"配置管理" summary:"配置列表"`
 	Keywords string `json:"keywords" dc:"名称"`
 	DataType int    `json:"dataType" dc:"数据类型"`
 	Enable   int    `json:"enable" dc:"是否启用"`
@@ -20,14 +20,14 @@ type ConfigListRes struct {
 }
 
 type ConfigGetReq struct {
-	g.Meta `path:"/config/get/:id" method:"get" tags:"配置管理" summary:"配置获取"`
+	g.Meta `path:"/config/get/:id" method:"get" perms:"admin:config:query" tags:"配置管理" summary:"配置获取"`
 	Id     int64 `json:"id" dc:"ID"`
 }
 
 type ConfigGetRes = entity.Config
 
 type ConfigSaveReq struct {
-	g.Meta       `path:"/config/save/:id" method:"post" tags:"配置管理" summary:"配置保存"`
+	g.Meta       `path:"/config/save/:id" method:"post" perms:"admin:config:save" tags:"配置管理" summary:"配置保存"`
 	Id           int64  `json:"id"`
 	Name         string `json:"name"  dc:"配置名称" v:"required#配置名称不能为空"`
 	Key          string `json:"key"   dc:"配置键" v:"required#键不能为空"`
@@ -46,7 +46,7 @@ type ConfigSaveRes struct {
 }
 
 type ConfigDeleteReq struct {
-	g.Meta `path:"/config/delete/:ids" method:"post" tags:"配置管理" summary:"配置删除"`
+	g.Meta `path:"/config/delete/:ids" method:"post" perms:"admin:config:delete" tags:"配置管理" summary:"配置删除"`
 	Ids    string `json:"ids" dc:"删除id列表"`
 }
 

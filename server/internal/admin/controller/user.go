@@ -2,6 +2,7 @@ package controller
 
 import (
 	"context"
+	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/util/gconv"
 	v1 "gmanager/api/admin/v1"
 	"gmanager/internal/admin/logic"
@@ -46,13 +47,13 @@ func (c *user) PasswordReset(ctx context.Context, req *v1.UserPasswordResetReq) 
 
 // UserInfo 获取用户信息接口
 func (c *user) UserInfo(ctx context.Context, req *v1.UserInfoReq) (res *v1.UserInfoRes, err error) {
-	res, err = logic.Login.UserInfo(ctx, req)
+	res, err = logic.User.UserInfo(ctx, req)
 	return
 }
 
 // UserMenus 获取用户菜单接口
 func (c *user) UserMenus(ctx context.Context, req *v1.UserMenusReq) (res *v1.UserMenusRes, err error) {
-	res, err = logic.Login.UserMenus(ctx, req)
+	res, err = logic.User.UserMenus(ctx, req)
 	return
 }
 
@@ -68,5 +69,43 @@ func (c *user) Import(ctx context.Context, req *v1.UserImportReq) (res *v1.UserI
 
 func (c *user) Template(ctx context.Context, req *v1.UserTemplateReq) (res *v1.UserTemplateRes, err error) {
 	err = logic.User.Template(ctx, req)
+	return
+}
+
+func (c *user) Profile(ctx context.Context, req *v1.UserProfileReq) (res *v1.UserProfileRes, err error) {
+	res, err = logic.User.Profile(ctx, req)
+	return
+}
+
+func (c *user) SaveProfile(ctx context.Context, req *v1.UserSaveProfileReq) (res *v1.UserSaveProfileRes, err error) {
+	err = logic.User.SaveProfile(ctx, req)
+	return
+}
+
+func (c *user) ChangePassword(ctx context.Context, req *v1.UserChangePasswordReq) (res *v1.UserChangePasswordRes, err error) {
+	if req.OldPassword == req.NewPassword {
+		return nil, gerror.New("原密码和新密码一致")
+	}
+	err = logic.User.ChangePassword(ctx, req)
+	return
+}
+
+func (c *user) SendMobileCode(ctx context.Context, req *v1.UserSendMobileCodeReq) (res *v1.UserSendMobileCodeRes, err error) {
+	err = logic.User.SendMobileCode(ctx, req)
+	return
+}
+
+func (c *user) SaveMobile(ctx context.Context, req *v1.UserSaveMobileReq) (res *v1.UserSaveMobileRes, err error) {
+	err = logic.User.SaveMobile(ctx, req)
+	return
+}
+
+func (c *user) SendEmailCode(ctx context.Context, req *v1.UserSendEmailCodeReq) (res *v1.UserSendEmailCodeRes, err error) {
+	err = logic.User.SendEmailCode(ctx, req)
+	return
+}
+
+func (c *user) SaveEmail(ctx context.Context, req *v1.UserSaveEmailReq) (res *v1.UserSaveEmailRes, err error) {
+	err = logic.User.SaveEmail(ctx, req)
 	return
 }

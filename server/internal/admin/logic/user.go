@@ -2,21 +2,25 @@ package logic
 
 import (
 	"context"
+	"fmt"
+	"gmanager/api/admin/v1"
+	"gmanager/internal/admin/consts"
+	"gmanager/internal/admin/dao"
+	"gmanager/internal/admin/model/do"
+	"gmanager/internal/admin/model/entity"
+	"gmanager/internal/admin/model/input"
+	"gmanager/internal/library/cache"
+	"gmanager/internal/library/gftoken"
+
 	"github.com/gogf/gf/v2/crypto/gmd5"
 	"github.com/gogf/gf/v2/errors/gcode"
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gtime"
+	"github.com/gogf/gf/v2/text/gstr"
 	"github.com/gogf/gf/v2/util/gconv"
 	"github.com/gogf/gf/v2/util/grand"
 	"github.com/gogf/gf/v2/util/guid"
-	v1 "gmanager/api/admin/v1"
-	"gmanager/internal/admin/consts"
-	dao2 "gmanager/internal/admin/dao"
-	"gmanager/internal/admin/model/do"
-	entity2 "gmanager/internal/admin/model/entity"
-	input2 "gmanager/internal/admin/model/input"
-	"gmanager/internal/library/gftoken"
 )
 
 // User 用户服务
@@ -29,8 +33,8 @@ func (s *user) List(ctx context.Context, in *v1.UserListReq) (res *v1.UserListRe
 	if in == nil {
 		return
 	}
-	m := dao2.User.Ctx(ctx)
-	columns := dao2.User.Columns()
+	m := dao.User.Ctx(ctx)
+	columns := dao.User.Columns()
 	res = &v1.UserListRes{}
 
 	// where条件
@@ -67,7 +71,7 @@ func (s *user) List(ctx context.Context, in *v1.UserListReq) (res *v1.UserListRe
 	} else {
 		m = m.Order("id desc")
 	}
-	var pageList []*input2.User
+	var pageList []*input.User
 	if err = m.Page(in.PageNum, in.PageSize).Scan(&pageList); err != nil {
 		err = gerror.Wrap(err, "获取数据失败！")
 	}
@@ -87,11 +91,11 @@ func (s *user) List(ctx context.Context, in *v1.UserListReq) (res *v1.UserListRe
 
 // Get 获取用户详情
 func (s *user) Get(ctx context.Context, id int64) (res *v1.UserGetRes, err error) {
-	err = dao2.User.Ctx(ctx).Where(dao2.User.Columns().Id, id).Scan(&res)
+	err = dao.User.Ctx(ctx).Where(dao.User.Columns().Id, id).Scan(&res)
 	if err != nil {
 		return
 	}
-	values, err := dao2.UserRole.Ctx(ctx).Fields(dao2.UserRole.Columns().RoleId).Where(dao2.UserRole.Columns().UserId, id).Array()
+	values, err := dao.UserRole.Ctx(ctx).Fields(dao.UserRole.Columns().RoleId).Where(dao.UserRole.Columns().UserId, id).Array()
 	if err != nil {
 		return
 	}
@@ -107,8 +111,8 @@ func (s *user) Save(ctx context.Context, in *v1.UserSaveReq) error {
 		return gerror.Wrap(err, "数据转换错误")
 	}
 
-	m := dao2.User.Ctx(ctx)
-	columns := dao2.User.Columns()
+	m := dao.User.Ctx(ctx)
+	columns := dao.User.Columns()
 
 	// 用户名唯一性校验
 	nameCount, err := m.Where(columns.UserName, model.UserName).
@@ -130,7 +134,7 @@ func (s *user) Save(ctx context.Context, in *v1.UserSaveReq) error {
 		}
 		_ = Log.Save(ctx, model, consts.UPDATE)
 		// 删除历史角色
-		_, err = dao2.UserRole.Ctx(ctx).Where(dao2.UserRole.Columns().UserId, model.Id).Delete()
+		_, err = dao.UserRole.Ctx(ctx).Where(dao.UserRole.Columns().UserId, model.Id).Delete()
 		if err != nil {
 			return err
 		}
@@ -156,7 +160,7 @@ func (s *user) Save(ctx context.Context, in *v1.UserSaveReq) error {
 			return err
 		}
 		model.Id = modelId
-		_ = Log.SaveLog(ctx, &input2.LogData{
+		_ = Log.SaveLog(ctx, &input.LogData{
 			Model:      model,
 			OperType:   consts.INSERT,
 			OperRemark: "角色ID：" + gconv.String(in.RoleIds),
@@ -167,24 +171,24 @@ func (s *user) Save(ctx context.Context, in *v1.UserSaveReq) error {
 	userRoleList := g.List{}
 	for _, roleId := range in.RoleIds {
 		userRoleList = append(userRoleList,
-			g.Map{dao2.UserRole.Columns().UserId: model.Id,
-				dao2.UserRole.Columns().RoleId: roleId,
+			g.Map{dao.UserRole.Columns().UserId: model.Id,
+				dao.UserRole.Columns().RoleId: roleId,
 			})
 	}
-	_, err = dao2.UserRole.Ctx(ctx).Insert(userRoleList)
+	_, err = dao.UserRole.Ctx(ctx).Insert(userRoleList)
 	return err
 }
 
 // Delete 删除用户
 func (s *user) Delete(ctx context.Context, ids []int) error {
 	// 删除用户角色关联
-	_, err := dao2.UserRole.Ctx(ctx).WhereIn(dao2.UserRole.Columns().UserId, ids).Delete()
+	_, err := dao.UserRole.Ctx(ctx).WhereIn(dao.UserRole.Columns().UserId, ids).Delete()
 	if err != nil {
 		return err
 	}
 
 	// 删除用户
-	_, err = dao2.User.Ctx(ctx).WhereIn(dao2.User.Columns().Id, ids).Delete()
+	_, err = dao.User.Ctx(ctx).WhereIn(dao.User.Columns().Id, ids).Delete()
 	if err != nil {
 		return err
 	}
@@ -209,8 +213,8 @@ func (s *user) PasswordReset(ctx context.Context, in *v1.UserPasswordResetReq) e
 		return err
 	}
 	userId := gftoken.GetSessionUser(ctx).Id
-	columns := dao2.User.Columns()
-	_, err = dao2.User.Ctx(ctx).Where(columns.Id, in.Id).Update(do.User{
+	columns := dao.User.Columns()
+	_, err = dao.User.Ctx(ctx).Where(columns.Id, in.Id).Update(do.User{
 		UpdateId: userId,
 		UpdateAt: gtime.Now(),
 		Password: password,
@@ -219,9 +223,9 @@ func (s *user) PasswordReset(ctx context.Context, in *v1.UserPasswordResetReq) e
 }
 
 // UserInfo 获取用户信息接口
-func (s *login) UserInfo(ctx context.Context, req *v1.UserInfoReq) (res *v1.UserInfoRes, err error) {
-	var model *entity2.User
-	err = dao2.User.Ctx(ctx).Where(dao2.User.Columns().UserName, gftoken.GetUserKey(ctx)).Scan(&model)
+func (s *user) UserInfo(ctx context.Context, req *v1.UserInfoReq) (res *v1.UserInfoRes, err error) {
+	var model *entity.User
+	err = dao.User.Ctx(ctx).Where(dao.User.Columns().UserName, gftoken.GetUserKey(ctx)).Scan(&model)
 	if err != nil {
 		return
 	}
@@ -229,11 +233,11 @@ func (s *login) UserInfo(ctx context.Context, req *v1.UserInfoReq) (res *v1.User
 		err = gerror.NewCode(gcode.CodeValidationFailed, "用户名信息获取失败!")
 		return
 	}
-	perms, err := getUserPerms(ctx, model.Id, model.UserType)
+	perms, err := getUserPerms(ctx, false)
 	if err != nil {
 		return
 	}
-	roleNames, err := getUserRoleNames(ctx, model.Id, model.UserType)
+	roleNames, err := getUserRoleNames(ctx)
 	if err != nil {
 		return
 	}
@@ -250,35 +254,65 @@ func (s *login) UserInfo(ctx context.Context, req *v1.UserInfoReq) (res *v1.User
 }
 
 // UserMenus 获取用户菜单接口
-func (s *login) UserMenus(ctx context.Context, in *v1.UserMenusReq) (res *v1.UserMenusRes, err error) {
+func (s *user) UserMenus(ctx context.Context, in *v1.UserMenusReq) (res *v1.UserMenusRes, err error) {
 	var (
-		model   *entity2.User
-		menus   []*entity2.Menu
-		columns = dao2.Menu.Columns()
+		menus []*entity.Menu
 	)
-	res = &v1.UserMenusRes{}
-	m := dao2.Menu.Ctx(ctx).Where(columns.Enable, consts.EnableYes).WhereNot(columns.Type, consts.MenuTypeButton)
-	// 获取当前用户
-	err = dao2.User.Ctx(ctx).Where(dao2.User.Columns().UserName, gftoken.GetUserKey(ctx)).Scan(&model)
+	menus, err = getUserMenus(ctx, false)
 	if err != nil {
 		return
 	}
-	if model.UserType == consts.UserTypeAdmin {
+	if len(menus) > 0 {
+		tree := s.GetTree(0, menus)
+		res = &tree
+	}
+	return
+}
+
+/** getUserMenus 获取用户菜单
+ * @param cacheFlag 是否缓存
+ */
+func getUserMenus(ctx context.Context, cacheFlag bool) (menus []*entity.Menu, err error) {
+	var (
+		columns = dao.Menu.Columns()
+	)
+	sessionUser := gftoken.GetSessionUser(ctx)
+	if sessionUser == nil {
+		return
+	}
+	if cacheFlag { // 使用缓存
+		cacheMap, err2 := cache.Instance().Get(ctx, fmt.Sprintf(consts.CacheUserMenu, sessionUser.Id))
+		if err2 != nil {
+			return nil, err2
+		}
+		if len(cacheMap) > 0 {
+			err = gconv.Struct(cacheMap[consts.CacheData], &menus)
+			if err != nil {
+				return nil, err
+			}
+			if len(menus) > 0 {
+				return
+			}
+		}
+	}
+
+	m := dao.Menu.Ctx(ctx).Where(columns.Enable, consts.EnableYes).WhereNot(columns.Type, consts.MenuTypeButton)
+	if sessionUser.UserType == consts.UserTypeAdmin {
 		m = m.OrderAsc(columns.Sort)
 		if err = m.Scan(&menus); err != nil {
 			err = gerror.Wrap(err, "获取数据失败！")
 		}
 	} else {
-		roleIds, err2 := dao2.UserRole.Ctx(ctx).Fields(dao2.UserRole.Columns().RoleId).
-			Where(dao2.UserRole.Columns().UserId, model.Id).Array()
+		roleIds, err2 := dao.UserRole.Ctx(ctx).Fields(dao.UserRole.Columns().RoleId).
+			Where(dao.UserRole.Columns().UserId, sessionUser.Id).Array()
 		if err2 != nil {
 			return nil, err2
 		}
 		if len(roleIds) == 0 {
 			return
 		}
-		menuIds, err2 := dao2.RoleMenu.Ctx(ctx).Fields(dao2.RoleMenu.Columns().MenuId).
-			WhereIn(dao2.RoleMenu.Columns().RoleId, gconv.SliceInt64(roleIds)).Array()
+		menuIds, err2 := dao.RoleMenu.Ctx(ctx).Fields(dao.RoleMenu.Columns().MenuId).
+			WhereIn(dao.RoleMenu.Columns().RoleId, gconv.SliceInt64(roleIds)).Array()
 		if err2 != nil {
 			return nil, err2
 		}
@@ -288,56 +322,114 @@ func (s *login) UserMenus(ctx context.Context, in *v1.UserMenusReq) (res *v1.Use
 			return nil, err2
 		}
 	}
-
+	// 设置缓存
 	if len(menus) > 0 {
-		tree := s.GetTree(0, menus)
-		res = &tree
+		err = cache.Instance().Set(ctx, fmt.Sprintf(consts.CacheUserMenu, sessionUser.Id), g.Map{consts.CacheData: menus})
+		if err != nil {
+			return
+		}
 	}
+	return
+}
 
+// GetTree 菜单树形菜单
+func (s *user) GetTree(pid int64, list []*entity.Menu) (tree []*input.UserMenu) {
+	tree = make([]*input.UserMenu, 0, len(list))
+	for _, v := range list {
+		if v.ParentId == pid {
+			name := v.RouteName
+			if name == "" {
+				name = v.RoutePath
+			}
+			t := &input.UserMenu{
+				Id:        v.Id,
+				Name:      name,
+				Component: v.Component,
+				Path:      v.RoutePath,
+				Redirect:  v.Redirect,
+				Meta: input.Meta{
+					AlwaysShow: v.AlwaysShow == 1,
+					Hidden:     v.Enable != 1,
+					Icon:       v.Icon,
+					KeepAlive:  v.KeepAlive == 1,
+					Title:      v.Name,
+				},
+			}
+			child := s.GetTree(v.Id, list)
+			if len(child) > 0 {
+				t.Children = child
+			}
+			tree = append(tree, t)
+		}
+	}
 	return
 }
 
 // getUserRoleNames 获取用户对应角色名称
-func getUserRoleNames(ctx context.Context, userId int64, userType int) (res []string, err error) {
-	if userType == consts.UserTypeAdmin {
+func getUserRoleNames(ctx context.Context) (res []string, err error) {
+	sessionUser := gftoken.GetSessionUser(ctx)
+	if sessionUser == nil {
+		return
+	}
+	if sessionUser.UserType == consts.UserTypeAdmin {
 		res = append(res, consts.RoleAdmin)
 		return
 	}
 
-	values, err := dao2.UserRole.Ctx(ctx).Fields(dao2.UserRole.Columns().RoleId).Where(dao2.UserRole.Columns().UserId, userId).Array()
+	values, err := dao.UserRole.Ctx(ctx).Fields(dao.UserRole.Columns().RoleId).Where(dao.UserRole.Columns().UserId, sessionUser.Id).Array()
 	if err != nil {
 		return
 	}
-	var roles []*entity2.Role
-	err = dao2.Role.Ctx(ctx).WhereIn(dao2.Role.Columns().Id, gconv.SliceInt64(values)).Scan(&roles)
+	var roles []*entity.Role
+	err = dao.Role.Ctx(ctx).WhereIn(dao.Role.Columns().Id, gconv.SliceInt64(values)).Scan(&roles)
 	for _, e := range roles {
 		res = append(res, e.Code)
 	}
 	return
 }
 
-// getUserPerms 获取用户对应按钮权限
-func getUserPerms(ctx context.Context, userId int64, userType int) (res []string, err error) {
+/** getUserPerms 获取用户对应按钮权限
+ * @param cacheFlag 是否使用缓存
+ */
+func getUserPerms(ctx context.Context, cacheFlag bool) (res []string, err error) {
+	sessionUser := gftoken.GetSessionUser(ctx)
+	if sessionUser == nil {
+		return
+	}
+
+	if cacheFlag { // 使用缓存
+		cacheMap, err2 := cache.Instance().Get(ctx, fmt.Sprintf(consts.CacheUserPerm, sessionUser.Id))
+		if err2 != nil {
+			return nil, err2
+		}
+		if len(cacheMap) > 0 {
+			res = gconv.SliceStr(cacheMap[consts.CacheData])
+			if len(res) > 0 {
+				return
+			}
+		}
+	}
+
 	// 管理员权限
-	var menus []*entity2.Menu
-	columns := dao2.Menu.Columns()
-	m := dao2.Menu.Ctx(ctx).Where(columns.Enable, consts.EnableYes).Where(columns.Type, consts.MenuTypeButton)
-	if userType == consts.UserTypeAdmin {
+	var menus []*entity.Menu
+	columns := dao.Menu.Columns()
+	m := dao.Menu.Ctx(ctx).Where(columns.Enable, consts.EnableYes).Where(columns.Type, consts.MenuTypeButton)
+	if sessionUser.UserType == consts.UserTypeAdmin {
 		// 管理员获取所有按钮权限
 		if err = m.Scan(&menus); err != nil {
 			return nil, err
 		}
 	} else {
-		roleIds, err2 := dao2.UserRole.Ctx(ctx).Fields(dao2.UserRole.Columns().RoleId).
-			Where(dao2.UserRole.Columns().UserId, userId).Array()
+		roleIds, err2 := dao.UserRole.Ctx(ctx).Fields(dao.UserRole.Columns().RoleId).
+			Where(dao.UserRole.Columns().UserId, sessionUser.Id).Array()
 		if err2 != nil {
 			return nil, err2
 		}
 		if len(roleIds) == 0 {
 			return
 		}
-		menuIds, err2 := dao2.RoleMenu.Ctx(ctx).Fields(dao2.RoleMenu.Columns().MenuId).
-			WhereIn(dao2.RoleMenu.Columns().RoleId, gconv.SliceInt64(roleIds)).Array()
+		menuIds, err2 := dao.RoleMenu.Ctx(ctx).Fields(dao.RoleMenu.Columns().MenuId).
+			WhereIn(dao.RoleMenu.Columns().RoleId, gconv.SliceInt64(roleIds)).Array()
 		if err2 != nil {
 			return nil, err2
 		}
@@ -356,5 +448,45 @@ func getUserPerms(ctx context.Context, userId int64, userType int) (res []string
 			}
 		}
 	}
+	// 设置缓存
+	if len(res) > 0 {
+		err = cache.Instance().Set(ctx, fmt.Sprintf(consts.CacheUserPerm, sessionUser.Id), g.Map{consts.CacheData: res})
+		if err != nil {
+			return
+		}
+	}
 	return
+}
+
+func (s *user) CheckPerm(ctx context.Context, perm string) bool {
+	perms, err := getUserPerms(ctx, true)
+	if err != nil {
+		g.Log().Info(ctx, err)
+		return false
+	}
+	for _, userPerm := range perms {
+		if userPerm == perm {
+			return true
+		}
+	}
+	return false
+}
+
+// CheckUrl 菜单校验
+// TODO 只有用户菜单权限，但是用户菜单以来组织机构和角色？？？
+func (s *user) CheckUrl(ctx context.Context, path string) bool {
+	menus, err := getUserMenus(ctx, true)
+	if err != nil {
+		g.Log().Info(ctx, err)
+		return false
+	}
+	for _, e := range menus {
+		if e.Type != consts.MenuTypeMenu {
+			continue
+		}
+		if gstr.HasPrefix(path, "/admin/"+e.RoutePath) {
+			return true
+		}
+	}
+	return false
 }

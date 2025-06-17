@@ -1,7 +1,6 @@
 # Vue 项目忽略项
 node_modules
 .idea
-.vscode
 .dist
 .cache
 
@@ -20,3 +19,5 @@ go.sum
 
 # 本地配置文件
 **/config/config.yaml
+**/attachment/**
+**/temp/**

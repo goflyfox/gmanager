@@ -4,7 +4,6 @@ import (
 	"context"
 	"github.com/gogf/gf/v2/util/gconv"
 	v1 "gmanager/api/admin/v1"
-	"gmanager/internal/admin/consts"
 	"gmanager/internal/admin/logic"
 	"strings"
 )
@@ -19,9 +18,6 @@ func (c *dept) List(ctx context.Context, req *v1.DeptListReq) (res *v1.DeptListR
 }
 
 func (c *dept) Options(ctx context.Context, req *v1.DeptOptionsReq) (res *v1.DeptOptionsRes, err error) {
-	if req != nil && req.Enable == 0 {
-		req.Enable = consts.EnableYes
-	}
 	res, err = logic.Dept.Options(ctx, req)
 	return
 }

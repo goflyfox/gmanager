@@ -6,6 +6,8 @@ import (
 	"github.com/gogf/gf/v2/net/ghttp"
 	"github.com/gogf/gf/v2/os/gcmd"
 	"gmanager/internal/admin/controller"
+	"gmanager/internal/admin/middleware"
+	common "gmanager/internal/common/controller"
 	"gmanager/internal/library/cache"
 	"gmanager/internal/library/gftoken"
 )
@@ -31,13 +33,14 @@ var (
 				//跨域处理，安全起见正式环境请注释该行
 				group.Middleware(func(r *ghttp.Request) {
 					r.Response.CORSDefault()
-					g.Log().Info(ctx, r.GetServeHandler().GetMetaTag("perms"))
 					r.Middleware.Next()
 				})
-				// gtoken认证
-				group.Middleware(gftoken.MiddlewareAuth)
+				group.Middleware(gftoken.MiddlewareAuth) // gtoken登陆认证
+				group.Middleware(middleware.UserPerm)    // 用户权限认证
 				group.Middleware(ghttp.MiddlewareHandlerResponse)
+				group.Middleware(middleware.DemoNotice) // 演示环境提示
 				group.Bind(
+					common.Upload,
 					controller.Login,
 					controller.Dept,
 					controller.User,

@@ -7,7 +7,7 @@ import (
 )
 
 type RoleListReq struct {
-	g.Meta   `path:"/role/list" method:"post" tags:"角色管理" summary:"角色列表"`
+	g.Meta   `path:"/role/list" method:"post" perms:"admin:role:query" tags:"角色管理" summary:"角色列表"`
 	Keywords string `json:"keywords" dc:"角色或编码名称"`
 	Name     string `json:"name" dc:"角色名称"`
 	Enable   int    `json:"enable" dc:"是否启用"`
@@ -27,7 +27,7 @@ type RoleOptionsReq struct {
 type RoleOptionsRes = []*input2.OptionVal
 
 type RoleSaveReq struct {
-	g.Meta    `path:"/role/save/:id" method:"post" tags:"角色管理" summary:"角色保存"`
+	g.Meta    `path:"/role/save/:id" method:"post" perms:"admin:role:save" tags:"角色管理" summary:"角色保存"`
 	Id        int64  `json:"id"`
 	Name      string `json:"name"  dc:"名称" v:"required#名称不能为空"`
 	Code      string `json:"code" dc:"编码"`
@@ -41,14 +41,14 @@ type RoleSaveRes struct {
 }
 
 type RoleGetReq struct {
-	g.Meta `path:"/role/get/:id" method:"get" tags:"角色管理" summary:"角色获取"`
+	g.Meta `path:"/role/get/:id" method:"get" perms:"admin:role:query" tags:"角色管理" summary:"角色获取"`
 	Id     int64 `json:"id" dc:"ID"`
 }
 
 type RoleGetRes = entity.Role
 
 type RoleDeleteReq struct {
-	g.Meta `path:"/role/delete/:ids" method:"post" tags:"角色管理" summary:"角色删除"`
+	g.Meta `path:"/role/delete/:ids" method:"post" perms:"admin:role:delete" tags:"角色管理" summary:"角色删除"`
 	Ids    string `json:"ids" dc:"删除id列表"`
 }
 

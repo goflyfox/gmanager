@@ -63,7 +63,8 @@ func (s *login) Login(ctx context.Context, req *v1.LoginReq) (res *v1.LoginRes, 
 		Id:       model.Id,
 		Uuid:     model.Uuid,
 		NickName: model.NickName,
-		Username: model.UserName,
+		UserName: model.UserName,
+		UserType: model.UserType,
 	}
 	// 认证成功调用Generate生成Token
 	res.AccessToken, err = gftoken.GToken.Generate(ctx, req.Username, sessionUser)
@@ -110,39 +111,6 @@ func (s *login) Logout(ctx context.Context, req *v1.LogoutReq) (res *v1.LogoutRe
 	})
 	// 销毁Token
 	_ = gftoken.GToken.Destroy(ctx, userName)
-	return
-}
-
-// GetTree 菜单树形菜单
-func (s *login) GetTree(pid int64, list []*entity2.Menu) (tree []*input2.UserMenu) {
-	tree = make([]*input2.UserMenu, 0, len(list))
-	for _, v := range list {
-		if v.ParentId == pid {
-			name := v.RouteName
-			if name == "" {
-				name = v.RoutePath
-			}
-			t := &input2.UserMenu{
-				Id:        v.Id,
-				Name:      name,
-				Component: v.Component,
-				Path:      v.RoutePath,
-				Redirect:  v.Redirect,
-				Meta: input2.Meta{
-					AlwaysShow: v.AlwaysShow == 1,
-					Hidden:     v.Enable != 1,
-					Icon:       v.Icon,
-					KeepAlive:  v.KeepAlive == 1,
-					Title:      v.Name,
-				},
-			}
-			child := s.GetTree(v.Id, list)
-			if len(child) > 0 {
-				t.Children = child
-			}
-			tree = append(tree, t)
-		}
-	}
 	return
 }
 

@@ -6,8 +6,19 @@ gfcli:
     dao:
       - link: "mysql:root:123456@tcp(127.0.0.1:3306)/gmanager"
         descriptionTag: true
+        path: "./internal/admin"
         removePrefix: "sys_"
         tables: "sys_dept,sys_config,sys_log,sys_menu,sys_role,sys_role_menu,sys_user,sys_user_role,sys_user_role_casbin"
+
+  build:
+    name: "gmanager"                       # 编译后的可执行文件名称
+    arch: "amd64"                          # 不填默认当前系统架构，可选：386,amd64,arm,all
+    system: "linux"                        # 不填默认当前系统平台，可选：linux,darwin,windows,all
+    packSrc: "resource"                    # 将resource目录打包进可执行文件，静态资源无需单独部署
+    packDst: "internal/packed/packed.go"   # 打包后生成的Go文件路径，一般使用相对路径指定到本项目目录中
+    version: ""
+    output: "./temp/gmanager"                 # 可执行文件生成路径
+    extra: ""
 
 docker:
   build: "-a amd64 -s linux -p temp -ew"

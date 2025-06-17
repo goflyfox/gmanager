@@ -111,7 +111,7 @@ func (s *log) SaveLog(ctx context.Context, input *input.LogData) error {
 		logMeta.UpdateAt = gtime.Now()
 	}
 	if session != nil {
-		operator = session.Username
+		operator = session.UserName
 	}
 	if input.PkVal > 0 {
 		logMeta.Id = input.PkVal

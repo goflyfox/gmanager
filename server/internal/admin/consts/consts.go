@@ -37,5 +37,8 @@ const (
 
 // 缓存 cache
 const (
-	CacheConfig = "config"
+	CacheData     = "data"
+	CacheConfig   = "config"      // 配置缓存
+	CacheUserPerm = "userPerm_%d" // 用户按钮权限缓存
+	CacheUserMenu = "userMenu_%d" // 用户菜单权限缓存
 )

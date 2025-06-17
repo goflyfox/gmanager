@@ -6,7 +6,7 @@ import (
 )
 
 type MenuListReq struct {
-	g.Meta `path:"/menu/list" method:"post" tags:"菜单管理" summary:"菜单列表"`
+	g.Meta `path:"/menu/list" method:"post" perms:"admin:menu:query" tags:"菜单管理" summary:"菜单列表"`
 	Name   string `json:"name" dc:"菜单名称"`
 	Enable int    `json:"enable" dc:"是否启用"`
 	input2.PageReq
@@ -26,14 +26,14 @@ type MenuOptionsReq struct {
 type MenuOptionsRes = []*input2.OptionVal
 
 type MenuGetReq struct {
-	g.Meta `path:"/menu/get/:id" method:"get" tags:"菜单管理" summary:"菜单获取"`
+	g.Meta `path:"/menu/get/:id" method:"get"  perms:"admin:menu:query" tags:"菜单管理" summary:"菜单获取"`
 	Id     int `json:"id" dc:"ID"`
 }
 
 type MenuGetRes = input2.Menu
 
 type MenuSaveReq struct {
-	g.Meta     `path:"/menu/save/:id" method:"post" tags:"菜单管理" summary:"菜单保存"`
+	g.Meta     `path:"/menu/save/:id" method:"post"  perms:"admin:menu:save" tags:"菜单管理" summary:"菜单保存"`
 	Id         int                `json:"id"`
 	ParentId   int                `json:"parentId"  v:"required#父级不能为空"`
 	Name       string             `json:"name"   dc:"菜单名称" v:"required#菜单名称不能为空"`
@@ -57,7 +57,7 @@ type MenuSaveRes struct {
 }
 
 type MenuDeleteReq struct {
-	g.Meta `path:"/menu/delete/:ids" method:"post" tags:"菜单管理" summary:"菜单删除"`
+	g.Meta `path:"/menu/delete/:ids" method:"post" perms:"admin:menu:delete" tags:"菜单管理" summary:"菜单删除"`
 	Ids    []int `json:"ids" dc:"删除id列表"`
 }
 
