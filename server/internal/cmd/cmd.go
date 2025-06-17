@@ -8,7 +8,6 @@ import (
 	"gmanager/internal/admin/controller"
 	"gmanager/internal/admin/middleware"
 	common "gmanager/internal/common/controller"
-	"gmanager/internal/library/cache"
 	"gmanager/internal/library/gftoken"
 )
 
@@ -58,7 +57,3 @@ var (
 		},
 	}
 )
-
-func initData(ctx context.Context) {
-	cache.InitCache(ctx)
-}

@@ -162,7 +162,7 @@ const vesionList = ref<VersionItem[]>([
     id: "1",
     title: "v2.0.0",
     date: "2025-06-12 00:00:00",
-    content: "实现基础框架搭建，包含权限管理、路由系统等核心功能。",
+    content: "项目进行了全面重构，Goframe升级到v2.9.0, 前端基于Vue3 + Vite + TypeScript + Element-Plus的后台管理系统。 实现登录、认证、组织机构、用户帐号、角色权限、菜单、配置、操作日志等模块。",
     link: "https://github.com/goflyfox/gmanager/releases",
     tag: "里程碑",
   },
