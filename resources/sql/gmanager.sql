@@ -185,8 +185,6 @@ create table sys_user
     comment '用户' charset = utf8mb4
                    row_format = DYNAMIC;
 
-grant select on table sys_user to uroot@localhost;
-
 create table sys_user_role
 (
     user_id bigint not null comment '用户id',
