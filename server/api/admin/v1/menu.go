@@ -58,7 +58,7 @@ type MenuSaveRes struct {
 
 type MenuDeleteReq struct {
 	g.Meta `path:"/menu/delete/:ids" method:"post" perms:"admin:menu:delete" tags:"菜单管理" summary:"菜单删除"`
-	Ids    []int `json:"ids" dc:"删除id列表"`
+	Ids    string `json:"ids" dc:"删除id列表"`
 }
 
 type MenuDeleteRes struct {

@@ -2,8 +2,10 @@ package controller
 
 import (
 	"context"
+	"github.com/gogf/gf/v2/util/gconv"
 	v1 "gmanager/api/admin/v1"
 	"gmanager/internal/admin/logic"
+	"strings"
 )
 
 type menu struct{}
@@ -32,6 +34,13 @@ func (c *menu) Save(ctx context.Context, req *v1.MenuSaveReq) (res *v1.MenuSaveR
 }
 
 func (c *menu) Delete(ctx context.Context, req *v1.MenuDeleteReq) (res *v1.MenuDeleteRes, err error) {
-	err = logic.Menu.Delete(ctx, req.Ids)
+	if req.Ids == "" {
+		return
+	}
+	idArr := make([]int, 0)
+	for _, v := range strings.Split(req.Ids, ",") {
+		idArr = append(idArr, gconv.Int(v))
+	}
+	err = logic.Menu.Delete(ctx, idArr)
 	return
 }
