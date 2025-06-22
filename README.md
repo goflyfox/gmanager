@@ -29,7 +29,7 @@
 ## 部署说明
 
 
-以下为部署简要说明，详情参考[部署文档](docs/installation.md) 
+以下为部署简要说明，详情参考[部署文档](docs/01.installation.md) 
 
 ### 后端
 
@@ -67,7 +67,7 @@ pnpm run dev
 
 ## 使用文档
 
-[说明文档](docs/README.md) · [部署文档](docs/installation.md) · [更新说明](docs/ChangeLog.md)
+[说明文档](docs/README.md) · [更新说明](docs/ChangeLog.md)
 
 ## 效果截图
 登录：

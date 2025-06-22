@@ -1,0 +1,94 @@
+
+
+services:
+  nginx:
+    build: 
+      dockerfile: ./resources/docker/Dockerfile
+      target: gmanager-nginx
+    ports:
+    - 8080:80
+    environment:
+    - NGINX_HOST=gmanager
+    - NGINX_PORT=80
+    volumes:
+      - ./resources/docker/nginx/gmanager.conf:/etc/nginx/conf.d/gmanager.conf
+      - ./resources/docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      mysql:
+        condition: service_healthy
+      gmanager-server:
+        condition: service_started
+    networks:
+      - gmanager
+    restart: on-failure
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  mysql:
+    # mysql:5.7 linux/arm64 image is unavailable.
+    image: mysql:8.0.42
+    container_name: gmanager-mysql
+    env_file: .env
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_PASSWORD}
+      - TZ=${TIMEZONE}
+    command:
+      --max_connections=1000
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_unicode_ci
+      --default-authentication-plugin=mysql_native_password
+      --tls_version="TLSv1.2,TLSv1.3"
+      --init-file /data/application/init.sql
+      --binlog_expire_logs_seconds=604800
+    ports:
+      - ${MYSQL_PORT}:3306
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./resources/docker/init.sql:/data/application/init.sql
+    networks:
+      - gmanager
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-uroot", "-p${MYSQL_PASSWORD}"]
+      interval: 10s
+      timeout: 10s
+      retries: 3
+    restart: on-failure
+
+  redis:
+    image: redis:8.0.2
+    container_name: gmanager-redis
+    command: redis-server --requirepass ${REDIS_PASSWORD} --maxmemory 128mb --maxmemory-policy allkeys-lru
+    env_file: .env
+    ports:
+      - ${REDIS_PORT}:6379
+    volumes:
+      - redis_data:/data
+    networks:
+      - gmanager
+    restart: on-failure
+
+  gmanager-server:
+    build: 
+      dockerfile: ./resources/docker/Dockerfile
+      target: gmanager-server
+    container_name: gmanager-server
+    depends_on:
+      mysql:
+        condition: service_healthy
+    ports:
+      - 8000:8000
+    volumes:
+      - ./resources/docker/config/config.example.yaml:/app/config.yaml
+    networks:
+      - gmanager
+    restart: on-failure
+
+volumes:
+  mysql_data:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  gmanager:
+    driver: bridge

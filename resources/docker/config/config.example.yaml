@@ -1,0 +1,63 @@
+# https://goframe.org/docs/web/server-config-file-template
+server:
+  address:     ":8000"
+  openapiPath: "/api.json"
+  swaggerPath: "/swagger"
+  serverRoot: "resource/public"               # 静态文件服务的目录根路径，配置时自动开启静态文件服务。
+  # 日志基本配置
+  # 此配置类似nginx，主要对请求日志的记录
+  logPath:             "./logs"           # 日志文件存储目录路径，建议使用绝对路径。默认为空，表示关闭
+  logStdout:           true               # 日志是否输出到终端。默认为true
+  errorStack:          true               # 当Server捕获到异常时是否记录堆栈信息到日志中。默认为true
+  errorLogEnabled:     true               # 是否记录异常日志信息到日志中。默认为true
+  errorLogPattern:     "error-{Ymd}.log"  # 异常错误日志文件格式。默认为"error-{Ymd}.log"
+  accessLogEnabled:    true               # 是否记录访问日志。默认为false
+  accessLogPattern:    "access-{Ymd}.log" # 访问日志文件格式。默认为"access-{Ymd}.log"
+
+  # 日志扩展配置(参数日志组件配置)
+  # 此配置主要影响server（ghttp模块）日志，如web服务监听端口号、web服务路由，不会对 g.Log 产生影响
+  logger:
+    path:                  "./logs"           # 日志文件路径。默认为空，表示关闭，仅输出到终端
+    file:                  "{Y-m-d}.log"         # 日志文件格式。默认为"{Y-m-d}.log"
+    prefix:                ""                    # 日志内容输出前缀。默认为空
+    level:                 "all"                 # 日志输出级别
+    timeFormat:            "2006-01-02T15:04:05" # 自定义日志输出的时间格式，使用Golang标准的时间格式配置
+
+# https://goframe.org/docs/core/glog-config
+logger:
+  path: "./logs/"           # 日志文件路径。默认为空，表示关闭，仅输出到终端
+  file: "{Y-m-d}.log"         # 日志文件格式。默认为"{Y-m-d}.log"
+  level : "all"
+  stdout: true
+
+# https://goframe.org/docs/core/gdb-config-file
+database:
+  logger:
+    path: "./logs/sql"
+    level: "all"
+    stdout: true
+  default:
+    link: "mysql:root:gmanager123!@tcp(mysql)/gmanager"
+    debug:   true
+
+gToken:
+  # 缓存模式 1 gcache 2 gredis 3 gfile
+  CacheMode: 3
+  # 是否支持多端登录
+  MultiLogin: true
+  EncryptKey: "koi29a83idakguqjq29asd9asd8a7jhq"
+
+cache:
+  # 缓存模式 1 gcache 2 gredis 3 gfile
+  mode: 3
+  # 缓存前缀
+  preKey: "gmanager:"
+  # 缓存超时时间
+  timeOut: 8640000
+
+# Redis 配置
+redis:
+  default:
+    address: 127.0.0.1:6379
+    db:      1
+    password: "gmanager123"

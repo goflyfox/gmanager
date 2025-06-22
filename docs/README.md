@@ -23,7 +23,7 @@
 
 ### 使用文档
 
-[部署文档](installation.md) · [更新说明](ChangeLog.md)
+[安装文档](01.installation.md) · [部署文档](02.deploy.md) · [更新说明](ChangeLog.md)
 
 ##  感谢
 
