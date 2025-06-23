@@ -194,11 +194,11 @@ func (s *config) Save(ctx context.Context, in *v1.ConfigSaveReq) error {
 	m := dao.Config.Ctx(ctx)
 	columns := dao.Config.Columns()
 
-	configId := gftoken.GetSessionUser(ctx).Id
-	model.UpdateId = configId
+	userId := gftoken.GetSessionUser(ctx).Id
+	model.UpdateId = userId
 	model.UpdateAt = gtime.Now()
 	if in.Id > 0 {
-		model.CreateId = configId
+		model.CreateId = userId
 		model.CreateAt = gtime.Now()
 		_, err := m.Where(columns.Id, model.Id).Update(model)
 		if err != nil {
@@ -206,7 +206,7 @@ func (s *config) Save(ctx context.Context, in *v1.ConfigSaveReq) error {
 		}
 		_ = Log.Save(ctx, model, consts.UPDATE)
 	} else {
-		model.CreateId = configId
+		model.CreateId = userId
 		model.CreateAt = gtime.Now()
 		modelId, err := m.InsertAndGetId(model)
 		if err != nil {
