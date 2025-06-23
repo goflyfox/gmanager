@@ -42,14 +42,14 @@ database:
 
 gToken:
   # 缓存模式 1 gcache 2 gredis 3 gfile
-  CacheMode: 3
+  CacheMode: 2
   # 是否支持多端登录
   MultiLogin: true
   EncryptKey: "koi29a83idakguqjq29asd9asd8a7jhq"
 
 cache:
   # 缓存模式 1 gcache 2 gredis 3 gfile
-  mode: 3
+  mode: 2
   # 缓存前缀
   preKey: "gmanager:"
   # 缓存超时时间
@@ -60,4 +60,4 @@ redis:
   default:
     address: 127.0.0.1:6379
     db:      1
-    password: "gmanager123"
+    pass: "gmanager123"
