@@ -5,7 +5,6 @@ import (
 	"github.com/goflyfox/gtoken/v2/gtoken"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"
-	"github.com/gogf/gf/v2/os/gctx"
 	"github.com/gogf/gf/v2/util/gconv"
 	"gmanager/internal/library/bean"
 )
@@ -14,16 +13,8 @@ var GToken gtoken.Token
 var m gtoken.Middleware
 
 func init() {
-	options := &gtoken.Options{}
-	ctx := gctx.New()
-	err := g.Cfg().MustGet(ctx, "gToken").Struct(options)
-	if err != nil {
-		panic("options init fail")
-	}
-	// 创建gtoken对象
-	GToken = gtoken.NewDefaultToken(*options)
-	m = gtoken.NewDefaultMiddleware(GToken,
-		"/admin/login", "/admin/captcha/get")
+	GToken = gtoken.NewDefaultTokenByConfig() // 创建gtoken对象
+	m = gtoken.NewDefaultMiddleware(GToken)
 }
 
 func MiddlewareAuth(r *ghttp.Request) {

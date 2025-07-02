@@ -45,6 +45,7 @@ gToken:
   # 是否支持多端登录
   MultiLogin: true
   EncryptKey: "koi29a83idakguqjq29asd9asd8a7jhq"
+  AuthExcludePaths: ["/admin/login", "/admin/captcha/get"]
 
 cache:
   # 缓存模式 1 gcache 2 gredis 3 gfile
@@ -53,3 +54,11 @@ cache:
   preKey: "gmanager:"
   # 缓存超时时间
   timeOut: 8640000
+
+# Redis 配置
+redis:
+  default:
+    address: 127.0.0.1:6379
+    db:      1
+    pass: "123456"
+
