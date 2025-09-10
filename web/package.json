@@ -115,7 +115,7 @@
     "unocss": "65.4.3",
     "unplugin-auto-import": "^19.2.0",
     "unplugin-vue-components": "^28.5.0",
-    "vite": "6.3.4",
+    "vite": "6.3.6",
     "vite-plugin-mock-dev-server": "^1.8.7",
     "vue-eslint-parser": "^10.1.3",
     "vue-tsc": "^2.2.10"
