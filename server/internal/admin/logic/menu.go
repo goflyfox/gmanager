@@ -3,9 +3,6 @@ package logic
 import (
 	"context"
 	"errors"
-	"github.com/gogf/gf/v2/errors/gerror"
-	"github.com/gogf/gf/v2/os/gtime"
-	"github.com/gogf/gf/v2/util/gconv"
 	v1 "gmanager/api/admin/v1"
 	"gmanager/internal/admin/consts"
 	"gmanager/internal/admin/dao"
@@ -13,6 +10,10 @@ import (
 	"gmanager/internal/admin/model/entity"
 	input2 "gmanager/internal/admin/model/input"
 	"gmanager/internal/library/gftoken"
+
+	"github.com/gogf/gf/v2/errors/gerror"
+	"github.com/gogf/gf/v2/os/gtime"
+	"github.com/gogf/gf/v2/util/gconv"
 )
 
 // Menu 菜单
@@ -215,7 +216,7 @@ func (s *menu) Save(ctx context.Context, in *v1.MenuSaveReq) error {
 		}
 	}
 	// 组件路径唯一性校验
-	if model.Type != consts.MenuTypeButton && model.Component != "" {
+	if model.Type != consts.MenuTypeButton && model.Type != consts.MenuTypeCatalog && model.Component != "" {
 		componentCount, err := dao.Menu.Ctx(ctx).Where(dao.Menu.Columns().Component, model.Component).WhereNot(dao.Menu.Columns().Id, in.Id).Count()
 		if err != nil {
 			return gerror.Wrap(err, "检查组件路径唯一性失败")

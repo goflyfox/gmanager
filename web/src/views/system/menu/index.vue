@@ -469,6 +469,12 @@ function handleSubmit() {
   menuFormRef.value.validate((isValid: boolean) => {
     if (isValid) {
       const menuId = formData.value.id;
+      if (formData.value.type === MenuTypeEnum.CATALOG) {
+        // 如果是目录，在没有设置组件路径情况下，默认值是：Layout
+        if (formData.value.component == undefined || formData.value.component == "") {
+          formData.value.component = "Layout";
+        }
+      }
       if (menuId) {
         //修改时父级菜单不能为当前菜单
         if (formData.value.parentId == menuId) {
