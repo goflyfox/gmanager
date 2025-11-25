@@ -49,7 +49,7 @@ func (s *menu) List(ctx context.Context, in *v1.MenuListReq) (list *v1.MenuListR
 		return
 	}
 
-	if in.OrderBy != "" {
+	if in.NeedOrderBy() {
 		m = m.Order(in.OrderBy)
 	} else {
 		m = m.Order("sort asc,id desc")

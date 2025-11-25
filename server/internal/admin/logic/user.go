@@ -66,7 +66,7 @@ func (s *user) List(ctx context.Context, in *v1.UserListReq) (res *v1.UserListRe
 		return
 	}
 
-	if in.OrderBy != "" {
+	if in.NeedOrderBy() {
 		m = m.Order(in.OrderBy)
 	} else {
 		m = m.Order("id desc")

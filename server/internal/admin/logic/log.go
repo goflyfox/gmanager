@@ -61,7 +61,7 @@ func (s *log) List(ctx context.Context, in *v1.LogListReq) (res *v1.LogListRes, 
 		return
 	}
 
-	if in.OrderBy != "" {
+	if in.NeedOrderBy() {
 		m = m.Order(in.OrderBy)
 	} else {
 		m = m.Order("id desc")

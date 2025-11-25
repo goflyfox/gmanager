@@ -52,7 +52,7 @@ func (s *role) List(ctx context.Context, in *v1.RoleListReq) (res *v1.RoleListRe
 		return
 	}
 
-	if in.OrderBy != "" {
+	if in.NeedOrderBy() {
 		m = m.Order(in.OrderBy)
 	} else {
 		m = m.Order("sort asc,id desc")

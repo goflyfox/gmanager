@@ -1,5 +1,9 @@
 package input
 
+import (
+	"regexp"
+)
+
 // PageReq 公共请求参数
 type PageReq struct {
 	PageNum  int    `json:"pageNum" example:"1" d:"1" v:"min:1#页码最小值不能低于1" dc:"当前页码"`                         //当前页码
@@ -11,4 +15,13 @@ type PageReq struct {
 type PageRes struct {
 	CurrentPage int `json:"currentPage" example:"0" dc:"当前页码"`
 	Total       int `json:"total" example:"0" dc:"数据总行数"`
+}
+
+var safeChars = regexp.MustCompile("^[a-z0-9_]+$")
+
+func (pr *PageReq) NeedOrderBy() bool {
+	if pr.OrderBy == "" || !safeChars.MatchString(pr.OrderBy) {
+		return false
+	}
+	return true
 }

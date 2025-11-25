@@ -53,7 +53,7 @@ func (s *config) List(ctx context.Context, in *v1.ConfigListReq) (res *v1.Config
 		return
 	}
 
-	if in.OrderBy != "" {
+	if in.NeedOrderBy() {
 		m = m.Order(in.OrderBy)
 	} else {
 		m = m.Order("sort desc,id desc")
