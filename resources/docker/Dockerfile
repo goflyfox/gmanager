@@ -3,7 +3,7 @@
 ###############################################################################
 
 # 第一阶段：编译go项目
-FROM golang:1.24.4-alpine as server-builder
+FROM golang:1.25.6-alpine as server-builder
 ENV WORKDIR                 /app
 WORKDIR $WORKDIR
 
