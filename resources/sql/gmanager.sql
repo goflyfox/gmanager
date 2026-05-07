@@ -194,7 +194,53 @@ create table sys_user_role
                              row_format = DYNAMIC;
 
 
+CREATE TABLE `sys_gen_table` (
+                                 `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '编号',
+                                 `table_name` varchar(200) DEFAULT '' COMMENT '表名称',
+                                 `table_comment` varchar(500) DEFAULT '' COMMENT '表描述',
+                                 `class_name` varchar(100) DEFAULT '' COMMENT '实体类名称（首字母大写）',
+                                 `package_name` varchar(100) DEFAULT '' COMMENT '生成包路径',
+                                 `module_name` varchar(30) DEFAULT '' COMMENT '生成模块名（如 system）',
+                                 `business_name` varchar(30) DEFAULT '' COMMENT '生成业务名（如 post）',
+                                 `function_name` varchar(50) DEFAULT '' COMMENT '生成功能名（如 岗位管理）',
+                                 `function_author` varchar(50) DEFAULT '' COMMENT '生成作者',
+                                 `tpl_category` varchar(10) DEFAULT 'crud' COMMENT '模板类型（crud/tree/sub，一期仅 crud）',
+                                 `gen_type` char(1) DEFAULT '0' COMMENT '生成方式（0=ZIP压缩包 1=自定义路径）',
+                                 `gen_path` varchar(200) DEFAULT '' COMMENT '自定义生成路径',
+                                 `options` varchar(1000) DEFAULT '' COMMENT '其它生成选项（JSON）',
+                                 `create_by` bigint(20) DEFAULT '0' COMMENT '创建人',
+                                 `create_at` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                 `update_by` bigint(20) DEFAULT '0' COMMENT '更新人',
+                                 `update_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                                 PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='代码生成业务表';
 
+CREATE TABLE `sys_gen_table_column` (
+                                        `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '编号',
+                                        `table_id` bigint(20) NOT NULL COMMENT '归属表编号',
+                                        `column_name` varchar(200) DEFAULT '' COMMENT '列名称',
+                                        `column_comment` varchar(500) DEFAULT '' COMMENT '列描述',
+                                        `column_type` varchar(100) DEFAULT '' COMMENT '列类型（如 varchar(64)）',
+                                        `go_type` varchar(50) DEFAULT '' COMMENT 'Go 类型（string/int64/time.Time 等）',
+                                        `go_field` varchar(100) DEFAULT '' COMMENT 'Go 字段名（驼峰）',
+                                        `is_pk` char(1) DEFAULT '0' COMMENT '是否主键（1=是）',
+                                        `is_increment` char(1) DEFAULT '0' COMMENT '是否自增（1=是）',
+                                        `is_required` char(1) DEFAULT '0' COMMENT '是否必填（1=是）',
+                                        `is_insert` char(1) DEFAULT '1' COMMENT '是否为插入字段（1=是）',
+                                        `is_edit` char(1) DEFAULT '1' COMMENT '是否编辑字段（1=是）',
+                                        `is_list` char(1) DEFAULT '1' COMMENT '是否列表字段（1=是）',
+                                        `is_query` char(1) DEFAULT '0' COMMENT '是否查询字段（1=是）',
+                                        `query_type` varchar(20) DEFAULT 'EQ' COMMENT '查询方式（EQ/NE/GT/LT/LIKE/BETWEEN）',
+                                        `html_type` varchar(20) DEFAULT 'input' COMMENT '显示类型（input/textarea/select/radio/checkbox/datetime/switch）',
+                                        `dict_type` varchar(200) DEFAULT '' COMMENT '字典类型（绑定 sys_config 的 config_key）',
+                                        `sort` int(11) DEFAULT '0' COMMENT '排序',
+                                        `create_by` bigint(20) DEFAULT '0',
+                                        `create_at` datetime DEFAULT CURRENT_TIMESTAMP,
+                                        `update_by` bigint(20) DEFAULT '0',
+                                        `update_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                                        PRIMARY KEY (`id`),
+                                        KEY `idx_table_id` (`table_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='代码生成业务字段表';
 -- ----------------------------
 -- Records
 -- ----------------------------
