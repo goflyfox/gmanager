@@ -3,10 +3,6 @@ package logic
 import (
 	"context"
 	"errors"
-	"github.com/gogf/gf/v2/errors/gerror"
-	"github.com/gogf/gf/v2/frame/g"
-	"github.com/gogf/gf/v2/os/gtime"
-	"github.com/gogf/gf/v2/util/gconv"
 	v1 "gmanager/api/admin/v1"
 	"gmanager/internal/admin/consts"
 	"gmanager/internal/admin/dao"
@@ -15,6 +11,11 @@ import (
 	"gmanager/internal/admin/model/input"
 	"gmanager/internal/library/cache"
 	"gmanager/internal/library/gftoken"
+
+	"github.com/gogf/gf/v2/errors/gerror"
+	"github.com/gogf/gf/v2/frame/g"
+	"github.com/gogf/gf/v2/os/gtime"
+	"github.com/gogf/gf/v2/util/gconv"
 )
 
 // Config 配置服务
@@ -107,6 +108,9 @@ func (s *config) Value(ctx context.Context, in *v1.ConfigValueReq) (*v1.ConfigVa
 	err := m.Scan(&model)
 	if err != nil {
 		return nil, err
+	}
+	if model == nil {
+		return nil, nil
 	}
 	return &v1.ConfigValueRes{
 		Id:    model.Id,
