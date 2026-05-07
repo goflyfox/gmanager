@@ -348,4 +348,18 @@ INSERT INTO sys_menu (id, parent_id, name, type, route_name, route_path, compone
 INSERT INTO sys_menu (id, parent_id, name, type, route_name, route_path, component, perm, always_show, keep_alive, sort, icon, redirect, params, enable, update_at, update_id, create_at, create_id) VALUES (150, 149, '客户信息', 1, 'Custumer', 'custumer', 'customer/index', '', 2, 2, 1, 'fullscreen', '', '[]', 2, '2025-06-08 16:02:53', 1, '2025-06-08 16:02:53', 1);
 INSERT INTO sys_menu (id, parent_id, name, type, route_name, route_path, component, perm, always_show, keep_alive, sort, icon, redirect, params, enable, update_at, update_id, create_at, create_id) VALUES (151, 149, '客户资料', 1, 'Info', 'ifno', 'customer/info', '', 2, 1, 1, '', '', '[]', 2, '2025-06-13 06:06:05', 1, '2025-06-13 06:06:05', 1);
 
+-- 代码生成菜单
+INSERT INTO sys_menu (id, parent_id, name, type, route_name, route_path, component, perm, always_show, keep_alive, sort, icon, redirect, params, enable, update_at, update_id, create_at, create_id) VALUES (152, 0, '系统工具', 2, '', '/tool', 'Layout', null, null, null, 2, 'tool', '/tool/generator', null, 1, '2025-06-02 23:41:33', null, '2025-06-02 23:41:33', null);
+INSERT INTO sys_menu (id, parent_id, name, type, route_name, route_path, component, perm, always_show, keep_alive, sort, icon, redirect, params, enable, update_at, update_id, create_at, create_id) VALUES (153, 152, '代码生成', 1, 'Generator', 'generator', 'system/generator/index', null, null, 1, 1, 'code', null, null, 1, '2025-06-02 23:41:33', null, '2025-06-02 23:41:33', null);
+INSERT INTO sys_menu (id, parent_id, name, type, route_name, route_path, component, perm, always_show, keep_alive, sort, icon, redirect, params, enable, update_at, update_id, create_at, create_id) VALUES (154, 153, '代码生成查询', 4, null, '', null, 'admin:generator:query', null, null, 1, '', null, null, 1, '2025-06-02 23:41:33', null, '2025-06-02 23:41:33', null);
+INSERT INTO sys_menu (id, parent_id, name, type, route_name, route_path, component, perm, always_show, keep_alive, sort, icon, redirect, params, enable, update_at, update_id, create_at, create_id) VALUES (155, 153, '代码生成保存', 4, null, '', null, 'admin:generator:save', null, null, 2, '', null, null, 1, '2025-06-02 23:41:33', null, '2025-06-02 23:41:33', null);
+INSERT INTO sys_menu (id, parent_id, name, type, route_name, route_path, component, perm, always_show, keep_alive, sort, icon, redirect, params, enable, update_at, update_id, create_at, create_id) VALUES (156, 153, '代码生成删除', 4, null, '', null, 'admin:generator:delete', null, null, 3, '', null, null, 1, '2025-06-02 23:41:33', null, '2025-06-02 23:41:33', null);
+
+-- 管理员拥有代码生成权限
+INSERT INTO sys_role_menu (role_id, menu_id) VALUES (1, 152);
+INSERT INTO sys_role_menu (role_id, menu_id) VALUES (1, 153);
+INSERT INTO sys_role_menu (role_id, menu_id) VALUES (1, 154);
+INSERT INTO sys_role_menu (role_id, menu_id) VALUES (1, 155);
+INSERT INTO sys_role_menu (role_id, menu_id) VALUES (1, 156);
+
 SET FOREIGN_KEY_CHECKS = 1;

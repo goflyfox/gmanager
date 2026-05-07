@@ -47,6 +47,7 @@ var (
 					controller.Config,
 					controller.Menu,
 					controller.Log,
+					controller.Generator,
 				)
 			})
 
