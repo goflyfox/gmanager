@@ -36,7 +36,7 @@
       </el-tooltip>
 
       <!-- 验证码 -->
-      <el-form-item prop="code">
+      <el-form-item prop="code" v-if="captchaEnabled">
         <div flex>
           <el-input
             v-model.trim="loginFormData.code"
@@ -96,6 +96,7 @@ const loginFormRef = ref<FormInstance>();
 const loading = ref(false); // 按钮 loading 状态
 const isCapsLock = ref(false); // 是否大写锁定
 const captchaBase64 = ref(); // 验证码图片Base64字符串
+const captchaEnabled = ref(true); // 验证码开关
 const rememberMe = Auth.getRememberMe();
 
 const loginFormData = ref<LoginFormData>({
@@ -145,6 +146,10 @@ function getCaptcha() {
     .then((data) => {
       loginFormData.value.codeId = data.codeId;
       captchaBase64.value = data.img;
+      captchaEnabled.value = data.captchaEnabled;
+    })
+    .catch(() => {
+      captchaEnabled.value = false;
     })
     .finally(() => (codeLoading.value = false));
 }

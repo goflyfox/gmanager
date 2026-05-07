@@ -1,0 +1,36 @@
+### Ping 心跳检测接口测试
+### 1. 心跳检测（不需要 token）
+# @name ping
+GET {{admin_url}}/ping
+
+> {%
+    client.test("心跳检测成功", function() {
+        client.assert(response.status === 200, "响应状态码应为 200");
+        client.assert(response.body.code === 200, "业务状态码应为 200");
+        client.assert(response.body.msg === "pong", "应返回 pong");
+    });
+%}
+
+### 登录
+< {%
+    const hash = crypto.md5().updateWithText("123456").digest().toHex();
+    request.variables.set("md5_passwd", hash)
+%}
+POST {{admin_url}}/admin/login
+Content-Type: application/json
+
+{
+  "username": "test",
+  "password": "{{md5_passwd}}"
+}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+    client.global.set("admin_token", response.body.data.accessToken);
+%}
+
+### config value
+POST http://localhost:8000/admin/config/value/gender.male
+authorization: Bearer {{admin_token}}

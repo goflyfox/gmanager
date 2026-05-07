@@ -87,4 +87,6 @@ export interface CaptchaInfo {
   codeId: string;
   /** 验证码图片Base64字符串 */
   img: string;
+  /** 验证码开关 */
+  captchaEnabled: boolean;
 }

@@ -28,7 +28,8 @@ type CaptchaReq struct {
 	g.Meta `path:"/captcha/get" tags:"用户登陆" method:"get" summary:"获取验证码"`
 }
 type CaptchaRes struct {
-	g.Meta `mime:"application/json"`
-	CodeId string `json:"codeId"`
-	Img    string `json:"img"`
+	g.Meta         `mime:"application/json"`
+	CodeId         string `json:"codeId"`
+	Img            string `json:"img"`
+	CaptchaEnabled bool   `json:"captchaEnabled"`
 }

@@ -2,10 +2,6 @@ package logic
 
 import (
 	"context"
-	"github.com/gogf/gf/v2/crypto/gmd5"
-	"github.com/gogf/gf/v2/errors/gcode"
-	"github.com/gogf/gf/v2/errors/gerror"
-	"github.com/gogf/gf/v2/os/gtime"
 	v1 "gmanager/api/admin/v1"
 	"gmanager/internal/admin/consts"
 	"gmanager/internal/admin/dao"
@@ -15,6 +11,11 @@ import (
 	"gmanager/internal/library/bean"
 	"gmanager/internal/library/captcha"
 	"gmanager/internal/library/gftoken"
+
+	"github.com/gogf/gf/v2/crypto/gmd5"
+	"github.com/gogf/gf/v2/errors/gcode"
+	"github.com/gogf/gf/v2/errors/gerror"
+	"github.com/gogf/gf/v2/os/gtime"
 )
 
 var Login = login{}
@@ -23,7 +24,7 @@ type login struct{}
 
 // Login 登录接口
 func (s *login) Login(ctx context.Context, req *v1.LoginReq) (res *v1.LoginRes, err error) {
-	if !captcha.Verify(req.CodeId, req.Code) {
+	if getCaptchaEnabled(ctx) && !captcha.Verify(req.CodeId, req.Code) {
 		err = gerror.NewCode(gcode.CodeValidationFailed, "验证码错误")
 		return
 	}
@@ -116,6 +117,11 @@ func (s *login) Logout(ctx context.Context, req *v1.LogoutReq) (res *v1.LogoutRe
 
 func (s *login) CaptchaGet(ctx context.Context, req *v1.CaptchaReq) (res *v1.CaptchaRes, err error) {
 	res = &v1.CaptchaRes{}
+	if !getCaptchaEnabled(ctx) {
+		res.CaptchaEnabled = false
+		return
+	}
+	res.CaptchaEnabled = true
 	res.CodeId, res.Img, err = captcha.Generate(ctx)
 	return
 }
@@ -123,4 +129,17 @@ func (s *login) CaptchaGet(ctx context.Context, req *v1.CaptchaReq) (res *v1.Cap
 // CaptchaVerify 验证输入的验证码是否正确
 func (s *login) CaptchaVerify(id, answer string) bool {
 	return captcha.Verify(id, answer)
+}
+
+func getCaptchaEnabled(ctx context.Context) bool {
+	configRes, err := Config.Value(ctx, &v1.ConfigValueReq{
+		Key: "system.captchaEnabled",
+	})
+	if err != nil {
+		return true
+	}
+	if configRes != nil && configRes.Value == "false" {
+		return false
+	}
+	return true
 }
