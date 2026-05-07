@@ -12,17 +12,17 @@ import (
 // Dept is the golang structure of table sys_dept for DAO operations like Where/Data.
 type Dept struct {
 	g.Meta    `orm:"table:sys_dept, do:true"`
-	Id        interface{} // 主键
-	ParentId  interface{} // 上级机构
-	Name      interface{} // 部门/11111
-	Code      interface{} // 机构编码
-	Sort      interface{} // 序号
-	Linkman   interface{} // 联系人
-	LinkmanNo interface{} // 联系人电话
-	Remark    interface{} // 机构描述
-	Enable    interface{} // 是否启用//radio/1,启用,2,禁用
+	Id        any         // 主键
+	ParentId  any         // 上级机构
+	Name      any         // 部门/11111
+	Code      any         // 机构编码
+	Sort      any         // 序号
+	Linkman   any         // 联系人
+	LinkmanNo any         // 联系人电话
+	Remark    any         // 机构描述
+	Enable    any         // 是否启用//radio/1,启用,2,禁用
 	UpdateAt  *gtime.Time // 更新时间
-	UpdateId  interface{} // 更新人
+	UpdateId  any         // 更新人
 	CreateAt  *gtime.Time // 创建时间
-	CreateId  interface{} // 创建者
+	CreateId  any         // 创建者
 }
