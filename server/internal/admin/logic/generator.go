@@ -86,7 +86,7 @@ func (s *generator) DbTableList(ctx context.Context, in *v1.GeneratorDbTableList
 		return
 	}
 
-	m := g.DB().Model("information_schema.tables").
+	m := g.DB().Schema("information_schema").Model("tables").
 		Where("table_schema", dbName).
 		Where("table_type", "BASE TABLE")
 

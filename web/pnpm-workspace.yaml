@@ -1,0 +1,22 @@
+allowBuilds:
+  '@parcel/watcher': true
+  es5-ext: false
+  esbuild: true
+  vue-demi: true
+onlyBuiltDependencies:
+  - esbuild
+  - vue-demi
+  - "@parcel/watcher"
+  - core-js
+  - "@swc/core"
+  - better-sqlite3
+  - esbuild
+  - vue-demi
+  - msw
+  - "@biomejs/biome"
+  - argon2
+  - "@prisma/client"
+  - prisma
+  - sharp
+  - "@swc/core"
+  - unrs-resolver
